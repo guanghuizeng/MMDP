@@ -1,0 +1,32 @@
+package io.guanghuizeng.mmdp.protocol;
+
+option java_package = "io.guanghuizeng.mmdp.protocol";
+
+option java_outer_classname = "MmdpProtos";
+
+message Message {
+
+    /* function */
+    required Function function = 1;
+
+    /* data */
+    optional string source = 2 [default = ""];
+    optional string target = 3 [default = ""];
+    optional string data = 4 [default = ""];
+
+    /* result */
+    optional int32 result = 7 [default = 0];
+
+    /* info */
+    optional string info = 8 [default = ""];
+
+    enum Function {
+        ECHO = 0;
+        SAVE = 1;
+        SORT = 2;
+        WRITE = 3;
+        MAX = 4;
+        EXIST = 5;
+        FREQUENCY = 6;
+    }
+}
