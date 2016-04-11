@@ -1,113 +1,46 @@
 package io.guanghuizeng.fs.sync;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.CompositeByteBuf;
+import io.netty.buffer.UnpooledByteBufAllocator;
+
+import java.util.HashMap;
 
 /**
- * Created by guanghuizeng on 16/4/7.
+ * 扩展 CompositeByteBuf, 保存每个 Component 的同步信息.
  */
-public class SyncBuffer {
+public class SyncBuffer extends CompositeByteBuf {
+
+
+    /************************
+     * fields
+     ************************/
 
     /**
-     * 基于 ByteBuf 设计缓存, 需要
-     * - 处理读写操作
-     * - 记录数据的来源
-     * <p>
-     * 那么, 方便 SyncService 做处理
+     * 保存 Components 对应到文件的信息
      */
+    private HashMap<Integer, SyncAttr> SyncInfo = new HashMap<>();
 
-    public enum Function {
-        READ, WRITE
+    /************************
+     * constructors
+     ************************/
+
+    public SyncBuffer() {
+        super(new UnpooledByteBufAllocator(true), true, 1024);
     }
 
-    private Function function; // 写入或是读取
-    private String path;       // 文件路径
-    private String mode;       // 文件的 mode, 参考 RAF
-    private int position;      // 要处理的区块对应在文件中的起始位置
-    private int length;        // 区块的长度
+    /************************
+     * Additional APIs
+     ************************/
 
-    private ByteBuf localBuffer;
-
-    public SyncBuffer(int initCapacity, int maxCapacity) {
-
+    public SyncBuffer addComponent(ByteBuf buffer, SyncAttr attr) {
+        addComponent(buffer);
+        int cIndex = this.numComponents() - 1;
+        SyncInfo.put(cIndex, attr);
+        return this;
     }
 
-    /**
-     * IO
-     */
-
-    public SyncBuffer copy() {
-        return null;
-    }
-
-    public void writeBytes(SyncBuffer buffer) {
-
-    }
-
-    public void clear() {
-    }
-
-    public int capacity() {
-        return localBuffer.capacity();
-    }
-
-    public long readLong() {
-        return localBuffer.readLong();
-    }
-
-    public int readableBytes() {
-        return localBuffer.readableBytes();
-    }
-
-
-    /***
-     *
-     */
-
-    public String getPath() {
-        return path;
-    }
-
-    public String getMode() {
-        return mode;
-    }
-
-    public int getPosition() {
-        return position;
-    }
-
-    public ByteBuf getData() {
-        return localBuffer;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public void setMode(String mode) {
-        this.mode = mode;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
-    }
-
-    public void setData(ByteBuf data) {
-        this.localBuffer = data;
-    }
-
-    public Function getFunction() {
-        return function;
-    }
-
-    public void setFunction(Function function) {
-        this.function = function;
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public void setLength(int length) {
-        this.length = length;
+    public SyncAttr getSyncAttr(int cIndex) {
+        return SyncInfo.get(cIndex);
     }
 }

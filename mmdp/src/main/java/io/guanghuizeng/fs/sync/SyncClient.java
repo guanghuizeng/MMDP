@@ -1,51 +1,35 @@
 package io.guanghuizeng.fs.sync;
 
-import io.guanghuizeng.fs.AbsoluteFilePath;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 
-/*************************
- * SyncClient
- * <p>
- * 与 SyncServer 交互
- *************************/
+/**
+ * 与 SyncClient 交互, 传输数据
+ */
 public class SyncClient {
 
-    private SyncClientHandler handler = new SyncClientHandler();
-
-    public SyncClient(AbsoluteFilePath afp) {
-
-    }
-
-    /*****************
-     *      API
-     *****************/
+    private static long number = 0;
 
     /**
-     * 将数据保存到 server
-     *
-     * @param buffer 数据
+     * @param buf  数据内容
+     * @param attr 对数据的描述
      */
-    public void push(SyncBuffer buffer) {
+    public void push(ByteBuf buf, SyncAttr attr) {
+        // 根据 attr, 将 buf 保存到相应位置
     }
 
     /**
-     * 从 server 获取数据
-     *
-     * @param path     路径
-     * @param mode     权限
-     * @param position 相对位置
-     * @param length   要读取的数据量
-     * @return 数据
+     * @param attr 说明了从哪个文件的哪个位置读取信息.
+     * @return
      */
-    public SyncBuffer poll(String path, String mode, int position, int length) {
-        return null;
-    }
-
-    /**
-     * 文件大小
-     *
-     * @return 文件大小
-     */
-    public long getLength() {
-        return 0;
+    public ByteBuf poll(SyncAttr attr) {
+        // attr -> SyncMessage
+        // send SM
+        ByteBuf buf = Unpooled.buffer();
+        for (int i = 0; i < attr.getLast() - attr.getFirst(); i++) {
+            buf.writeLong(number);
+            number++;
+        }
+        return buf;
     }
 }
