@@ -1,5 +1,8 @@
 package io.guanghuizeng.mmdp.utils;
 
+import io.guanghuizeng.fs.utils.FileInputBuffer;
+import io.guanghuizeng.fs.utils.FileOutputBuffer;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;

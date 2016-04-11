@@ -1,7 +1,7 @@
 package io.guanghuizeng.mmdp.algs;
 
-import io.guanghuizeng.mmdp.utils.FileInputBuffer;
-import io.guanghuizeng.mmdp.utils.FileOutputBuffer;
+import io.guanghuizeng.fs.utils.FileInputBuffer;
+import io.guanghuizeng.fs.utils.FileOutputBuffer;
 
 import java.io.BufferedInputStream;
 import java.io.File;
