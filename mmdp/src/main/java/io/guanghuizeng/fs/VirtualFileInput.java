@@ -1,6 +1,5 @@
 package io.guanghuizeng.fs;
 
-import io.guanghuizeng.fs.VirtualFile;
 import io.guanghuizeng.fs.sync.SyncBuffer;
 import io.guanghuizeng.fs.sync.SyncService;
 
@@ -22,6 +21,7 @@ public class VirtualFileInput {
     public VirtualFileInput(VirtualFile file) {
         this.file = file;
         syncService = new SyncService(file);
+        syncService.next(buffer);
     }
 
     /*************************
@@ -29,7 +29,6 @@ public class VirtualFileInput {
      *************************/
 
     public long readLong() {
-
         if (buffer.readableBytes() >= Long.BYTES) {
             long output = buffer.readLong();
             if (buffer.readableBytes() < Long.BYTES) {
