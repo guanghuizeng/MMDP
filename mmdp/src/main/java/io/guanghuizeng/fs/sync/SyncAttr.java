@@ -11,6 +11,10 @@ public class SyncAttr {
     private int first;
     private int last;
 
+    public SyncAttr(AbsoluteFilePath path) {
+        this.path = path;
+    }
+
     public SyncAttr(AbsoluteFilePath path, int first, int last) {
         this.path = path;
         this.first = first;
