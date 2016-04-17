@@ -3,5 +3,43 @@ package io.guanghuizeng.fs.input;
 /**
  * Created by guanghuizeng on 16/4/16.
  */
-public class VirtualFileInputBuffer {
+public class VirtualFileInputBuffer implements Comparable<VirtualFileInputBuffer> {
+
+    private VirtualFileInput input;
+    private Long buffer = null;
+
+    public VirtualFileInputBuffer(VirtualFileInput input) throws InterruptedException {
+        this.input = input;
+        reload();
+    }
+
+    public long pop() throws InterruptedException {
+        Long answer = peek();
+        reload();
+        return answer;
+    }
+
+    public Long peek() {
+        return buffer;
+    }
+
+    public boolean isEmpty() {
+        return buffer == null;
+    }
+
+    public void close() {
+        input.close();
+    }
+
+    public void reload() throws InterruptedException {
+        if (input.available() > 0) {
+            buffer = input.readLong();
+        } else {
+            buffer = null;
+        }
+    }
+
+    public int compareTo(VirtualFileInputBuffer that) {
+        return peek().compareTo(that.peek());
+    }
 }

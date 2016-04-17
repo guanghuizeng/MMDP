@@ -2,10 +2,10 @@ package io.guanghuizeng.fs.input;
 
 import io.guanghuizeng.fs.AbsoluteFilePath;
 import io.guanghuizeng.fs.sync.SyncAttr;
-import io.guanghuizeng.fs.sync.SyncBuffer;
 import io.netty.buffer.Unpooled;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -23,7 +23,7 @@ public class VirtualFile {
      */
     private List<File> fileList = new ArrayList<>();
 
-    private int bufferSize = 33;
+    private long bufferSize = 1024 * 1024;
     private int startFileIndex = 0;
 
     /**
@@ -38,9 +38,14 @@ public class VirtualFile {
         this.bufferSize = bufferSize;
     }
 
-    public VirtualFile(AbsoluteFilePath afp) {
-
+    public VirtualFile(AbsoluteFilePath... afps) {
+        absoluteFilePathList.addAll(Arrays.asList(afps));
     }
+
+    public VirtualFile(long bufferSize, AbsoluteFilePath... afps) {
+        absoluteFilePathList.addAll(Arrays.asList(afps));
+    }
+
 
     /************************
      * API
@@ -53,13 +58,13 @@ public class VirtualFile {
 
         SyncBuffer syncBuffer = new SyncBuffer();
         int endFileIndex = fileList.size();
-        int sum = 0;
+        long sum = 0;
         int count = 0;
 
         for (int i = startFileIndex; i < endFileIndex; i++) {
             count++;
             File f = fileList.get(i);
-            int pre = sum;
+            long pre = sum;
             sum = sum + f.available();
             if (sum >= bufferSize) {
                 // 添加到 syncBuffer
@@ -92,9 +97,13 @@ public class VirtualFile {
      * @param readIndex
      * @param length
      */
-    public void addFile(AbsoluteFilePath afp, int readIndex, int length) {
+    public void addFile(AbsoluteFilePath afp, long readIndex, long length) {
         fileList.add(new File(afp, readIndex, length));
         absoluteFilePathList.add(afp);
+    }
+
+    public void initFile(AbsoluteFilePath afp, long readIndex, long length) {
+        fileList.add(new File(afp, readIndex, length));
     }
 
     public boolean isRead() {
@@ -111,16 +120,16 @@ public class VirtualFile {
     private class File {
         private AbsoluteFilePath path;
 
-        private int readIndex;
-        private int length;
+        private long readIndex;
+        private long length;
 
-        public File(AbsoluteFilePath path, int readIndex, int length) {
+        public File(AbsoluteFilePath path, long readIndex, long length) {
             this.path = path;
             this.readIndex = readIndex;
             this.length = length;
         }
 
-        public int available() {
+        public long available() {
             return length - readIndex;
         }
     }

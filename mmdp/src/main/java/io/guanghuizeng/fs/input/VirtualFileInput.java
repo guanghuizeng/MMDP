@@ -1,7 +1,5 @@
 package io.guanghuizeng.fs.input;
 
-import io.guanghuizeng.fs.sync.SyncBuffer;
-
 /**
  * Created by guanghuizeng on 16/4/11.
  */
@@ -27,7 +25,7 @@ public class VirtualFileInput {
      * API
      *************************/
 
-    public long readLong() {
+    public long readLong() throws InterruptedException {
         if (buffer.readableBytes() >= Long.BYTES) {
             long output = buffer.readLong();
             if (buffer.readableBytes() < Long.BYTES) {
@@ -37,5 +35,17 @@ public class VirtualFileInput {
         } else {
             throw new IndexOutOfBoundsException();
         }
+    }
+
+    public long available() throws InterruptedException {
+        // TODO 不准确
+        if (buffer.readableBytes() < 0) {
+            syncService.next(buffer);
+        }
+        return buffer.readableBytes();
+    }
+
+    public void close() {
+        syncService.close();
     }
 }

@@ -36,6 +36,10 @@ public class WritableVirtualFile {
         this.bufferSize = bufferSize;
     }
 
+    public WritableVirtualFile(String path) {
+
+    }
+
     /************************
      * API
      ************************/
@@ -57,17 +61,17 @@ public class WritableVirtualFile {
      * add file
      */
 
-    public void addFile(AbsoluteFilePath path, int length) {
+    public void addFile(AbsoluteFilePath path, long length) {
         absoluteFilePathList.add(path);
         fileList.add(new File(path, length));
     }
 
     private class File {
         private AbsoluteFilePath path;
-        private int length;
-        private int writableBytes;
+        private long length;
+        private long writableBytes;
 
-        public File(AbsoluteFilePath path, int length) {
+        public File(AbsoluteFilePath path, long length) {
             this.path = path;
             this.length = length;
             this.writableBytes = length;

@@ -1,5 +1,6 @@
-package io.guanghuizeng.fs.sync;
+package io.guanghuizeng.fs.input;
 
+import io.guanghuizeng.fs.sync.SyncAttr;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.CompositeByteBuf;
 import io.netty.buffer.UnpooledByteBufAllocator;
