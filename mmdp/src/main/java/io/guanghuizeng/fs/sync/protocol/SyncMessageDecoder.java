@@ -23,6 +23,7 @@ public class SyncMessageDecoder extends ByteToMessageDecoder {
     private long position;
     private ByteBuf content;
     private int pathLength;
+    private long length;
     private int contentLength;
 
     public void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
@@ -34,6 +35,7 @@ public class SyncMessageDecoder extends ByteToMessageDecoder {
                 opCode = in.readByte();
                 pathLength = in.readInt();
                 position = in.readLong();
+                length = in.readLong();
                 contentLength = in.readInt();
 
                 state = State.Body;
@@ -44,7 +46,7 @@ public class SyncMessageDecoder extends ByteToMessageDecoder {
 
                 content = Unpooled.buffer(contentLength);
                 in.readBytes(content, contentLength);
-                out.add(new SyncMessage(opCode, path, position, content));
+                out.add(new SyncMessage(opCode, path, position, length, content));
                 state = State.Header;
         }
     }

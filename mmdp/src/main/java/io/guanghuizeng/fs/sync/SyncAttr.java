@@ -8,28 +8,28 @@ import io.guanghuizeng.fs.AbsoluteFilePath;
 public class SyncAttr {
 
     private AbsoluteFilePath path;
-    private int first;
-    private int last;
+    private long position;
+    private long length;
 
     public SyncAttr(AbsoluteFilePath path) {
         this.path = path;
     }
 
-    public SyncAttr(AbsoluteFilePath path, int first, int last) {
+    public SyncAttr(AbsoluteFilePath path, long position, long length) {
         this.path = path;
-        this.first = first;
-        this.last = last;
+        this.position = position;
+        this.length = length;
     }
 
     public AbsoluteFilePath getPath() {
         return path;
     }
 
-    public int getFirst() {
-        return first;
+    public long getPosition() {
+        return position;
     }
 
-    public int getLast() {
-        return last;
+    public long getLength() {
+        return length;
     }
 }

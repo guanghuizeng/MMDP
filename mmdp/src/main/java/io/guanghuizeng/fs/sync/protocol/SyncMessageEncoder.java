@@ -18,6 +18,7 @@ public class SyncMessageEncoder extends MessageToByteEncoder<SyncMessage> {
         out.writeByte(msg.opCode());
         out.writeInt(path.length);
         out.writeLong(msg.position());
+        out.writeLong(msg.length());
         out.writeInt(msg.content().readableBytes());
 
         // body

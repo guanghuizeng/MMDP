@@ -11,13 +11,29 @@ public class SyncMessage {
     private byte opCode;
     private String path;
     private long position;
-    private ByteBuf content;
+    private long length;
+    private ByteBuf content= Unpooled.EMPTY_BUFFER;
 
     public SyncMessage(byte opCode, String path, long position, ByteBuf content) {
         this.opCode = opCode;
         this.path = path;
         this.position = position;
         this.content = content.copy();
+    }
+
+    public SyncMessage(byte opCode, String path, long position, long length) {
+        this.opCode = opCode;
+        this.path = path;
+        this.position = position;
+        this.length = length;
+    }
+
+    public SyncMessage(byte opCode, String path, long position, long length, ByteBuf content) {
+        this.opCode = opCode;
+        this.path = path;
+        this.position = position;
+        this.length = length;
+        this.content = content;
     }
 
 
@@ -35,6 +51,10 @@ public class SyncMessage {
 
     public long position() {
         return position;
+    }
+
+    public long length() {
+        return length;
     }
 
     public ByteBuf content() {
