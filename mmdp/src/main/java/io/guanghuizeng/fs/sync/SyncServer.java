@@ -1,5 +1,6 @@
 package io.guanghuizeng.fs.sync;
 
+import io.guanghuizeng.fs.FileSystem;
 import io.guanghuizeng.fs.sync.protocol.SyncMessageDecoder;
 import io.guanghuizeng.fs.sync.protocol.SyncMessageEncoder;
 import io.guanghuizeng.fs.sync.protocol.SyncMessageFrameDecoder;
@@ -23,6 +24,7 @@ public class SyncServer {
 
     int PORT = 8093;
 
+    private String HOME;
     private ServerBootstrap b = new ServerBootstrap();
     private EventLoopGroup boss = new NioEventLoopGroup();
     private EventLoopGroup worker = new NioEventLoopGroup();
@@ -30,8 +32,9 @@ public class SyncServer {
     public SyncServer() {
     }
 
-    public void start(int port) throws InterruptedException {
+    public void start(int port, String home) throws InterruptedException {
         PORT = port;
+        HOME = home;
         try {
             b.group(boss, worker)
                     .channel(NioServerSocketChannel.class)
@@ -54,7 +57,7 @@ public class SyncServer {
                             pipeline.addLast(new SyncMessageDecoder());
                             pipeline.addLast(new SyncMessageEncoder());
 
-                            pipeline.addLast(new SyncServerHandler());
+                            pipeline.addLast(new SyncServerHandler(HOME));
                         }
                     });
             b.bind(PORT).sync().channel().closeFuture().sync();

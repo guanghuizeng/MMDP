@@ -3,9 +3,13 @@ package io.guanghuizeng.fs.sync;
 import io.guanghuizeng.fs.sync.protocol.Opcode;
 import io.guanghuizeng.fs.sync.protocol.SyncMessage;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Created by guanghuizeng on 16/4/13.
@@ -13,12 +17,38 @@ import io.netty.channel.SimpleChannelInboundHandler;
 public class SyncClientHandler extends SimpleChannelInboundHandler<SyncMessage> {
 
     private ChannelHandlerContext context;
+    private BlockingQueue<SyncMessage> answers = new LinkedBlockingQueue<>();
 
     public void push(ByteBuf buf, SyncAttr attr) throws InterruptedException {
         SyncMessage message = new SyncMessage(Opcode.APPEND, attr.getPath().getActualPath(),
-                attr.getFirst(), buf);
+                attr.getPosition(), buf);
         ChannelFuture future = context.channel().writeAndFlush(message);
         future.sync();
+    }
+
+    public ByteBuf pool(SyncAttr attr) throws InterruptedException {
+
+        SyncMessage message = new SyncMessage(Opcode.READ, attr.getPath().getActualPath(),
+                attr.getPosition(), attr.getLength());
+        ChannelFuture future = context.channel().writeAndFlush(message);
+        future.sync();
+
+        // take answer
+        SyncMessage answer = answers.take();
+
+
+        return answer.content();
+    }
+
+    public long length(SyncAttr attr) throws InterruptedException {
+        SyncMessage message = new SyncMessage(Opcode.LENGTH, attr.getPath().getActualPath(),
+                attr.getPosition(), Unpooled.EMPTY_BUFFER);
+        ChannelFuture future = context.channel().writeAndFlush(message);
+        future.sync();
+
+        // take answer
+        SyncMessage answer = answers.take();
+        return answer.content().readLong();
     }
 
     @Override
@@ -29,6 +59,7 @@ public class SyncClientHandler extends SimpleChannelInboundHandler<SyncMessage> 
     public void channelRead0(ChannelHandlerContext ctx, SyncMessage msg) throws Exception {
         // super.channelRead(ctx, msg);
         // TODO 增加逻辑
+        answers.add(msg);
     }
 
     @Override

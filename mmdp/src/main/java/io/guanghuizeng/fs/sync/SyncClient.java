@@ -1,5 +1,6 @@
 package io.guanghuizeng.fs.sync;
 
+import io.guanghuizeng.fs.Address;
 import io.guanghuizeng.fs.sync.protocol.SyncMessageDecoder;
 import io.guanghuizeng.fs.sync.protocol.SyncMessageEncoder;
 import io.guanghuizeng.fs.sync.protocol.SyncMessageFrameDecoder;
@@ -30,10 +31,13 @@ public class SyncClient {
     private EventLoopGroup group = new NioEventLoopGroup();
     private SyncClientHandler handler;
 
+    public SyncClient() throws InterruptedException {
+        this(new Address("127.0.0.1", 8093));
+    }
 
-    public SyncClient(String host, int port) throws InterruptedException {
-        HOST = host;
-        PORT = port;
+    public SyncClient(Address address) throws InterruptedException {
+        HOST = address.getHost();
+        PORT = address.getPort();
         b.group(group)
                 .channel(NioSocketChannel.class)
                 .option(ChannelOption.SO_LINGER, 0)
@@ -62,48 +66,30 @@ public class SyncClient {
                 .channel().pipeline().get(SyncClientHandler.class);
     }
 
-    private int count = 0;
     public void push(ByteBuf buf, SyncAttr attr) throws InterruptedException {
         handler.push(buf, attr);
-        count += buf.readableBytes();
-        System.err.printf("bytes: %d\n", count);
     }
 
-    public SyncClient() throws InterruptedException {
-        this("127.0.0.1", 8093);
+    public ByteBuf poll(SyncAttr attr) throws InterruptedException {
+        return handler.pool(attr);
+    }
+
+    /**
+     * 获取文件大小 (bytes)
+     *
+     * @return
+     */
+    public long length(SyncAttr attr) throws InterruptedException {
+        return handler.length(attr);
     }
 
     public void close() {
-        // group.shutdownGracefully();
+        group.shutdownGracefully();
     }
 
     @Override
     protected void finalize() throws Throwable {
         group.shutdownGracefully();
         super.finalize();
-    }
-
-
-    /***********
-     * TODO: 要改进
-     ***********/
-
-
-    private static long number = 0;
-
-
-    /**
-     * @param attr 说明了从哪个文件的哪个位置读取信息.
-     * @return
-     */
-    public ByteBuf poll(SyncAttr attr) {
-        // attr -> SyncMessage
-        // send SM
-        ByteBuf buf = Unpooled.buffer();
-        for (int i = 0; i < attr.getLast() - attr.getFirst(); i++) {
-            buf.writeLong(number);
-            number++;
-        }
-        return buf;
     }
 }

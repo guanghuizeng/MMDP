@@ -2,11 +2,12 @@ package io.guanghuizeng.fs.sync;
 
 import io.guanghuizeng.fs.sync.protocol.SyncMessage;
 import io.guanghuizeng.fs.sync.protocol.Opcode;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.SimpleChannelInboundHandler;
 
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
@@ -17,12 +18,21 @@ import java.nio.channels.FileChannel;
  */
 public class SyncServerHandler extends SimpleChannelInboundHandler<SyncMessage> {
 
+    private String home;
 
-    public SyncMessage read(SyncMessage msg) throws FileNotFoundException {
+    public SyncServerHandler(String home) {
+        this.home = home;
+    }
 
-        RandomAccessFile file = new RandomAccessFile(msg.path(), "r");
+    public SyncMessage read(SyncMessage msg) throws IOException {
 
-        return msg;
+        RandomAccessFile file = new RandomAccessFile(pathResolve(msg.path()), "r");
+        ByteBuf buf = Unpooled.directBuffer((int) msg.length());
+        FileChannel channel = file.getChannel();
+        buf.writeBytes(channel, (int) msg.position(), (int) msg.length()); // TODO 类型不一致.
+        file.close();
+        channel.close();
+        return new SyncMessage(msg.opCode(), msg.path(), msg.position(), msg.length(), buf);
     }
 
     public SyncMessage write(SyncMessage msg) throws IOException {
@@ -53,6 +63,14 @@ public class SyncServerHandler extends SimpleChannelInboundHandler<SyncMessage> 
         return msg;
     }
 
+    public SyncMessage length(SyncMessage msg) throws IOException {
+        File file = new File(pathResolve(msg.path()));
+        ByteBuf buf = Unpooled.directBuffer();
+        buf.writeLong(file.length());
+        return new SyncMessage(
+                msg.opCode(), msg.path(), msg.position(), buf);
+    }
+
     /**
      * 选择合适的处理函数
      *
@@ -67,6 +85,8 @@ public class SyncServerHandler extends SimpleChannelInboundHandler<SyncMessage> 
                 return write(msg);
             case Opcode.APPEND:
                 return append(msg);
+            case Opcode.LENGTH:
+                return length(msg);
             default:
                 return msg;
         }
@@ -79,7 +99,7 @@ public class SyncServerHandler extends SimpleChannelInboundHandler<SyncMessage> 
     }
 
     private String pathResolve(String path) {
-        return System.getProperty("user.home").concat("/mmdpfs").concat(path);
+        return System.getProperty("user.home").concat("/mmdpfs").concat(home).concat(path);
     }
 
     @Override
