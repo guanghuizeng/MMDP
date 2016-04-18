@@ -23,9 +23,9 @@ public class Client {
     /************
      * init
      ************/
-    Bootstrap b = new Bootstrap();
-    EventLoopGroup group = new NioEventLoopGroup();
-    ClientHandler handler;
+    private Bootstrap b = new Bootstrap();
+    private EventLoopGroup group = new NioEventLoopGroup();
+    private ClientHandler handler;
 
     public Client() {
     }
