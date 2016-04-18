@@ -40,7 +40,7 @@ public class SyncService {
 
     public SyncService sync(SyncOutputBuffer buffer) throws InterruptedException {
         SyncAttr a = buffer.getSyncAttr();
-        cluster.get(a.getPath()).push(buffer.copy(), a);
+        cluster.get(a.getPath()).push(buffer, a);
         return this;
     }
 

@@ -18,7 +18,7 @@ public class SyncMessage {
         this.opCode = opCode;
         this.path = path;
         this.position = position;
-        this.content = content.copy();
+        this.content = content;
     }
 
     public SyncMessage(byte opCode, String path, long position, long length) {
@@ -62,6 +62,6 @@ public class SyncMessage {
     }
 
     public void clearContent() {
-        content = Unpooled.buffer(0);
+        content = Unpooled.EMPTY_BUFFER;
     }
 }

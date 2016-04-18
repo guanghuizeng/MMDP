@@ -24,5 +24,10 @@ public class SyncMessageEncoder extends MessageToByteEncoder<SyncMessage> {
         // body
         out.writeBytes(path);
         out.writeBytes(msg.content());
+
+        // release direct buffer
+        if (msg.opCode() == Opcode.READ) {
+            msg.content().release();
+        }
     }
 }
