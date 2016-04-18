@@ -45,6 +45,7 @@ public class SyncClient {
                     public void initChannel(SocketChannel ch) {
                         ChannelPipeline pipeline = ch.pipeline();
 
+                        // 非常耗费时间
                         // pipeline.addLast(new LoggingHandler(LogLevel.INFO));
 
                         pipeline.addLast(ZlibCodecFactory.newZlibDecoder());

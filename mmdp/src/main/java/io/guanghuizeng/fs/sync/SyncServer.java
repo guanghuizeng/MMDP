@@ -43,12 +43,12 @@ public class SyncServer {
                         public void initChannel(SocketChannel channel) {
                             ChannelPipeline pipeline = channel.pipeline();
 
-                            pipeline.addLast(new LoggingHandler(LogLevel.INFO));
+                            // pipeline.addLast(new LoggingHandler(LogLevel.INFO));
 
                             pipeline.addLast(ZlibCodecFactory.newZlibDecoder());
                             pipeline.addLast(ZlibCodecFactory.newZlibEncoder(1));
 
-                            pipeline.addLast(new LoggingHandler(LogLevel.INFO));
+                            // pipeline.addLast(new LoggingHandler(LogLevel.INFO));
 
                             pipeline.addLast(new SyncMessageFrameDecoder());
                             pipeline.addLast(new SyncMessageLengthFieldPrepender());

@@ -42,7 +42,6 @@ public class ExecutionHandler extends SimpleChannelInboundHandler<Message> {
                 builder.setInfo("hi");
                 break;
             case SORT:
-                System.err.printf("source: %s, target: %s", msg.getSource(), msg.getTarget());
                 sort(msg.getSource(), msg.getTarget());
                 break;
             case MAX:
