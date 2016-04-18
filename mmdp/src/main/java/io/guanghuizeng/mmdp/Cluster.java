@@ -3,16 +3,27 @@ package io.guanghuizeng.mmdp;
 import io.guanghuizeng.fs.AbsoluteFilePath;
 import io.guanghuizeng.fs.Address;
 import io.guanghuizeng.fs.FileSystem;
-import io.guanghuizeng.fs.VirtualFile;
+import io.guanghuizeng.fs.input.VirtualFile;
+import io.guanghuizeng.fs.input.VirtualFileInput;
+import io.guanghuizeng.fs.input.VirtualFileInputBuffer;
+import io.guanghuizeng.fs.output.VirtualFileOutput;
+import io.guanghuizeng.fs.output.WritableVirtualFile;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.PriorityQueue;
 
 /**
  * Created by guanghuizeng on 16/4/4.
  */
 public class Cluster {
 
-    private FileSystem fileSystem = new FileSystem();
+    private FileSystem fileSystem;
+
+    public Cluster(FileSystem fileSystem) {
+        this.fileSystem = fileSystem;
+    }
 
     /**
      * 数据保存在多台服务器上, 用多个client连接这些服务器
@@ -47,8 +58,8 @@ public class Cluster {
          * 将source映射到多个absolute filepath,
          * 完成第一层到第二层的映射
          */
-        List<AbsoluteFilePath> resolve = fileSystem.resolve(source);
-
+        List<AbsoluteFilePath> resolve = fileSystem.resolve(source); // TODO: 检查文件是否存在
+        List<AbsoluteFilePath> tmpFiles = new ArrayList<>();
         /**
          * 根据filepath调用相应的client
          */
@@ -56,6 +67,7 @@ public class Cluster {
             String tmpPath = "SortedTmp".concat(String.valueOf(System.currentTimeMillis()));
             AbsoluteFilePath tmp = new AbsoluteFilePath(path.getAddress()
                     , path.getActualPath().concat(tmpPath));
+            tmpFiles.add(tmp);
             fileSystem.put(source.concat(tmpPath), tmp);
             clients.get(path.getAddress())
                     .sort(path.getActualPath(), tmp.getActualPath());
@@ -73,6 +85,18 @@ public class Cluster {
          */
 
 
+        // 更换端口 TODO 用更好的方式实现
+        List<AbsoluteFilePath> tmpFiles2 = new ArrayList<>();
+        List<Address> serverList = fileSystem.getServerList();
+
+        for (int i = 0; i < tmpFiles.size(); i++) {
+            if (serverList.size() > i) {
+                Address server = serverList.get(i);
+                AbsoluteFilePath newPath = new AbsoluteFilePath(server, tmpFiles.get(i).getActualPath());
+                tmpFiles2.add(newPath);
+            }
+        }
+        mergeSortedFiles(tmpFiles2, target);
     }
 
     /**
@@ -90,20 +114,38 @@ public class Cluster {
      * @param target
      * @return
      */
-    private String mergeSortedFiles(final List<AbsoluteFilePath> absoluteFilePaths, final String target) {
+    private String mergeSortedFiles(final List<AbsoluteFilePath> absoluteFilePaths
+            , final String target) throws Exception {
         /**
          * initialize a priority queue of VirtualFile
          */
-        PriorityQueue<VirtualFile> queue = new PriorityQueue<>(); // TODO: 重写compareTO
+        PriorityQueue<VirtualFileInputBuffer> queue = new PriorityQueue<>();
         for (AbsoluteFilePath path : absoluteFilePaths) {
-            queue.add(new VirtualFile(path));
-        }
-        VirtualFile targetFile = new VirtualFile(fileSystem, target);
+            VirtualFile file = fileSystem.newFile(path);
 
-        while (queue.size() > 0) {
-            // 读取
-            // 写入
-            // 判断
+            VirtualFileInputBuffer buffer = new VirtualFileInputBuffer((new VirtualFileInput(file)));
+            if (!buffer.isEmpty()) {
+                queue.add(buffer);
+            }
+        }
+
+        WritableVirtualFile outputFile = fileSystem.newWritableFile(target);
+        VirtualFileOutput fileOutput = new VirtualFileOutput(outputFile);
+
+        try {
+            while (queue.size() > 0) {
+                VirtualFileInputBuffer buffer = queue.poll();  // 读取
+                fileOutput.writeLong(buffer.pop());            // 写入
+
+                if (buffer.isEmpty()) {                        // 判断
+                    buffer.close();
+                } else {
+                    queue.add(buffer);
+                }
+            }
+        } finally {
+            // close the connections
+            fileOutput.close();
         }
 
         return target;
