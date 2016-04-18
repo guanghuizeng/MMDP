@@ -2,6 +2,7 @@ package io.guanghuizeng.mmdp;
 
 import io.guanghuizeng.fs.FileSystem;
 import io.guanghuizeng.mmdp.algs.ExternalSort;
+import io.guanghuizeng.mmdp.algs.ExternalSort3;
 import io.guanghuizeng.mmdp.algs.MaxFinder;
 import io.guanghuizeng.mmdp.protocol.MmdpProtos.Message;
 
@@ -10,6 +11,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.AttributeKey;
 
 import java.io.IOException;
+import java.util.Comparator;
 
 /**
  * Created by guanghuizeng on 16/4/2.
@@ -26,7 +28,7 @@ public class ExecutionHandler extends SimpleChannelInboundHandler<Message> {
     private void sort(String source, String target) throws IOException {
         FileSystem fileSystem = context.attr(fileSystemKey).get();
         // source -> file; target -> file; ES.sort(src, dst)
-        ExternalSort.sort(fileSystem.getFile(source), fileSystem.getFile(target));
+        ExternalSort3.sort(fileSystem.getPath(source), fileSystem.getPath(target), Comparator.naturalOrder());
     }
 
     private void max(String source, String target, int k) throws IOException {

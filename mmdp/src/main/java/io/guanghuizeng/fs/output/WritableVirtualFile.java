@@ -36,7 +36,8 @@ public class WritableVirtualFile {
         this.bufferSize = bufferSize;
     }
 
-    public WritableVirtualFile(String path) {
+    public WritableVirtualFile(String path, int bufferSize) {
+        this.bufferSize = bufferSize;
 
     }
 

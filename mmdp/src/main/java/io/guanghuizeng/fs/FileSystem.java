@@ -1,6 +1,12 @@
 package io.guanghuizeng.fs;
 
+import io.guanghuizeng.fs.input.VirtualFile;
+import io.guanghuizeng.fs.output.WritableVirtualFile;
+
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,14 +27,22 @@ import java.util.List;
  */
 public class FileSystem {
 
-    private String HOME;
+    private String HOME = "/mmdpfs";
     private Metadata metadata = new Metadata();
 
-    public FileSystem() {
+    private List<Address> serverList;
+    private long defaultLength = 100 * 1024 * 1024;   // 单个文件可写入的数据量
+    private int bufferSize = 1024 * 1024 * 30;
+
+    public FileSystem(String home) {
+        HOME = home;
     }
 
-    public FileSystem(String localHomePath) {
-        HOME = localHomePath;
+    /**
+     * @param addressList 文件系统服务器地址
+     */
+    public FileSystem(List<Address> addressList) {
+        serverList = addressList;
     }
 
     /**
@@ -50,6 +64,25 @@ public class FileSystem {
         metadata.put(relativePath, absoluteFilePath);
     }
 
+    public WritableVirtualFile newWritableFile(String relativePath) {
+        WritableVirtualFile virtualFile = new WritableVirtualFile(relativePath, bufferSize);
+        // 根据机器地址列表, 生成 AFP 列表
+        for (Address a : serverList) {
+            AbsoluteFilePath path = new AbsoluteFilePath(a, relativePath);
+            virtualFile.addFile(path, defaultLength);
+            put(relativePath, path);   // 添加记录
+        }
+        return virtualFile;
+    }
+
+    public VirtualFile newFile(AbsoluteFilePath afp) {
+        return new VirtualFile(bufferSize, afp);
+    }
+
+    public List<Address> getServerList() {
+        return serverList;
+    }
+
     /**
      * 从一个实际路径中获取实际文件, 被用在server端
      * <p>
@@ -58,5 +91,9 @@ public class FileSystem {
     public File getFile(String actualPath) {
         String fullPath = HOME.concat(actualPath);
         return new File(fullPath);
+    }
+
+    public Path getPath(String relativePath) {
+        return Paths.get(HOME, relativePath);
     }
 }
