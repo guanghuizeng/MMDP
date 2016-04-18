@@ -95,6 +95,10 @@ public class SyncServerHandler extends SimpleChannelInboundHandler<SyncMessage> 
 
     public void channelRead0(ChannelHandlerContext ctx, SyncMessage msg)
             throws IOException {
+        if (msg.opCode() == Opcode.CLOSE) {
+            ctx.writeAndFlush(msg);
+            ctx.close();
+        }
         ctx.writeAndFlush(execute(msg));
     }
 

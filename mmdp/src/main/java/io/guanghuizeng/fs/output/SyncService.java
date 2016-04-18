@@ -51,7 +51,7 @@ public class SyncService {
         buffer.setSyncAttr(newBuffer.getSyncAttr());
     }
 
-    public void close() {
+    public void close() throws InterruptedException {
         for (SyncClient cli : cluster.values()) {
             cli.close();
         }

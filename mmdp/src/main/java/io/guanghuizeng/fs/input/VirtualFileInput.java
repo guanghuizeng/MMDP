@@ -45,7 +45,7 @@ public class VirtualFileInput {
         return buffer.readableBytes();
     }
 
-    public void close() {
+    public void close() throws InterruptedException{
         syncService.close();
     }
 }

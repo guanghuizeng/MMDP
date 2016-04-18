@@ -27,7 +27,7 @@ public class VirtualFileInputBuffer implements Comparable<VirtualFileInputBuffer
         return buffer == null;
     }
 
-    public void close() {
+    public void close() throws InterruptedException{
         input.close();
     }
 

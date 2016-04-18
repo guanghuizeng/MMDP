@@ -83,7 +83,8 @@ public class SyncClient {
         return handler.length(attr);
     }
 
-    public void close() {
+    public void close() throws InterruptedException {
+        handler.close();
         group.shutdownGracefully();
     }
 

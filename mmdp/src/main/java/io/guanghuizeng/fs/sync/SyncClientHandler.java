@@ -24,6 +24,7 @@ public class SyncClientHandler extends SimpleChannelInboundHandler<SyncMessage> 
                 attr.getPosition(), buf);
         ChannelFuture future = context.channel().writeAndFlush(message);
         future.sync();
+        SyncMessage answer = answers.take();
     }
 
     public ByteBuf pool(SyncAttr attr) throws InterruptedException {
@@ -49,6 +50,15 @@ public class SyncClientHandler extends SimpleChannelInboundHandler<SyncMessage> 
         // take answer
         SyncMessage answer = answers.take();
         return answer.content().readLong();
+    }
+
+    public boolean close() throws InterruptedException {
+        SyncMessage message = new SyncMessage(Opcode.CLOSE, "", 0, Unpooled.EMPTY_BUFFER);
+        ChannelFuture future = context.channel().writeAndFlush(message);
+        future.sync();
+        SyncMessage answer = answers.take();
+        assert answer.opCode() == Opcode.CLOSE;
+        return true;
     }
 
     @Override

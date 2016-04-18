@@ -90,7 +90,7 @@ public class SyncService {
     /**
      * 到任务结束再 close. 如何实现?
      */
-    public void close() {
+    public void close() throws InterruptedException {
         for (SyncClient cli : cluster.values()) {
             cli.close();
         }
