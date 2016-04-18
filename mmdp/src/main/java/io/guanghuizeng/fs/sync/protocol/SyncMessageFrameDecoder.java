@@ -15,9 +15,15 @@ public class SyncMessageFrameDecoder extends ByteToMessageDecoder {
     protected void decode(ChannelHandlerContext context, ByteBuf in, List<Object> out) {
         in.markReaderIndex();
         int preIndex = in.readerIndex();
-        int length = in.readInt();
 
-        if(length == preIndex) {
+        if (in.readableBytes() < Integer.BYTES) {
+            in.resetReaderIndex();
+            return;
+        }
+
+        // 数据长度
+        int length = in.readInt();
+        if (in.readerIndex() == preIndex) {
             return;
         }
         assert length >= 0;
