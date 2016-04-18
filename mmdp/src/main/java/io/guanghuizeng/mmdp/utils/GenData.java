@@ -1,60 +1,69 @@
 package io.guanghuizeng.mmdp.utils;
 
-import io.guanghuizeng.fs.utils.FileInputBuffer;
-import io.guanghuizeng.fs.utils.FileOutputBuffer;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.nio.channels.FileChannel;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Random;
 
+/**
+ * 应用 Netty 和 FileChannel, 生成数据, 写入到文件中
+ */
 public class GenData {
 
-    public static void write(File output, long count) throws IOException {
-        FileOutputBuffer buffer = new FileOutputBuffer(output);
+    public static void gen(String relativePath, long count) throws IOException {
+
+        Path path = Paths.get(System.getProperty("user.home").concat(relativePath));
+        FileChannel channel = FileChannel.open(path, StandardOpenOption.CREATE_NEW, StandardOpenOption.WRITE);
+
+        int quantity = 1024 * 1024;
+        int bufSize = quantity * Long.BYTES;
+
+        ByteBuf buf = Unpooled.directBuffer(bufSize);
+
+        long round = count / quantity;
+        long remain = count % quantity;
+
         Random random = new Random();
-        for (int i = 0; i < count; i++) {
-            buffer.writeLong(random.nextLong());
-        }
-        buffer.close();
-    }
-
-    public static void statics(File data) {
-        try {
-            FileInputBuffer buffer = new FileInputBuffer(data);
-            int count = 0;
-            int total = 0;
-            while (!buffer.empty()) {
-                long value = buffer.pop();
-                total++;
-                if (value > 0) {
-                    count++;
-                }
+        for (int i = 0; i < round; i++) {
+            for (int j = 0; j < quantity; j++) {
+                buf.writeLong(random.nextLong());
             }
-            System.out.printf("%s \n - 包括 %d 个64 bit整数\n", data.getCanonicalPath(), total);
-            System.out.printf(" - 正数比率为: %f\n", (float) count / total);
-        } catch (IOException e) {
-            e.printStackTrace();
+            buf.readBytes(channel, channel.position(), bufSize);
+            channel.position(channel.position() + bufSize);
+            buf.clear();
         }
+
+        buf.clear();
+        for (int i = 0; i < remain; i++) {
+            buf.writeLong(random.nextLong());
+        }
+        int remainBytes = buf.readableBytes();
+        buf.readBytes(channel, channel.position(), remainBytes);
+        channel.position(channel.position() + remainBytes);
+
+        buf.release();
+        channel.close();
     }
 
-    public static void gen(String path, long count) throws IOException {
-        File output = new File(path);
-        write(output, count);
-    }
+    public static void gen0(String relativePath, long count) throws IOException{
 
-    /**
-     * @param args, args[0] -> address of output file, args[1] -> count
-     */
-    public static void main(String[] args) {
+        File file = new File(System.getProperty("user.home").concat(relativePath));
+        FileOutputStream fos = new FileOutputStream(file);
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
 
-        File output = new File(args[0]);
-        long count = Long.parseLong(args[1]);
-
-        try {
-            write(output, count);
-            statics(output);
-        } catch (IOException e) {
-            e.printStackTrace();
+        Random random = new Random();
+        for (long   i = 0; i < count; i++) {
+            oos.writeLong(random.nextLong());
         }
+
+        oos.close();
     }
 }
