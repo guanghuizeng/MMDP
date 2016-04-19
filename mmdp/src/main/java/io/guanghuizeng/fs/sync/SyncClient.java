@@ -88,10 +88,4 @@ public class SyncClient {
         handler.close();
         group.shutdownGracefully();
     }
-
-    @Override
-    protected void finalize() throws Throwable {
-        group.shutdownGracefully();
-        super.finalize();
-    }
 }

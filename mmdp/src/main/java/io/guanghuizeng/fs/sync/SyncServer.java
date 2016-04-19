@@ -66,11 +66,4 @@ public class SyncServer {
             worker.shutdownGracefully();
         }
     }
-
-    @Override
-    protected void finalize() throws Throwable {
-        boss.shutdownGracefully();
-        worker.shutdownGracefully();
-        super.finalize();
-    }
 }
