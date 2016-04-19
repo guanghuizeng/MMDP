@@ -178,7 +178,7 @@ class FileOutputBuffer {
         stream = new BufferedOutputStream(new FileOutputStream(path.toFile()));
     }
 
-    public void writeLong(Long n) throws IOException {
+    public void writeLong(long n) throws IOException {
         byte[] bytes = Longs.toByteArray(n);
         stream.write(bytes);
         bytes = null;
@@ -192,7 +192,8 @@ class FileOutputBuffer {
 class FileInputBuffer implements Comparable<FileInputBuffer> {
 
     private BufferedInputStream stream;
-    private Long buffer = null;
+    private boolean isEmpty = true;
+    private long buffer;
 
     public FileInputBuffer(Path path) throws IOException {
         stream = new BufferedInputStream(new FileInputStream(path.toFile()));
@@ -200,7 +201,7 @@ class FileInputBuffer implements Comparable<FileInputBuffer> {
     }
 
     public boolean empty() {
-        return buffer == null;
+        return isEmpty;
     }
 
     public void close() throws IOException {
@@ -223,8 +224,9 @@ class FileInputBuffer implements Comparable<FileInputBuffer> {
             stream.read(in);
             buffer = Longs.fromByteArray(in);
             in = null;
+            isEmpty = false;
         } else {
-            buffer = null;
+            isEmpty = true;
         }
     }
 
