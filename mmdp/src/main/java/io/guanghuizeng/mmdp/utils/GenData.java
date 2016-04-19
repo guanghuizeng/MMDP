@@ -21,7 +21,7 @@ public class GenData {
     public static void gen(String relativePath, long count) throws IOException {
 
         Path path = Paths.get(System.getProperty("user.home").concat(relativePath));
-        FileChannel channel = FileChannel.open(path, StandardOpenOption.CREATE_NEW, StandardOpenOption.WRITE);
+        FileChannel channel = FileChannel.open(path, StandardOpenOption.CREATE, StandardOpenOption.WRITE);
 
         int quantity = 1024 * 1024;
         int bufSize = quantity * Long.BYTES;
