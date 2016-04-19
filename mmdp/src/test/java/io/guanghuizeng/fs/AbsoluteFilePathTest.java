@@ -1,6 +1,5 @@
-package io.guanghuizeng.mmdp.fs;
+package io.guanghuizeng.fs;
 
-import io.guanghuizeng.fs.AbsoluteFilePath;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

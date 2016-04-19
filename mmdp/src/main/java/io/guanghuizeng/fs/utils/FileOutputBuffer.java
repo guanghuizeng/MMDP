@@ -1,4 +1,4 @@
-package io.guanghuizeng.mmdp.utils;
+package io.guanghuizeng.fs.utils;
 
 import java.io.*;
 

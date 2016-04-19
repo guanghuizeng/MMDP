@@ -1,6 +1,6 @@
 package io.guanghuizeng.mmdp.algs;
 
-import io.guanghuizeng.mmdp.utils.FileOutputBuffer;
+import io.guanghuizeng.fs.utils.FileOutputBuffer;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

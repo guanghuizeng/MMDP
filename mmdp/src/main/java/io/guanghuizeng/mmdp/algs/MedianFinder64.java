@@ -1,6 +1,6 @@
 package io.guanghuizeng.mmdp.algs;
 
-import io.guanghuizeng.mmdp.utils.FileInputBuffer;
+import io.guanghuizeng.fs.utils.FileInputBuffer;
 
 import java.io.File;
 import java.io.IOException;
