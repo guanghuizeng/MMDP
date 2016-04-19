@@ -48,8 +48,8 @@ public class SyncClient {
                         // 非常耗费时间
                         // pipeline.addLast(new LoggingHandler(LogLevel.INFO));
 
-                        pipeline.addLast(ZlibCodecFactory.newZlibDecoder());
-                        pipeline.addLast(ZlibCodecFactory.newZlibEncoder(1));
+                        pipeline.addLast(new JZlibDecoder());
+                        pipeline.addLast(new JZlibEncoder());
 
                         // pipeline.addLast(new LoggingHandler(LogLevel.INFO));
 
