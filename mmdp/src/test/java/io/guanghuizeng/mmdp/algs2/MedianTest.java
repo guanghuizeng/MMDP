@@ -11,6 +11,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Random;
 
 
@@ -34,7 +36,7 @@ public class MedianTest {
         }
         stream.close();
 
-        long expected = (start + N - 1) / 2;
+        long expected = (start * 2 + N - 1) / 2;
 
         MedianFinder64 finder = new MedianFinder64();
         long result = finder.find(file, N);
@@ -49,67 +51,106 @@ public class MedianTest {
         }
     }
 
-    @Test
-    public void test1() throws IOException {
+
+    public void test3(long start, int N) throws IOException {
+
+        // unsigned
 
         File file = File.createTempFile("median", "test");
         file.deleteOnExit();
         ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream(file));
 
-        Random random = new Random();
-        long start = random.nextLong();
-        long N = 10 * 1000;
+        ArrayList<Long> data = new ArrayList<>();
 
         for (long i = start; i < start + N; i++) {
             stream.writeLong(i);
+            data.add(i);
         }
         stream.close();
 
-        long expected = (start + N - 1) / 2;
+        data.sort(Comparator.naturalOrder());
+        Long expected = data.get((N - 1) / 2);
 
         Engine engine = new Engine();
         long result = engine.median(Paths.get(file.getPath()), N);
-        assertEquals(expected, result);
 
+        System.out.printf("Exp: %d, Rst: %d\n", expected, result);
+        assertEquals(Long.toUnsignedString(expected), Long.toUnsignedString(result));
     }
 
     @Test
-    public void test11() throws IOException {
-        for (int i = 0; i < 50; i++) {
-            test1();
+    public void test31() throws IOException {
+        // TODO 修复 bug
+        int N = 100000;
+        long start = 4;
+
+        for (int i = 0; i < 14; i++) {
+            System.out.printf("i: %d, ", i);
+            test3(start, N);
+            start = start * 10;
         }
     }
 
     @Test
-    public void test2() throws IOException {
+    public void debug() throws IOException {
+
+        /**
+         * fail: 超过
+         */
+
 
         File file = File.createTempFile("median", "test");
         file.deleteOnExit();
         ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream(file));
 
-        Random random = new Random();
-        long start = random.nextLong();
-        long N = 10 * 1000;
+        ArrayList<Long> data = new ArrayList<>();
+
+        long start = 4 * (long) Math.pow(10, 10);
+        int N = 2;
 
         for (long i = start; i < start + N; i++) {
             stream.writeLong(i);
+            data.add(i);
         }
         stream.close();
 
-        MedianFinder64 finder = new MedianFinder64();
-        long result1 = finder.find(file, N);
+        data.sort(Comparator.naturalOrder());
+        Long expected = data.get((N - 1) / 2);
 
         Engine engine = new Engine();
-        long result2 = engine.median(Paths.get(file.getPath()), N);
+        long result = engine.median(Paths.get(file.getPath()), N);
 
-        assertEquals(result1, result2);
-
+        System.out.printf("Exp: %d, Rst: %d\n", expected, result);
     }
 
     @Test
-    public void test21() throws IOException {
-        for (int i = 0; i < 50; i++) {
-            test2();
+    public void debug0() throws IOException {
+
+        /**
+         * pass
+         */
+
+        File file = File.createTempFile("median", "test");
+        file.deleteOnExit();
+        ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream(file));
+
+        ArrayList<Long> data = new ArrayList<>();
+
+        long start = 4 * (long) Math.pow(10, 9);
+        int N = 10000;
+
+        for (long i = start; i < start + N; i++) {
+            stream.writeLong(i);
+            data.add(i);
         }
+        stream.close();
+
+        data.sort(Comparator.naturalOrder());
+        Long expected = data.get((N - 1) / 2);
+
+        Engine engine = new Engine();
+        long result = engine.median(Paths.get(file.getPath()), N);
+
+        System.out.printf("Exp: %d, Rst: %d\n", expected, result);
     }
 }
