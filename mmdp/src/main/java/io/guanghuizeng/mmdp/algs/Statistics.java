@@ -1,6 +1,6 @@
 package io.guanghuizeng.mmdp.algs;
 
-import io.guanghuizeng.fs.utils.FileInputBuffer;
+import io.guanghuizeng.mmdp.utils.ObjectInputBuffer;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,7 +32,7 @@ public class Statistics {
      * @throws IOException
      */
     public Map<Long, Integer> frequency(File data) throws IOException {
-        FileInputBuffer buffer = new FileInputBuffer(data);
+        ObjectInputBuffer buffer = new ObjectInputBuffer(data);
         while (!buffer.empty()) {
             increase(buffer.pop());
         }

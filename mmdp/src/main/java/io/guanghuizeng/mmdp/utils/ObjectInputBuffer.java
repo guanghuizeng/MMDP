@@ -1,20 +1,26 @@
-package io.guanghuizeng.fs.utils;
+package io.guanghuizeng.mmdp.utils;
 
 
 import java.io.*;
+import java.nio.file.Path;
 
 /**
  * Created by guanghuizeng on 16/3/14.
  *
  * primitive type is Long.
  */
-public class FileInputBuffer implements Comparable<FileInputBuffer> {
+public class ObjectInputBuffer implements Comparable<ObjectInputBuffer> {
 
     private ObjectInputStream buffer;
     private Long cache;
 
-    public FileInputBuffer(File file) throws IOException {
+    public ObjectInputBuffer(File file) throws IOException {
         this.buffer = new ObjectInputStream(new BufferedInputStream(new FileInputStream(file)));
+        reload();
+    }
+
+    public ObjectInputBuffer(Path path) throws IOException {
+        this.buffer = new ObjectInputStream(new BufferedInputStream(new FileInputStream(path.toFile())));
         reload();
     }
 
@@ -44,7 +50,7 @@ public class FileInputBuffer implements Comparable<FileInputBuffer> {
         }
     }
 
-    public int compareTo(FileInputBuffer that) {
+    public int compareTo(ObjectInputBuffer that) {
         return peek().compareTo(that.peek());
     }
 }

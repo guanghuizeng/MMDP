@@ -1,4 +1,4 @@
-package io.guanghuizeng.fs.utils;
+package io.guanghuizeng.mmdp.utils;
 
 import java.io.*;
 
@@ -7,11 +7,11 @@ import java.io.*;
  * <p>
  * 对字节流做一个简单的封装
  */
-public class FileOutputBuffer {
+public class ObjectOutputBuffer {
 
     private ObjectOutputStream buffer;
 
-    public FileOutputBuffer(File file) throws IOException {
+    public ObjectOutputBuffer(File file) throws IOException {
         this.buffer = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(file)));
     }
 

@@ -1,7 +1,7 @@
 package io.guanghuizeng.mmdp.algs;
 
-import io.guanghuizeng.fs.utils.FileInputBuffer;
-import io.guanghuizeng.fs.utils.FileOutputBuffer;
+import io.guanghuizeng.mmdp.utils.ObjectInputBuffer;
+import io.guanghuizeng.mmdp.utils.ObjectOutputBuffer;
 
 import java.io.File;
 import java.io.IOException;
@@ -63,7 +63,7 @@ public class ExternalSort {
         try {
             File newTmpFile = File.createTempFile("sortInBatch", "flatfile", tmpDirectory);
             newTmpFile.deleteOnExit();
-            FileOutputBuffer outputBuffer = new FileOutputBuffer(newTmpFile);
+            ObjectOutputBuffer outputBuffer = new ObjectOutputBuffer(newTmpFile);
 
             for (Long number : tmpList) {
                 outputBuffer.writeLong(number);
@@ -87,7 +87,7 @@ public class ExternalSort {
         long blockSize = bestSizeOfBlock(file.length(), 1024, availableMemory());
 
         try {
-            FileInputBuffer inputBuffer = new FileInputBuffer(file);
+            ObjectInputBuffer inputBuffer = new ObjectInputBuffer(file);
             while (!inputBuffer.empty()) {
                 List<Long> tmpList = new ArrayList<>();
                 int counter = 0;
@@ -114,13 +114,13 @@ public class ExternalSort {
      * @return
      * @throws IOException
      */
-    private static long mergeSortedFiles(FileOutputBuffer outputBuffer,
-                                         List<FileInputBuffer> inputBuffers) throws IOException {
+    private static long mergeSortedFiles(ObjectOutputBuffer outputBuffer,
+                                         List<ObjectInputBuffer> inputBuffers) throws IOException {
 
         /* a priority queue of numbers from buffers -> output file */
-        PriorityQueue<FileInputBuffer> bufferPQ = new PriorityQueue<>();
+        PriorityQueue<ObjectInputBuffer> bufferPQ = new PriorityQueue<>();
         /* initialize queue */
-        for (FileInputBuffer buffer : inputBuffers) {
+        for (ObjectInputBuffer buffer : inputBuffers) {
             if (!buffer.empty()) {
                 bufferPQ.add(buffer);
             }
@@ -129,7 +129,7 @@ public class ExternalSort {
         long count = 0;
         try {
             while (bufferPQ.size() > 0) {
-                FileInputBuffer input = bufferPQ.poll();
+                ObjectInputBuffer input = bufferPQ.poll();
                 outputBuffer.writeLong(input.pop());
                 ++count;
 
@@ -147,11 +147,11 @@ public class ExternalSort {
 
     private static long mergeSortedFiles(File outputFile, List<File> inputFiles) throws IOException {
         /* sorted files -> buffers */
-        List<FileInputBuffer> inputBuffers = new ArrayList<>();
-        FileOutputBuffer outputBuffer = new FileOutputBuffer(outputFile);
+        List<ObjectInputBuffer> inputBuffers = new ArrayList<>();
+        ObjectOutputBuffer outputBuffer = new ObjectOutputBuffer(outputFile);
 
         for (File file : inputFiles) {
-            FileInputBuffer buffer = new FileInputBuffer(file);
+            ObjectInputBuffer buffer = new ObjectInputBuffer(file);
             inputBuffers.add(buffer);
         }
 

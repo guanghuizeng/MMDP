@@ -1,7 +1,7 @@
 package io.guanghuizeng.mmdp.algs;
 
-import io.guanghuizeng.fs.utils.FileInputBuffer;
-import io.guanghuizeng.fs.utils.FileOutputBuffer;
+import io.guanghuizeng.mmdp.utils.ObjectInputBuffer;
+import io.guanghuizeng.mmdp.utils.ObjectOutputBuffer;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -33,7 +33,7 @@ public class FrequentNumbersFinder {
         long blockSize = bestSizeOfBlock(data.length(), 1024, availableMemory());
 
         /* 多次调用count */
-        FileInputBuffer buffer = new FileInputBuffer(data);
+        ObjectInputBuffer buffer = new ObjectInputBuffer(data);
         while (!buffer.empty()) {
 
             List<Long> tmp = new ArrayList<>();
@@ -84,7 +84,7 @@ public class FrequentNumbersFinder {
      * 将统计信息保存到文件
      */
     private void save(Map<Long, Integer> data, File file) throws IOException {
-        FileOutputBuffer buffer = new FileOutputBuffer(file);
+        ObjectOutputBuffer buffer = new ObjectOutputBuffer(file);
         for (long key : data.keySet()) {
             buffer.writeLong(key);
             buffer.writeInt(data.get(key));
@@ -102,7 +102,7 @@ public class FrequentNumbersFinder {
      */
     public File merge(List<File> input, File output, int k) throws IOException {
 
-        FileOutputBuffer outputBuffer = new FileOutputBuffer(output);
+        ObjectOutputBuffer outputBuffer = new ObjectOutputBuffer(output);
         PriorityQueue<InputBuffer> bufferPQ = new PriorityQueue<>();
 
         for (File file : input) {

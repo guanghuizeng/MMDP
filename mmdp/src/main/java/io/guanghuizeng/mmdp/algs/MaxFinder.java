@@ -1,7 +1,7 @@
 package io.guanghuizeng.mmdp.algs;
 
-import io.guanghuizeng.fs.utils.FileInputBuffer;
-import io.guanghuizeng.fs.utils.FileOutputBuffer;
+import io.guanghuizeng.mmdp.utils.ObjectInputBuffer;
+import io.guanghuizeng.mmdp.utils.ObjectOutputBuffer;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +25,7 @@ public class MaxFinder {
      */
     public static List<Long> find(File input, int N, int k) throws IOException {
 
-        FileInputBuffer buffer = new FileInputBuffer(input);
+        ObjectInputBuffer buffer = new ObjectInputBuffer(input);
         MinHeap heap = new MinHeap(k);
         for (int i = 0; i < N; i++) {
             long value = buffer.pop();
@@ -59,7 +59,7 @@ public class MaxFinder {
      */
     public static List<Long> find(File input, int k) throws IOException {
 
-        FileInputBuffer buffer = new FileInputBuffer(input);
+        ObjectInputBuffer buffer = new ObjectInputBuffer(input);
         MinHeap heap = new MinHeap(k);
 
         while (!buffer.empty()) {
@@ -86,7 +86,7 @@ public class MaxFinder {
 
     public static File find(File source, File target, int k) throws IOException {
         List<Long> result = find(source, k);
-        FileOutputBuffer buffer = new FileOutputBuffer(target);
+        ObjectOutputBuffer buffer = new ObjectOutputBuffer(target);
         for (long x : result) {
             buffer.writeLong(x);
         }

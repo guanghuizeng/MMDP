@@ -1,6 +1,6 @@
 package io.guanghuizeng.mmdp.algs;
 
-import io.guanghuizeng.fs.utils.FileInputBuffer;
+import io.guanghuizeng.mmdp.utils.ObjectInputBuffer;
 
 import java.io.File;
 import java.io.IOException;
@@ -130,7 +130,7 @@ public class MedianFinder64 {
         int countOfRange = (int) Math.pow(2, 16);
 
         /* 第一层 */
-        FileInputBuffer buffer0 = new FileInputBuffer(input);
+        ObjectInputBuffer buffer0 = new ObjectInputBuffer(input);
         Histogram firstHistogram = new Histogram(countOfRange);
         while (!buffer0.empty()) {
             long number = buffer0.pop();
@@ -140,7 +140,7 @@ public class MedianFinder64 {
         buffer0.close();
 
         /* 第二层 */
-        FileInputBuffer buffer1 = new FileInputBuffer(input);
+        ObjectInputBuffer buffer1 = new ObjectInputBuffer(input);
         Histogram secondHistogram = new Histogram(countOfRange);
         while (!buffer1.empty()) {
             long number = buffer1.pop();
@@ -152,7 +152,7 @@ public class MedianFinder64 {
         buffer1.close();
 
         /* 第三层 */
-        FileInputBuffer buffer2 = new FileInputBuffer(input);
+        ObjectInputBuffer buffer2 = new ObjectInputBuffer(input);
         Histogram thirdHistogram = new Histogram(countOfRange);
         while (!buffer2.empty()) {
             long number = buffer2.pop();
@@ -166,7 +166,7 @@ public class MedianFinder64 {
         buffer2.close();
 
         /* 第四层 */
-        FileInputBuffer buffer3 = new FileInputBuffer(input);
+        ObjectInputBuffer buffer3 = new ObjectInputBuffer(input);
         Histogram fourthHistogram = new Histogram(countOfRange);
         while (!buffer3.empty()) {
             long number = buffer3.pop();
