@@ -50,6 +50,7 @@ public class MedianFinder64 {
         }
 
         void add(int n) {
+            // TODO 处理负数问题
             if (signed && n < size && -n < size) {
 
                 if (n >= bias) {
@@ -130,8 +131,8 @@ public class MedianFinder64 {
 
         /* 第一层 */
         FileInputBuffer buffer0 = new FileInputBuffer(input);
-        Histogram firstHistogram = new Histogram(countOfRange, true);
-        for (long i = 0; i < count; i++) {
+        Histogram firstHistogram = new Histogram(countOfRange);
+        while (!buffer0.empty()) {
             long number = buffer0.pop();
             firstHistogram.add(partOfLong(number, 0)); /* first part of a long integer */
         }
@@ -141,7 +142,7 @@ public class MedianFinder64 {
         /* 第二层 */
         FileInputBuffer buffer1 = new FileInputBuffer(input);
         Histogram secondHistogram = new Histogram(countOfRange);
-        for (long i = 0; i < count; i++) {
+        while (!buffer1.empty()) {
             long number = buffer1.pop();
             if (partOfLong(number, 0) == first.index) {
                 secondHistogram.add(partOfLong(number, 1)); /* second part of a long integer */
@@ -153,7 +154,7 @@ public class MedianFinder64 {
         /* 第三层 */
         FileInputBuffer buffer2 = new FileInputBuffer(input);
         Histogram thirdHistogram = new Histogram(countOfRange);
-        for (long i = 0; i < count; i++) {
+        while (!buffer2.empty()) {
             long number = buffer2.pop();
             /* 结合第一, 二层信息 */
             if (partOfLong(number, 0) == first.index
@@ -167,7 +168,7 @@ public class MedianFinder64 {
         /* 第四层 */
         FileInputBuffer buffer3 = new FileInputBuffer(input);
         Histogram fourthHistogram = new Histogram(countOfRange);
-        for (long i = 0; i < count; i++) {
+        while (!buffer3.empty()) {
             long number = buffer3.pop();
             if (partOfLong(number, 0) == first.index
                     && partOfLong(number, 1) == second.index
