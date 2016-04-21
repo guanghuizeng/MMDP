@@ -51,8 +51,8 @@ public class MedianTest {
         }
     }
 
-
-    public void test3(long start, int N) throws IOException {
+    @Test
+    public void test3() throws IOException {
 
         // unsigned
 
@@ -62,9 +62,12 @@ public class MedianTest {
 
         ArrayList<Long> data = new ArrayList<>();
 
-        for (long i = start; i < start + N; i++) {
-            stream.writeLong(i);
-            data.add(i);
+        Random random = new Random();
+        int N = 10000;
+        for (long i = 0; i < N; i++) {
+            long n = Math.abs(random.nextLong());
+            stream.writeLong(n);
+            data.add(n);
         }
         stream.close();
 
@@ -74,83 +77,13 @@ public class MedianTest {
         Engine engine = new Engine();
         long result = engine.median(Paths.get(file.getPath()), N);
 
-        System.out.printf("Exp: %d, Rst: %d\n", expected, result);
         assertEquals(Long.toUnsignedString(expected), Long.toUnsignedString(result));
     }
 
     @Test
     public void test31() throws IOException {
-        // TODO 修复 bug
-        int N = 100000;
-        long start = 4;
-
-        for (int i = 0; i < 14; i++) {
-            System.out.printf("i: %d, ", i);
-            test3(start, N);
-            start = start * 10;
+        for (int i = 0; i < 20; i++) {
+            test3();
         }
-    }
-
-    @Test
-    public void debug() throws IOException {
-
-        /**
-         * fail: 超过
-         */
-
-
-        File file = File.createTempFile("median", "test");
-        file.deleteOnExit();
-        ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream(file));
-
-        ArrayList<Long> data = new ArrayList<>();
-
-        long start = 4 * (long) Math.pow(10, 10);
-        int N = 2;
-
-        for (long i = start; i < start + N; i++) {
-            stream.writeLong(i);
-            data.add(i);
-        }
-        stream.close();
-
-        data.sort(Comparator.naturalOrder());
-        Long expected = data.get((N - 1) / 2);
-
-        Engine engine = new Engine();
-        long result = engine.median(Paths.get(file.getPath()), N);
-
-        System.out.printf("Exp: %d, Rst: %d\n", expected, result);
-    }
-
-    @Test
-    public void debug0() throws IOException {
-
-        /**
-         * pass
-         */
-
-        File file = File.createTempFile("median", "test");
-        file.deleteOnExit();
-        ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream(file));
-
-        ArrayList<Long> data = new ArrayList<>();
-
-        long start = 4 * (long) Math.pow(10, 9);
-        int N = 10000;
-
-        for (long i = start; i < start + N; i++) {
-            stream.writeLong(i);
-            data.add(i);
-        }
-        stream.close();
-
-        data.sort(Comparator.naturalOrder());
-        Long expected = data.get((N - 1) / 2);
-
-        Engine engine = new Engine();
-        long result = engine.median(Paths.get(file.getPath()), N);
-
-        System.out.printf("Exp: %d, Rst: %d\n", expected, result);
     }
 }
