@@ -50,7 +50,7 @@ public class Engine {
         // System.out.printf("fourth.index() = %d, fourth.count() = %d\n", fourth.index(), fourth.count());
 
         // combine
-        return ((long) first.index() << 48) + ((long) second.index() << 36)
+        return ((long) first.index() << 48) + ((long) second.index() << 32)
                 + ((long) third.index() << 16) + (long) fourth.index();
     }
 
