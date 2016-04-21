@@ -1,8 +1,7 @@
 package io.guanghuizeng.mmdp;
 
 import io.guanghuizeng.fs.FileSystem;
-import io.guanghuizeng.mmdp.algs.ExternalSort;
-import io.guanghuizeng.mmdp.algs.ExternalSort3;
+import io.guanghuizeng.mmdp.algs2.ExternalSort;
 import io.guanghuizeng.mmdp.algs.MaxFinder;
 import io.guanghuizeng.mmdp.protocol.MmdpProtos.Message;
 
@@ -28,7 +27,7 @@ public class ExecutionHandler extends SimpleChannelInboundHandler<Message> {
     private void sort(String source, String target) throws IOException {
         FileSystem fileSystem = context.attr(fileSystemKey).get();
         // source -> file; target -> file; ES.sort(src, dst)
-        ExternalSort3.sort(fileSystem.getPath(source), fileSystem.getPath(target), Comparator.naturalOrder());
+        ExternalSort.sort(fileSystem.getPath(source), fileSystem.getPath(target), Comparator.naturalOrder());
     }
 
     private void max(String source, String target, int k) throws IOException {
