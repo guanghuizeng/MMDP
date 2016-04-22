@@ -9,7 +9,7 @@ public class ServiceID {
 
     private String host = System.getProperty("host", "127.0.0.1");
     private int syncPort = Integer.parseInt(System.getProperty("syncPort", "8070"));
-    private int enginePort = Integer.parseInt(System.getProperty("syncPort", "8090"));
+    private int enginePort = Integer.parseInt(System.getProperty("syncPort", "8099"));
 
     public ServiceID() {
     }
@@ -28,6 +28,7 @@ public class ServiceID {
     public ServiceID copy(ServiceID that) {
         this.host = that.host;
         this.syncPort = that.syncPort;
+        this.enginePort = that.enginePort;
         return this;
     }
 
@@ -41,7 +42,18 @@ public class ServiceID {
     }
 
     public int hashCode() {
-        return host.hashCode() + syncPort + enginePort;
+        return ((Integer.parseInt(host.replaceAll("[.]", "")) & 0xFFF) << 4)
+                + ((syncPort & 0xFFF) << 2) + (enginePort & 0xFFF);
+    }
+
+    public int code() {
+        return ((Integer.parseInt(host.replaceAll("[.]", "")) & 0xFFF) << 4)
+                + ((syncPort & 0xFFF) << 2) + (enginePort & 0xFFF);
+    }
+
+    public static int getCode(String host, int syncPort, int enginePort) {
+        return ((Integer.parseInt(host.replaceAll("[.]", "")) & 0xFFF) << 4)
+                + ((syncPort & 0xFFF) << 2) + (enginePort & 0xFFF);
     }
 
     /*********

@@ -1,6 +1,6 @@
 package io.guanghuizeng.mmdp.engine;
 
-import io.guanghuizeng.fs.VirtualUrl;
+import io.guanghuizeng.fs.Uri;
 
 /**
  * Created by guanghuizeng on 16/4/22.
@@ -8,19 +8,19 @@ import io.guanghuizeng.fs.VirtualUrl;
 public class SortSubTaskSpec {
 
     private byte opcode = Opcode.SORT;
-    private VirtualUrl input;
-    private VirtualUrl output;
+    private Uri input;
+    private Uri output;
 
-    public SortSubTaskSpec(VirtualUrl input, VirtualUrl output) {
+    public SortSubTaskSpec(Uri input, Uri output) {
         this.input = input;
         this.output = output;
     }
 
-    public VirtualUrl getInput() {
+    public Uri getInput() {
         return input;
     }
 
-    public VirtualUrl getOutput() {
+    public Uri getOutput() {
         return output;
     }
 }

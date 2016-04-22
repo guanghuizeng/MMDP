@@ -21,7 +21,7 @@ public class Uri {
     }
 
     public Uri(ServiceID serviceID, VirtualPath Path) {
-        this.serviceID.copy(serviceID);
+        this.serviceID = serviceID;
         this.actualPath = Path;
     }
 
