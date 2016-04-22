@@ -29,9 +29,9 @@ public class Metadata {
      * value: 第二层文件路径, 用AbsoluteFilePath类型表示
      * <p>
      */
-    private Map<VirtualPath, List<AbsoluteFilePath>> namespace = new HashMap<>();
+    private Map<VirtualPath, List<Uri>> namespace = new HashMap<>();
 
-    public List<AbsoluteFilePath> resolve(VirtualPath path) {
+    public List<Uri> resolve(VirtualPath path) {
         return namespace.get(path);
     }
 
@@ -39,12 +39,12 @@ public class Metadata {
      * 将相对路径与绝对路径的对应关系添加到namespace中
      * <p>
      */
-    public void put(VirtualPath relativePath, AbsoluteFilePath absoluteFilePath) {
+    public void put(VirtualPath relativePath, Uri uri) {
         if (namespace.containsKey(relativePath)) {
-            namespace.get(relativePath).add(absoluteFilePath);
+            namespace.get(relativePath).add(uri);
         } else {
-            List<AbsoluteFilePath> paths = new LinkedList<>();
-            paths.add(absoluteFilePath);
+            List<Uri> paths = new LinkedList<>();
+            paths.add(uri);
             namespace.put(relativePath, paths);
         }
     }

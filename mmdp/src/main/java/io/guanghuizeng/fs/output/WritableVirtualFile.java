@@ -1,7 +1,7 @@
 package io.guanghuizeng.fs.output;
 
 
-import io.guanghuizeng.fs.AbsoluteFilePath;
+import io.guanghuizeng.fs.Uri;
 import io.guanghuizeng.fs.VirtualPath;
 import io.guanghuizeng.fs.sync.SyncAttr;
 
@@ -25,9 +25,9 @@ public class WritableVirtualFile {
 
     private int bufferSize = 64;
     /**
-     * AFP
+     * URI
      */
-    private List<AbsoluteFilePath> absoluteFilePathList = new ArrayList<>();
+    private List<Uri> uriList = new ArrayList<>();
 
     /************************
      * constructors
@@ -63,17 +63,17 @@ public class WritableVirtualFile {
      * add file
      */
 
-    public void addFile(AbsoluteFilePath path, long length) {
-        absoluteFilePathList.add(path);
+    public void addFile(Uri path, long length) {
+        uriList.add(path);
         fileList.add(new File(path, length));
     }
 
     private class File {
-        private AbsoluteFilePath path;
+        private Uri path;
         private long length;
         private long writableBytes;
 
-        public File(AbsoluteFilePath path, long length) {
+        public File(Uri path, long length) {
             this.path = path;
             this.length = length;
             this.writableBytes = length;
@@ -84,8 +84,8 @@ public class WritableVirtualFile {
         }
     }
 
-    public List<AbsoluteFilePath> getAbsoluteFilePathList() {
-        return absoluteFilePathList;
+    public List<Uri> getUriList() {
+        return uriList;
     }
 
     public int getBufferSize() {

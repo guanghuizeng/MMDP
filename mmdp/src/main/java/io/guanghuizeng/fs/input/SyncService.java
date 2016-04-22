@@ -1,6 +1,6 @@
 package io.guanghuizeng.fs.input;
 
-import io.guanghuizeng.fs.AbsoluteFilePath;
+import io.guanghuizeng.fs.Uri;
 import io.guanghuizeng.fs.sync.SyncAttr;
 import io.guanghuizeng.fs.sync.SyncClient;
 import io.netty.buffer.ByteBuf;
@@ -19,9 +19,9 @@ public class SyncService {
      ************************/
 
     /**
-     * AFP - SyncClient
+     * URI - SyncClient
      */
-    private HashMap<AbsoluteFilePath, SyncClient> cluster = new HashMap<>();
+    private HashMap<Uri, SyncClient> cluster = new HashMap<>();
 
     /**
      * VirtualFile
@@ -34,14 +34,14 @@ public class SyncService {
 
     public SyncService(VirtualFile file) throws InterruptedException {
         this.file = file;
-        for (AbsoluteFilePath p : file.getAbsoluteFilePathList()) {
-            cluster.put(p, new SyncClient(p.getServiceID()));
+        for (Uri uri : file.getUriList()) {
+            cluster.put(uri, new SyncClient(uri.getServiceID()));
         }
         // TODO 更新文件信息
-        for (AbsoluteFilePath p : file.getAbsoluteFilePathList()) {
-            SyncAttr attr = new SyncAttr(p);
-            long length = cluster.get(p).length(attr);
-            file.initFile(p, 0, length);
+        for (Uri uri : file.getUriList()) {
+            SyncAttr attr = new SyncAttr(uri);
+            long length = cluster.get(uri).length(attr);
+            file.initFile(uri, 0, length);
         }
     }
 
@@ -53,7 +53,7 @@ public class SyncService {
      * sync(SyncBuffer b)
      * <p>
      * b -> SyncAttr
-     * 根据SyncAttr.AFP, 选择合适的SC
+     * 根据SyncAttr.URI, 选择合适的SC
      */
     public SyncService sync(SyncBuffer buffer) throws InterruptedException {
         // push.

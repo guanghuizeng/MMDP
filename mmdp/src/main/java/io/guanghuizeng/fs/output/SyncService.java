@@ -1,7 +1,7 @@
 package io.guanghuizeng.fs.output;
 
 
-import io.guanghuizeng.fs.AbsoluteFilePath;
+import io.guanghuizeng.fs.Uri;
 import io.guanghuizeng.fs.sync.SyncAttr;
 import io.guanghuizeng.fs.sync.SyncClient;
 
@@ -17,9 +17,9 @@ public class SyncService {
      * fields
      ************************/
     /**
-     * AFP - SyncClient
+     * URI - SyncClient
      */
-    private HashMap<AbsoluteFilePath, SyncClient> cluster = new HashMap<>();
+    private HashMap<Uri, SyncClient> cluster = new HashMap<>();
 
     private WritableVirtualFile file;
 
@@ -29,7 +29,7 @@ public class SyncService {
 
     public SyncService(WritableVirtualFile file) throws Exception {
         this.file = file;
-        for (AbsoluteFilePath p : file.getAbsoluteFilePathList()) {
+        for (Uri p : file.getUriList()) {
             cluster.put(p, new SyncClient(p.getServiceID()));
         }
     }
