@@ -52,30 +52,30 @@ public class FileSystem {
      * @param path
      * @return
      */
-    public List<AbsoluteFilePath> resolve(VirtualPath path) {
+    public List<Uri> resolve(VirtualPath path) {
         return metadata.resolve(path);
     }
 
     /**
      * 向metadata中增加文件路径的对应关系
      */
-    public void put(VirtualPath relativePath, AbsoluteFilePath absoluteFilePath) {
-        metadata.put(relativePath, absoluteFilePath);
+    public void put(VirtualPath relativePath, Uri uri) {
+        metadata.put(relativePath, uri);
     }
 
     public WritableVirtualFile newWritableFile(VirtualPath relativePath) {
         WritableVirtualFile virtualFile = new WritableVirtualFile(relativePath, bufferSize);
-        // 根据机器地址列表, 生成 AFP 列表
+        // 根据机器地址列表, 生成 URI 列表
         for (ServiceID a : serverList) {
-            AbsoluteFilePath path = new AbsoluteFilePath(a, relativePath);
+            Uri path = new Uri(a, relativePath);
             virtualFile.addFile(path, defaultLength);
             put(relativePath, path);   // 添加记录
         }
         return virtualFile;
     }
 
-    public VirtualFile newFile(AbsoluteFilePath afp) {
-        return new VirtualFile(bufferSize, afp);
+    public VirtualFile newFile(Uri uri) {
+        return new VirtualFile(bufferSize, uri);
     }
 
     public List<ServiceID> getServerList() {

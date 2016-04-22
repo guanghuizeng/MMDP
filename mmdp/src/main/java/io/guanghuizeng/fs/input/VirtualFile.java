@@ -1,6 +1,6 @@
 package io.guanghuizeng.fs.input;
 
-import io.guanghuizeng.fs.AbsoluteFilePath;
+import io.guanghuizeng.fs.Uri;
 import io.guanghuizeng.fs.sync.SyncAttr;
 import io.netty.buffer.Unpooled;
 
@@ -27,9 +27,9 @@ public class VirtualFile {
     private int startFileIndex = 0;
 
     /**
-     * AFP
+     * URI
      */
-    private List<AbsoluteFilePath> absoluteFilePathList = new ArrayList<>();
+    private List<Uri> uriList = new ArrayList<>();
 
     /************************
      * constructors
@@ -38,12 +38,12 @@ public class VirtualFile {
         this.bufferSize = bufferSize;
     }
 
-    public VirtualFile(AbsoluteFilePath... afps) {
-        absoluteFilePathList.addAll(Arrays.asList(afps));
+    public VirtualFile(Uri... uris) {
+        uriList.addAll(Arrays.asList(uris));
     }
 
-    public VirtualFile(long bufferSize, AbsoluteFilePath... afps) {
-        absoluteFilePathList.addAll(Arrays.asList(afps));
+    public VirtualFile(long bufferSize, Uri... uris) {
+        uriList.addAll(Arrays.asList(uris));
     }
 
 
@@ -93,37 +93,37 @@ public class VirtualFile {
     /**
      * 文件描述信息
      *
-     * @param afp
+     * @param uri
      * @param readIndex
      * @param length
      */
-    public void addFile(AbsoluteFilePath afp, long readIndex, long length) {
-        fileList.add(new File(afp, readIndex, length));
-        absoluteFilePathList.add(afp);
+    public void addFile(Uri uri, long readIndex, long length) {
+        fileList.add(new File(uri, readIndex, length));
+        uriList.add(uri);
     }
 
-    public void initFile(AbsoluteFilePath afp, long readIndex, long length) {
-        fileList.add(new File(afp, readIndex, length));
+    public void initFile(Uri uri, long readIndex, long length) {
+        fileList.add(new File(uri, readIndex, length));
     }
 
     public boolean isRead() {
         return true;
     }
 
-    public List<AbsoluteFilePath> getAbsoluteFilePathList() {
-        return absoluteFilePathList;
+    public List<Uri> getUriList() {
+        return uriList;
     }
 
     /**
      * 内部数据结构, 描述远程文件的信息
      */
     private class File {
-        private AbsoluteFilePath path;
+        private Uri path;
 
         private long readIndex;
         private long length;
 
-        public File(AbsoluteFilePath path, long readIndex, long length) {
+        public File(Uri path, long readIndex, long length) {
             this.path = path;
             this.readIndex = readIndex;
             this.length = length;
