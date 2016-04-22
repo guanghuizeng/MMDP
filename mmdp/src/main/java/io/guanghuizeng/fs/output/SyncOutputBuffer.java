@@ -28,7 +28,7 @@ public class SyncOutputBuffer extends UnpooledDirectByteBuf {
     }
 
     public SyncOutputBuffer(int bufferSize, SyncAttr attr) {
-        super(new UnpooledByteBufAllocator(true), 0, bufferSize);
+        super(new UnpooledByteBufAllocator(true), bufferSize, bufferSize);
         this.syncAttr = attr;
     }
 
