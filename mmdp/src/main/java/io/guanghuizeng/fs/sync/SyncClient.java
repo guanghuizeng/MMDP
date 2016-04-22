@@ -1,6 +1,6 @@
 package io.guanghuizeng.fs.sync;
 
-import io.guanghuizeng.fs.Address;
+import io.guanghuizeng.fs.ServiceID;
 import io.guanghuizeng.fs.sync.protocol.SyncMessageDecoder;
 import io.guanghuizeng.fs.sync.protocol.SyncMessageEncoder;
 import io.guanghuizeng.fs.sync.protocol.SyncMessageFrameDecoder;
@@ -9,15 +9,12 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.ChannelPipeline;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.compression.*;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
 
 /**
  * 与 SyncClient 交互, 传输数据
@@ -32,12 +29,12 @@ public class SyncClient {
     private SyncClientHandler handler;
 
     public SyncClient() throws InterruptedException {
-        this(new Address("127.0.0.1", 8093));
+        this(new ServiceID("127.0.0.1", 8093));
     }
 
-    public SyncClient(Address address) throws InterruptedException {
-        HOST = address.getHost();
-        PORT = address.getPort();
+    public SyncClient(ServiceID serviceID) throws InterruptedException {
+        HOST = serviceID.getHost();
+        PORT = serviceID.getSyncPort();
         b.group(group)
                 .channel(NioSocketChannel.class)
                 .option(ChannelOption.SO_LINGER, 0)

@@ -35,7 +35,7 @@ public class SyncService {
     public SyncService(VirtualFile file) throws InterruptedException {
         this.file = file;
         for (AbsoluteFilePath p : file.getAbsoluteFilePathList()) {
-            cluster.put(p, new SyncClient(p.getAddress()));
+            cluster.put(p, new SyncClient(p.getServiceID()));
         }
         // TODO 更新文件信息
         for (AbsoluteFilePath p : file.getAbsoluteFilePathList()) {

@@ -30,7 +30,7 @@ public class SyncService {
     public SyncService(WritableVirtualFile file) throws Exception {
         this.file = file;
         for (AbsoluteFilePath p : file.getAbsoluteFilePathList()) {
-            cluster.put(p, new SyncClient(p.getAddress()));
+            cluster.put(p, new SyncClient(p.getServiceID()));
         }
     }
 

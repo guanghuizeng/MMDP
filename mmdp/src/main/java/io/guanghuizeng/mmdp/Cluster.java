@@ -1,7 +1,7 @@
 package io.guanghuizeng.mmdp;
 
 import io.guanghuizeng.fs.AbsoluteFilePath;
-import io.guanghuizeng.fs.Address;
+import io.guanghuizeng.fs.ServiceID;
 import io.guanghuizeng.fs.FileSystem;
 import io.guanghuizeng.fs.input.VirtualFile;
 import io.guanghuizeng.fs.input.VirtualFileInput;
@@ -28,10 +28,10 @@ public class Cluster {
     /**
      * 数据保存在多台服务器上, 用多个client连接这些服务器
      */
-    private HashMap<Address, Client> clients = new HashMap<>();
+    private HashMap<ServiceID, Client> clients = new HashMap<>();
 
     public void addNode(String host, int port) throws Exception {
-        clients.put(new Address(host, port), (new Client()).start(host, port));
+        clients.put(new ServiceID(host, port), (new Client()).start(host, port));
     }
 
     /**
@@ -65,11 +65,11 @@ public class Cluster {
          */
         for (AbsoluteFilePath path : resolve) {
             String tmpPath = "SortedTmp".concat(String.valueOf(System.currentTimeMillis()));
-            AbsoluteFilePath tmp = new AbsoluteFilePath(path.getAddress()
+            AbsoluteFilePath tmp = new AbsoluteFilePath(path.getServiceID()
                     , path.getActualPath().concat(tmpPath));
             tmpFiles.add(tmp);
             fileSystem.put(source.concat(tmpPath), tmp);
-            clients.get(path.getAddress())
+            clients.get(path.getServiceID())
                     .sort(path.getActualPath(), tmp.getActualPath());
         }
 
@@ -87,11 +87,11 @@ public class Cluster {
 
         // 更换端口 TODO 用更好的方式实现
         List<AbsoluteFilePath> tmpFiles2 = new ArrayList<>();
-        List<Address> serverList = fileSystem.getServerList();
+        List<ServiceID> serverList = fileSystem.getServerList();
 
         for (int i = 0; i < tmpFiles.size(); i++) {
             if (serverList.size() > i) {
-                Address server = serverList.get(i);
+                ServiceID server = serverList.get(i);
                 AbsoluteFilePath newPath = new AbsoluteFilePath(server, tmpFiles.get(i).getActualPath());
                 tmpFiles2.add(newPath);
             }
