@@ -3,6 +3,7 @@ package io.guanghuizeng.mmdp;
 import io.guanghuizeng.fs.AbsoluteFilePath;
 import io.guanghuizeng.fs.ServiceID;
 import io.guanghuizeng.fs.FileSystem;
+import io.guanghuizeng.fs.VirtualPath;
 import io.guanghuizeng.fs.input.VirtualFile;
 import io.guanghuizeng.fs.input.VirtualFileInput;
 import io.guanghuizeng.fs.input.VirtualFileInputBuffer;
@@ -41,7 +42,7 @@ public class Cluster {
      * @param port 服务器port
      * @param path 文件在file system中的路径, 如: "home/data/file.txt"
      */
-    public void addFile(String host, int port, String path) {
+    public void addFile(String host, int port, VirtualPath path) {
         fileSystem.put(path, new AbsoluteFilePath(host, port, path));
     }
 
@@ -114,8 +115,8 @@ public class Cluster {
      * @param target
      * @return
      */
-    private String mergeSortedFiles(final List<AbsoluteFilePath> absoluteFilePaths
-            , final String target) throws Exception {
+    private VirtualPath mergeSortedFiles(final List<AbsoluteFilePath> absoluteFilePaths
+            , final VirtualPath target) throws Exception {
         /**
          * initialize a priority queue of VirtualFile
          */

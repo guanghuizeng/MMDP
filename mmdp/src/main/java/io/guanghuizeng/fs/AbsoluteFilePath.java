@@ -8,19 +8,19 @@ public class AbsoluteFilePath {
     private String prefix = "fs://";
     private String infix = ":";
     private ServiceID serviceID = new ServiceID();
-    private String actualPath = "";
+    private VirtualPath actualPath;
 
-    public AbsoluteFilePath(String path) {
+    public AbsoluteFilePath(VirtualPath path) {
         this.actualPath = path;
     }
 
-    public AbsoluteFilePath(String host, int port, String Path) {
+    public AbsoluteFilePath(String host, int port, VirtualPath Path) {
         serviceID.setHost(host);
         serviceID.setSyncPort(port);
         this.actualPath = Path;
     }
 
-    public AbsoluteFilePath(ServiceID serviceID, String Path) {
+    public AbsoluteFilePath(ServiceID serviceID, VirtualPath Path) {
         this.serviceID.copy(serviceID);
         this.actualPath = Path;
     }
@@ -29,7 +29,7 @@ public class AbsoluteFilePath {
         return serviceID;
     }
 
-    public String getActualPath() {
+    public VirtualPath getActualPath() {
         return actualPath;
     }
 
@@ -37,6 +37,6 @@ public class AbsoluteFilePath {
         return prefix.concat(serviceID.getHost())
                 .concat(infix)
                 .concat(String.valueOf(serviceID.getSyncPort()))
-                .concat(actualPath);
+                .concat(actualPath.toString());
     }
 }
