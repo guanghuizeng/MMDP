@@ -1,5 +1,6 @@
 package io.guanghuizeng.mmdp.engine;
 
+import io.guanghuizeng.fs.VirtualPath;
 import io.guanghuizeng.mmdp.algs2.Histogram;
 
 import java.io.IOException;
@@ -10,7 +11,6 @@ import java.nio.file.Path;
  */
 public class Engine {
 
-    public EngineFront front = new EngineFront();
     public EngineKernel kernel = new EngineKernel();
 
     /****************
@@ -56,10 +56,18 @@ public class Engine {
 
     public Histogram execute(Path path, Phase phase, long... args) throws IOException {
 
-        MedianTaskSpec spec = front.genTaskSpec(path, phase, args);
+        MedianTaskSpec spec = MedianTaskSpec.build(path, phase, args);
         Histogram result = kernel.submit(spec);
 
         return result;
     }
 
+    /****************
+     * sort
+     ****************/
+
+    public void sort(VirtualPath input, VirtualPath output) {
+        SortTaskSpec spec = SortTaskSpec.build(input, output);
+        int result = kernel.submit(spec);
+    }
 }

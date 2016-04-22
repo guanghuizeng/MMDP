@@ -1,15 +1,41 @@
 package io.guanghuizeng.mmdp.engine;
 
+import io.guanghuizeng.fs.Address;
+import io.guanghuizeng.fs.VirtualUrl;
+import io.guanghuizeng.mmdp.Client;
+import io.guanghuizeng.mmdp.algs2.ExternalSort;
 import io.guanghuizeng.mmdp.utils.ObjectInputBuffer;
 import io.guanghuizeng.mmdp.algs2.Histogram;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.Future;
 
 /**
- * Created by guanghuizeng on 16/4/21.
+ * 处理sub tasks, 返回 sub task 结果
+ * TODO 多线程, async
  */
 public class EngineBackend {
+
+    public List<VirtualUrl> execute(List<SortSubTaskSpec> subTaskSpecs) throws IOException {
+
+        // TODO 根据 host+engine port 选择目标 client.
+
+        List<VirtualUrl> result = new ArrayList<>();
+        for (SortSubTaskSpec subTask : subTaskSpecs) {
+            // execute sub task
+            result.add(subTask.getOutput());
+        }
+        return result;
+    }
+
+
+    // 具体的逻辑要放到 server 端
 
     public Histogram execute(MedianTaskSpec task) throws IOException {
 

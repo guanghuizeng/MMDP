@@ -103,6 +103,3 @@ enum Phase {
     FIRST, SECOND, THIRD, FOURTH
 }
 
-class Opcode {
-    public final static byte MEDIAN = 0x12;
-}
