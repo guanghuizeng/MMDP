@@ -1,5 +1,6 @@
 package io.guanghuizeng.mmdp.engine;
 
+import io.guanghuizeng.fs.FileSystem;
 import io.guanghuizeng.fs.VirtualPath;
 import io.guanghuizeng.mmdp.algs2.Histogram;
 
@@ -11,7 +12,13 @@ import java.nio.file.Path;
  */
 public class Engine {
 
-    public EngineKernel kernel = new EngineKernel();
+    private EngineKernel kernel;
+    private FileSystem fileSystem;
+
+    public Engine(FileSystem fileSystem) {
+        this.fileSystem = fileSystem;
+        this.kernel = new EngineKernel(fileSystem);
+    }
 
     /****************
      * median

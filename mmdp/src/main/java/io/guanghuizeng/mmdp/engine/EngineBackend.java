@@ -1,8 +1,7 @@
 package io.guanghuizeng.mmdp.engine;
 
-import io.guanghuizeng.fs.Address;
-import io.guanghuizeng.fs.VirtualUrl;
-import io.guanghuizeng.mmdp.Client;
+import io.guanghuizeng.fs.FileSystem;
+import io.guanghuizeng.fs.Uri;
 import io.guanghuizeng.mmdp.algs2.ExternalSort;
 import io.guanghuizeng.mmdp.utils.ObjectInputBuffer;
 import io.guanghuizeng.mmdp.algs2.Histogram;
@@ -12,9 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.Future;
 
 /**
  * 处理sub tasks, 返回 sub task 结果
@@ -22,13 +19,27 @@ import java.util.concurrent.Future;
  */
 public class EngineBackend {
 
-    public List<VirtualUrl> execute(List<SortSubTaskSpec> subTaskSpecs) throws IOException {
+    private FileSystem fileSystem;
 
-        // TODO 根据 host+engine port 选择目标 client.
+    public EngineBackend(FileSystem fileSystem) {
+        this.fileSystem = fileSystem;
+    }
 
-        List<VirtualUrl> result = new ArrayList<>();
+    public List<Uri> execute(List<SortSubTaskSpec> subTaskSpecs) throws IOException {
+
+        // TODO 根据 host + engine port 选择目标 client.
+
+        List<Uri> result = new ArrayList<>();
         for (SortSubTaskSpec subTask : subTaskSpecs) {
             // execute sub task
+            ExternalSort.sort(
+                    Paths.get(fileSystem.getHome(subTask.getInput().getServiceID().code())
+                            , subTask.getInput().getActualPath().getLocalPath().toString())
+                    , Paths.get(fileSystem.getHome(subTask.getOutput().getServiceID().code())
+                            , subTask.getOutput().getActualPath().getLocalPath().toString())
+                    , Comparator.naturalOrder());
+
+
             result.add(subTask.getOutput());
         }
         return result;
