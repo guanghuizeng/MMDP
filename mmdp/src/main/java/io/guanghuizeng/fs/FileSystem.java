@@ -6,7 +6,6 @@ import io.guanghuizeng.fs.output.WritableVirtualFile;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,7 +29,7 @@ public class FileSystem {
     private String HOME = "/mmdpfs";
     private Metadata metadata = new Metadata();
 
-    private List<Address> serverList;
+    private List<ServiceID> serverList;
     private long defaultLength = 100 * 1024 * 1024;   // 单个文件可写入的数据量
     private int bufferSize = 1024 * 1024 * 30;
 
@@ -39,10 +38,10 @@ public class FileSystem {
     }
 
     /**
-     * @param addressList 文件系统服务器地址
+     * @param serviceIDList 文件系统服务器地址
      */
-    public FileSystem(List<Address> addressList) {
-        serverList = addressList;
+    public FileSystem(List<ServiceID> serviceIDList) {
+        serverList = serviceIDList;
     }
 
     /**
@@ -67,7 +66,7 @@ public class FileSystem {
     public WritableVirtualFile newWritableFile(String relativePath) {
         WritableVirtualFile virtualFile = new WritableVirtualFile(relativePath, bufferSize);
         // 根据机器地址列表, 生成 AFP 列表
-        for (Address a : serverList) {
+        for (ServiceID a : serverList) {
             AbsoluteFilePath path = new AbsoluteFilePath(a, relativePath);
             virtualFile.addFile(path, defaultLength);
             put(relativePath, path);   // 添加记录
@@ -79,7 +78,7 @@ public class FileSystem {
         return new VirtualFile(bufferSize, afp);
     }
 
-    public List<Address> getServerList() {
+    public List<ServiceID> getServerList() {
         return serverList;
     }
 

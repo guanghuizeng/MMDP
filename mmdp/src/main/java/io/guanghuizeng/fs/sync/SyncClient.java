@@ -1,6 +1,6 @@
 package io.guanghuizeng.fs.sync;
 
-import io.guanghuizeng.fs.Address;
+import io.guanghuizeng.fs.ServiceID;
 import io.guanghuizeng.fs.sync.protocol.SyncMessageDecoder;
 import io.guanghuizeng.fs.sync.protocol.SyncMessageEncoder;
 import io.guanghuizeng.fs.sync.protocol.SyncMessageFrameDecoder;
@@ -29,12 +29,12 @@ public class SyncClient {
     private SyncClientHandler handler;
 
     public SyncClient() throws InterruptedException {
-        this(new Address("127.0.0.1", 8093));
+        this(new ServiceID("127.0.0.1", 8093));
     }
-
-    public SyncClient(Address address) throws InterruptedException {
-        HOST = address.getHost();
-        PORT = address.getSyncPort();
+    
+    public SyncClient(ServiceID serviceID) throws InterruptedException {
+        HOST = serviceID.getHost();
+        PORT = serviceID.getSyncPort();
         b.group(group)
                 .channel(NioSocketChannel.class)
                 .option(ChannelOption.SO_LINGER, 0)
