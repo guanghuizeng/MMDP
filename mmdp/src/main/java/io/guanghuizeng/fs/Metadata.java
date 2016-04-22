@@ -29,18 +29,17 @@ public class Metadata {
      * value: 第二层文件路径, 用AbsoluteFilePath类型表示
      * <p>
      */
-    private Map<String, List<AbsoluteFilePath>> namespace = new HashMap<>();
+    private Map<VirtualPath, List<AbsoluteFilePath>> namespace = new HashMap<>();
 
-    public List<AbsoluteFilePath> resolve(String path) {
+    public List<AbsoluteFilePath> resolve(VirtualPath path) {
         return namespace.get(path);
     }
 
     /**
      * 将相对路径与绝对路径的对应关系添加到namespace中
      * <p>
-     * 路径格式没有设计好, 导致程序难看的呀...
      */
-    public void put(String relativePath, AbsoluteFilePath absoluteFilePath) {
+    public void put(VirtualPath relativePath, AbsoluteFilePath absoluteFilePath) {
         if (namespace.containsKey(relativePath)) {
             namespace.get(relativePath).add(absoluteFilePath);
         } else {

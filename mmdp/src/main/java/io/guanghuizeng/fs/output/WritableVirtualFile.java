@@ -2,6 +2,7 @@ package io.guanghuizeng.fs.output;
 
 
 import io.guanghuizeng.fs.AbsoluteFilePath;
+import io.guanghuizeng.fs.VirtualPath;
 import io.guanghuizeng.fs.sync.SyncAttr;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class WritableVirtualFile {
         this.bufferSize = bufferSize;
     }
 
-    public WritableVirtualFile(String path, int bufferSize) {
+    public WritableVirtualFile(VirtualPath path, int bufferSize) {
         this.bufferSize = bufferSize;
 
     }

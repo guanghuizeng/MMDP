@@ -20,7 +20,7 @@ public class SyncClientHandler extends SimpleChannelInboundHandler<SyncMessage> 
     private BlockingQueue<SyncMessage> answers = new LinkedBlockingQueue<>();
 
     public void push(ByteBuf buf, SyncAttr attr) throws InterruptedException {
-        SyncMessage message = new SyncMessage(Opcode.APPEND, attr.getPath().getActualPath(),
+        SyncMessage message = new SyncMessage(Opcode.APPEND, attr.getPath().getActualPath().toString(),
                 attr.getPosition(), buf);
         ChannelFuture future = context.channel().writeAndFlush(message);
         future.sync();
@@ -29,7 +29,7 @@ public class SyncClientHandler extends SimpleChannelInboundHandler<SyncMessage> 
 
     public ByteBuf pool(SyncAttr attr) throws InterruptedException {
 
-        SyncMessage message = new SyncMessage(Opcode.READ, attr.getPath().getActualPath(),
+        SyncMessage message = new SyncMessage(Opcode.READ, attr.getPath().getActualPath().toString(),
                 attr.getPosition(), attr.getLength());
         ChannelFuture future = context.channel().writeAndFlush(message);
         future.sync();
@@ -42,7 +42,7 @@ public class SyncClientHandler extends SimpleChannelInboundHandler<SyncMessage> 
     }
 
     public long length(SyncAttr attr) throws InterruptedException {
-        SyncMessage message = new SyncMessage(Opcode.LENGTH, attr.getPath().getActualPath(),
+        SyncMessage message = new SyncMessage(Opcode.LENGTH, attr.getPath().getActualPath().toString(),
                 attr.getPosition(), Unpooled.EMPTY_BUFFER);
         ChannelFuture future = context.channel().writeAndFlush(message);
         future.sync();

@@ -52,18 +52,18 @@ public class FileSystem {
      * @param path
      * @return
      */
-    public List<AbsoluteFilePath> resolve(String path) {
+    public List<AbsoluteFilePath> resolve(VirtualPath path) {
         return metadata.resolve(path);
     }
 
     /**
      * 向metadata中增加文件路径的对应关系
      */
-    public void put(String relativePath, AbsoluteFilePath absoluteFilePath) {
+    public void put(VirtualPath relativePath, AbsoluteFilePath absoluteFilePath) {
         metadata.put(relativePath, absoluteFilePath);
     }
 
-    public WritableVirtualFile newWritableFile(String relativePath) {
+    public WritableVirtualFile newWritableFile(VirtualPath relativePath) {
         WritableVirtualFile virtualFile = new WritableVirtualFile(relativePath, bufferSize);
         // 根据机器地址列表, 生成 AFP 列表
         for (ServiceID a : serverList) {

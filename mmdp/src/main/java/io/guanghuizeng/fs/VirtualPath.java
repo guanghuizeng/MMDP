@@ -1,6 +1,7 @@
 package io.guanghuizeng.fs;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Created by guanghuizeng on 16/4/22.
@@ -8,17 +9,34 @@ import java.nio.file.Path;
 public class VirtualPath {
 
     private String prefix = "fs://";
-    private Path localPath;
+    private Path path;
 
-    public VirtualPath(Path localPath) {
-        this.localPath = localPath;
+    public VirtualPath(Path path) {
+        this.path = path;
     }
 
-    public String toString() {
-        return prefix.concat(localPath.toString());
+    public VirtualPath(String first, String... more) {
+        path = Paths.get(first, more);
     }
 
     public Path getLocalPath() {
-        return localPath;
+        return path;
+    }
+
+    public String toString() {
+        return path.toString();
+    }
+
+    public boolean equals(Object that) {
+        if (this == that) return true;
+        if (that == null) return false;
+        if (getClass() != that.getClass()) return false;
+        if (!(that instanceof VirtualPath)) return false;
+        return path.equals(((VirtualPath) that).path);
+    }
+
+    public int hashCode() {
+        return path.hashCode();
+
     }
 }
