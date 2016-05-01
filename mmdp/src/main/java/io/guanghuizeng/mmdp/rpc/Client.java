@@ -1,6 +1,7 @@
-package io.guanghuizeng.mmdp;
+package io.guanghuizeng.mmdp.rpc;
 
-import io.guanghuizeng.mmdp.protocol.MmdpProtos.Message.Function;
+import io.guanghuizeng.mmdp.MedianTaskSpec;
+import io.guanghuizeng.mmdp.SortSubTaskSpec;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelPipeline;
@@ -25,7 +26,7 @@ public class Client {
      ************/
     private Bootstrap b = new Bootstrap();
     private EventLoopGroup group = new NioEventLoopGroup();
-    private ClientHandler handler;
+    private ChannelPipeline pipeline;
 
     public Client() {
     }
@@ -34,8 +35,7 @@ public class Client {
         b.group(group)
                 .channel(NioSocketChannel.class)
                 .handler(new ClientInitializer());
-        ChannelPipeline pipeline = b.connect(HOST, PORT).sync().channel().pipeline();
-        handler = pipeline.get(ClientHandler.class);
+        pipeline = b.connect(HOST, PORT).sync().channel().pipeline();
     }
 
     /************
@@ -54,14 +54,17 @@ public class Client {
         return this;
     }
 
-    public String echo() throws Exception {
-        return handler.execute(Function.ECHO, "", "", "", "");
+    /**
+     * 远程调用的设计: client端和server端都针对spec设计. 封装spec的网络传输过程.
+     */
+
+    public SortSubTaskSpec sort(SortSubTaskSpec spec) throws InterruptedException {
+        return pipeline.get(SortTaskHandler.class).exec(spec);
     }
 
-    public String sort(String source, String target) throws Exception {
-        return handler.execute(Function.SORT, source, target, "", "");
+    public void median(MedianTaskSpec spec) {
+        // TODO
     }
-
 
 }
 

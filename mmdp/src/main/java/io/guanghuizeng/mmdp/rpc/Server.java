@@ -1,7 +1,8 @@
-package io.guanghuizeng.mmdp;
+package io.guanghuizeng.mmdp.rpc;
 
 
 import io.guanghuizeng.fs.FileSystem;
+import io.guanghuizeng.mmdp.EngineBackendExecutor;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -36,7 +37,7 @@ public class Server {
             b.group(boss, worker)
                     .channel(NioServerSocketChannel.class)
                     .handler(new LoggingHandler(LogLevel.INFO))
-                    .childHandler(new ServerInitializer())
+                    .childHandler(new ServerInitializer(new EngineBackendExecutor()))
                     .childAttr(AttributeKey.newInstance("FileSystem"), new FileSystem(HOME));
             b.bind(PORT).sync().channel().closeFuture().sync();
         } finally {

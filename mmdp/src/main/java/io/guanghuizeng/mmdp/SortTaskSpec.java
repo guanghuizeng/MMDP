@@ -1,4 +1,4 @@
-package io.guanghuizeng.mmdp.engine;
+package io.guanghuizeng.mmdp;
 
 import io.guanghuizeng.fs.VirtualPath;
 

@@ -1,4 +1,4 @@
-package io.guanghuizeng.mmdp.engine;
+package io.guanghuizeng.mmdp;
 
 /**
  * Created by guanghuizeng on 16/4/22.

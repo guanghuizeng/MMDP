@@ -1,0 +1,38 @@
+package io.guanghuizeng.mmdp.protocol;
+
+option java_package = "io.guanghuizeng.mmdp.protocol";
+
+option java_outer_classname = "TaskProtos";
+
+message SortSubTask {
+    required Opcode opcode = 1 [default = ECHO];
+    required Uri input = 2;
+    required Uri output = 3;
+}
+
+enum Opcode {
+    ECHO = 0;
+    SAVE = 1;
+    SORT = 2;
+    WRITE = 3;
+    MAX = 4;
+    EXIST = 5;
+    FREQUENCY = 6;
+}
+
+message Uri {
+    required string prefix = 1;
+    required string infix = 2;
+    required ServiceID id = 3;
+    required VirtualPath path = 4;
+}
+
+message ServiceID {
+    required string host = 1;
+    required int32 syncPort = 2;
+    required int32 enginePort = 3;
+}
+
+message VirtualPath {
+    required string path = 1;
+}

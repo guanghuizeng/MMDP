@@ -1,7 +1,8 @@
 package io.guanghuizeng.mmdp.algs2;
 
+import io.guanghuizeng.fs.FileSystem;
 import io.guanghuizeng.mmdp.algs.MedianFinder64;
-import io.guanghuizeng.mmdp.engine.Engine;
+import io.guanghuizeng.mmdp.Engine;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -74,7 +75,7 @@ public class MedianTest {
         data.sort(Comparator.naturalOrder());
         Long expected = data.get((N - 1) / 2);
 
-        Engine engine = new Engine();
+        Engine engine = new Engine(new FileSystem());
         long result = engine.median(Paths.get(file.getPath()), N);
 
         assertEquals(Long.toUnsignedString(expected), Long.toUnsignedString(result));

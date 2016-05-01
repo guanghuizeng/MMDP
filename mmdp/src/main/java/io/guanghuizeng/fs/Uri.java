@@ -25,6 +25,14 @@ public class Uri {
         this.actualPath = Path;
     }
 
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public String getInfix() {
+        return infix;
+    }
+
     public ServiceID getServiceID() {
         return serviceID;
     }
@@ -39,4 +47,16 @@ public class Uri {
                 .concat(String.valueOf(serviceID.getSyncPort()))
                 .concat(actualPath.toString());
     }
+
+    public boolean equals(Object that) {
+        if (this == that) return true;
+        if (that == null) return false;
+        if (getClass() != that.getClass()) return false;
+        if (!(that instanceof Uri)) return false;
+        return prefix.equals(((Uri) that).getPrefix()) &&
+                infix.equals(((Uri) that).getInfix()) &&
+                serviceID.equals(((Uri) that).getServiceID()) &&
+                actualPath.equals(((Uri) that).getActualPath());
+    }
+
 }

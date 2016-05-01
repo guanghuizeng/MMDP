@@ -1,4 +1,4 @@
-package io.guanghuizeng.mmdp;
+package io.guanghuizeng.mmdp.rpc;
 
 import io.guanghuizeng.mmdp.protocol.MmdpProtos.Message;
 import io.guanghuizeng.mmdp.protocol.MmdpProtos.Message.Function;

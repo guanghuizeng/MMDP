@@ -1,4 +1,4 @@
-package io.guanghuizeng.mmdp.engine;
+package io.guanghuizeng.mmdp;
 
 import io.guanghuizeng.fs.FileSystem;
 import io.guanghuizeng.fs.Uri;
@@ -20,7 +20,7 @@ import java.util.PriorityQueue;
 public class EngineKernel {
 
     // TODO 远程调用
-    // TODO 多线程
+    // TODO 多线程. 非常重要... 吗?
 
     private EngineFront front;
     private EngineBackend backend;
@@ -32,11 +32,22 @@ public class EngineKernel {
         this.backend = new EngineBackend(fileSystem);
     }
 
+    /******
+     * Median
+     *
+     * @param spec
+     * @return
+     * @throws IOException
+     */
     public Histogram submit(MedianTaskSpec spec) throws IOException {
 
         return backend.execute(spec);
     }
 
+    /**
+     * @param spec
+     * @return
+     */
     public int submit(SortTaskSpec spec) {
 
         // 1. 分解任务

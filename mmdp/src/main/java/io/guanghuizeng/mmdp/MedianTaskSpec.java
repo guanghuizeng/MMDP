@@ -1,4 +1,4 @@
-package io.guanghuizeng.mmdp.engine;
+package io.guanghuizeng.mmdp;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -8,7 +8,7 @@ import java.nio.file.Path;
  */
 public class MedianTaskSpec {
 
-    private byte opcode;
+    private byte opcode = Opcode.MEDIAN;
     private Path path;
     private Phase phase;
     private long first;

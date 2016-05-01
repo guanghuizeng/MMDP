@@ -6,7 +6,7 @@ import io.guanghuizeng.fs.output.WritableVirtualFile;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by guanghuizeng on 16/4/4.
@@ -29,9 +29,12 @@ public class FileSystem {
     private String HOME = "/mmdpfs";
     private Metadata metadata = new Metadata();
 
-    private List<ServiceID> serverList;
+    private List<ServiceID> serviceList = new ArrayList<>();
     private long defaultLength = 100 * 1024 * 1024;   // 单个文件可写入的数据量
     private int bufferSize = 1024 * 1024 * 30;
+
+    public FileSystem() {
+    }
 
     public FileSystem(String home) {
         HOME = home;
@@ -40,8 +43,8 @@ public class FileSystem {
     /**
      * @param serviceIDList 文件系统服务器地址
      */
-    public FileSystem(List<ServiceID> serviceIDList) {
-        serverList = serviceIDList;
+    public FileSystem(ServiceID... serviceIDList) {
+        serviceList = Arrays.asList(serviceIDList);
     }
 
     /**
@@ -63,10 +66,16 @@ public class FileSystem {
         metadata.put(relativePath, uri);
     }
 
+    public void put(VirtualPath relativePath, List<Uri> uris) {
+        for (Uri u : uris) {
+            metadata.put(relativePath, u);
+        }
+    }
+
     public WritableVirtualFile newWritableFile(VirtualPath relativePath) {
         WritableVirtualFile virtualFile = new WritableVirtualFile(relativePath, bufferSize);
         // 根据机器地址列表, 生成 URI 列表
-        for (ServiceID a : serverList) {
+        for (ServiceID a : serviceList) {
             Uri path = new Uri(a, relativePath);
             virtualFile.addFile(path, defaultLength);
             put(relativePath, path);   // 添加记录
@@ -78,8 +87,28 @@ public class FileSystem {
         return new VirtualFile(bufferSize, uri);
     }
 
-    public List<ServiceID> getServerList() {
-        return serverList;
+    public List<ServiceID> getServiceList() {
+        return serviceList;
+    }
+
+    public void addServices(ServiceID... id) {
+        serviceList.addAll(Arrays.asList(id));
+    }
+
+    public String getHome(int code) {
+
+        String HOME0 = System.getProperty("user.home").concat("/mmdpfs/user0");
+        String HOME1 = System.getProperty("user.home").concat("/mmdpfs/user1");
+        String HOME2 = System.getProperty("user.home").concat("/mmdpfs/user2");
+
+        Map<Integer, String> env = new HashMap<>();
+        env.put(ServiceID.getCode("127.0.0.1", 8070, 8090), HOME0);
+        env.put(ServiceID.getCode("127.0.0.1", 8071, 8091), HOME1);
+        return env.get(code);
+    }
+
+    public void setBufferSize(int bufferSize) {
+        this.bufferSize = bufferSize;
     }
 
     /**
