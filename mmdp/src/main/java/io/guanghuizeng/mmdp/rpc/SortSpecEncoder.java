@@ -26,7 +26,7 @@ public class SortSpecEncoder extends MessageToMessageEncoder<SortSubTaskSpec> {
     public TaskProtos.SortSubTask build(SortSubTaskSpec spec) {
 
         TaskProtos.SortSubTask.Builder task = TaskProtos.SortSubTask.newBuilder();
-        task.setOpcode(TaskProtos.SortSubTask.Opcode.SORT);
+        task.setOpcode(TaskProtos.Opcode.SORT);
         task.setInput(build(spec.getInput()));
         task.setOutput(build(spec.getOutput()));
 
