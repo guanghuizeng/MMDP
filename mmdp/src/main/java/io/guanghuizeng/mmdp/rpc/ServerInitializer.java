@@ -28,12 +28,19 @@ public class ServerInitializer extends ChannelInitializer<SocketChannel> {
         pipeline.addLast(new ProtobufVarint32FrameDecoder());
         pipeline.addLast(new ProtobufVarint32LengthFieldPrepender());
 
-        pipeline.addLast(new ProtobufDecoder(TaskProtos.SortSubTask.getDefaultInstance()));
+        pipeline.addLast(new ProtobufDecoder(TaskProtos.Task.getDefaultInstance()));
         pipeline.addLast(new ProtobufEncoder());
+
+        pipeline.addLast(new TaskDecoder());
 
         pipeline.addLast(new SortSpecDecoder());
         pipeline.addLast(new SortSpecEncoder());
 
+        pipeline.addLast(new MedianSpecDecoder());
+        pipeline.addLast(new MedianSpecEncoder());
+
         pipeline.addLast(new SortTaskServerHandler(executor));
+        pipeline.addLast(new MedianTaskServerHandler(executor));
+
     }
 }

@@ -5,6 +5,7 @@ import io.guanghuizeng.fs.FileSystem;
 import io.guanghuizeng.fs.Uri;
 import io.guanghuizeng.fs.VirtualPath;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class EngineFront {
 
     public List<SortSubTaskSpec> map(SortTaskSpec spec) {
         // map: task -> sub task
-        // virtual path -> uri
+        // virtual getInput -> uri
         List<SortSubTaskSpec> result = new ArrayList<>();
         List<Uri> uris = fileSystem.resolve(spec.getInput());
 
@@ -37,6 +38,20 @@ public class EngineFront {
             result.add(new SortSubTaskSpec(u, tmp));
         }
         fileSystem.put(sortedTmp, tmpUris);
+
+        return result;
+    }
+
+    public List<MedianSubTaskSpec> map(MedianTaskSpec spec) throws IOException {
+
+        // VP -> Uri
+        List<MedianSubTaskSpec> result = new ArrayList<>();
+        List<Uri> uris = fileSystem.resolve(spec.getInput());
+
+        for (Uri u : uris) {
+            result.add(MedianSubTaskSpec.build(u, spec.phase(), spec.getFirst(),
+                    spec.getSecond(), spec.getThird(), spec.getFourth()));
+        }
 
         return result;
     }

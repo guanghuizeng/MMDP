@@ -1,5 +1,6 @@
 package io.guanghuizeng.mmdp.rpc;
 
+import io.guanghuizeng.mmdp.MedianSubTaskSpec;
 import io.guanghuizeng.mmdp.MedianTaskSpec;
 import io.guanghuizeng.mmdp.SortSubTaskSpec;
 
@@ -27,6 +28,8 @@ public class Client {
     private Bootstrap b = new Bootstrap();
     private EventLoopGroup group = new NioEventLoopGroup();
     private ChannelPipeline pipeline;
+    private SortTaskHandler sortTaskHandler;
+    private MedianTaskHandler medianTaskHandler;
 
     public Client() {
     }
@@ -36,6 +39,8 @@ public class Client {
                 .channel(NioSocketChannel.class)
                 .handler(new ClientInitializer());
         pipeline = b.connect(HOST, PORT).sync().channel().pipeline();
+        sortTaskHandler = pipeline.get(SortTaskHandler.class);
+        medianTaskHandler = pipeline.get(MedianTaskHandler.class);
     }
 
     /************
@@ -59,11 +64,11 @@ public class Client {
      */
 
     public SortSubTaskSpec sort(SortSubTaskSpec spec) throws InterruptedException {
-        return pipeline.get(SortTaskHandler.class).exec(spec);
+        return sortTaskHandler.exec(spec);
     }
 
-    public void median(MedianTaskSpec spec) {
-        // TODO
+    public MedianSubTaskSpec median(MedianSubTaskSpec spec) throws InterruptedException {
+        return medianTaskHandler.exec(spec);
     }
 
 }

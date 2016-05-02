@@ -1,0 +1,75 @@
+package io.guanghuizeng.mmdp.protocol;
+
+option java_package = "io.guanghuizeng.mmdp.protocol";
+
+option java_outer_classname = "TaskProtos";
+
+message Task {
+    required Opcode opcode = 1 [default = ECHO];
+    optional SortSubTask sortSubTask = 2;
+    optional MedianSubTask medianSubTask = 3;
+}
+
+message SortSubTask {
+    required Opcode opcode = 1 [default = ECHO];
+    required Uri input = 2;
+    required Uri output = 3;
+}
+
+message MedianSubTask {
+    required Opcode opcode = 1 [default = ECHO];
+    required Uri input = 2;
+    required Phase phase = 3;
+    optional Histogram histogram = 4;
+    required int64 first = 5;
+    required int64 second = 6 [default = 0];
+    required int64 third = 7 [default = 0];
+    required int64 fourth = 8 [default = 0];
+}
+
+enum Opcode {
+    ECHO = 0;
+    SAVE = 1;
+    SORT = 2;
+    WRITE = 3;
+    MAX = 4;
+    EXIST = 5;
+    FREQUENCY = 6;
+    MEDIAN = 7;
+}
+
+message Uri {
+    required string prefix = 1;
+    required string infix = 2;
+    required ServiceID id = 3;
+    required VirtualPath path = 4;
+}
+
+message ServiceID {
+    required string host = 1;
+    required int32 syncPort = 2;
+    required int32 enginePort = 3;
+}
+
+message VirtualPath {
+    required string path = 1;
+}
+
+enum Phase {
+    FIRST = 0;
+    SECOND = 1;
+    THIRD = 2;
+    FOURTH = 3;
+}
+
+message Histogram {
+    required ListOfLong data = 1;
+    required int32 size = 2;
+    required int32 bias = 3;
+    required bool signed = 4 [default = false];
+
+}
+
+message ListOfLong {
+    repeated int64 number = 1;
+}

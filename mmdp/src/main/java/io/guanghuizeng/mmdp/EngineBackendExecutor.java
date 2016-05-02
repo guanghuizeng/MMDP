@@ -2,8 +2,11 @@ package io.guanghuizeng.mmdp;
 
 import io.guanghuizeng.fs.FileSystem;
 import io.guanghuizeng.mmdp.algs2.ExternalSort;
+import io.guanghuizeng.mmdp.algs2.FileInputBuffer;
+import io.guanghuizeng.mmdp.algs2.Histogram;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Comparator;
 
@@ -13,7 +16,7 @@ import java.util.Comparator;
  */
 public class EngineBackendExecutor {
 
-    private FileSystem fileSystem  = new FileSystem();
+    private FileSystem fileSystem = new FileSystem();
 
     public SortSubTaskSpec exec(SortSubTaskSpec spec) throws IOException {
 
@@ -25,5 +28,124 @@ public class EngineBackendExecutor {
                 Comparator.naturalOrder());
 
         return spec;
+    }
+
+    public MedianSubTaskSpec exec(MedianSubTaskSpec spec) throws IOException {
+
+        /**
+         * 根据 task, 选择合适的 phase 处理函数
+         */
+        assert spec.getOpcode() == Opcode.MEDIAN; // TODO throw an exception. 并没有用...
+        Path path = Paths.get(fileSystem.getHome(spec.getInput().getServiceID().code()),
+                spec.getInput().getActualPath().getLocalPath().toString());
+
+        Histogram result;
+        switch (spec.getPhase()) {
+            case FIRST:
+                result = phase1(path);
+                break;
+            case SECOND:
+                result = phase2(path, spec.getFirst());
+                break;
+            case THIRD:
+                result = phase3(path, spec.getFirst(), spec.getSecond());
+                break;
+            case FOURTH:
+                result = phase4(path, spec.getFirst(), spec.getSecond(), spec.getThird());
+                break;
+            default:
+                return null; // TODO throw an exception
+        }
+        spec.setHistogram(result);
+        return spec;
+    }
+
+    public Histogram phase1(Path path) throws IOException {
+        try {
+            int countOfRange = (int) Math.pow(2, 16); // 分区个数
+            FileInputBuffer buffer = new FileInputBuffer(path);
+            Histogram histogram = new Histogram(countOfRange);
+
+            while (!buffer.empty()) {
+                long n = buffer.pop();
+                histogram.add(partOfLong(n, 0));
+            }
+            return histogram;
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IOException(e.getCause());
+        }
+    }
+
+    public Histogram phase2(Path path, long firstIndex) throws IOException {
+        try {
+            int countOfRange = (int) Math.pow(2, 16); // 分区个数
+            FileInputBuffer buffer = new FileInputBuffer(path);
+            Histogram histogram = new Histogram(countOfRange);
+
+            while (!buffer.empty()) {
+                long n = buffer.pop();
+                if (partOfLong(n, 0) == firstIndex) {
+                    histogram.add(partOfLong(n, 1));
+                }
+            }
+            return histogram;
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IOException(e.getCause());
+        }
+    }
+
+    public Histogram phase3(Path path, long firstIndex, long secondIndex) throws IOException {
+
+        try {
+            int countOfRange = (int) Math.pow(2, 16); // 分区个数
+            FileInputBuffer buffer = new FileInputBuffer(path);
+            Histogram histogram = new Histogram(countOfRange);
+            while (!buffer.empty()) {
+                long n = buffer.pop();
+                if (partOfLong(n, 0) == firstIndex
+                        && partOfLong(n, 1) == secondIndex) {
+                    histogram.add(partOfLong(n, 2));
+                }
+            }
+            return histogram;
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IOException(e.getCause());
+        }
+
+    }
+
+    public Histogram phase4(Path path, long firstIndex, long secondIndex, long thirdIndex) throws IOException {
+
+        int countOfRange = (int) Math.pow(2, 16);// 分区个数
+        FileInputBuffer buffer = new FileInputBuffer(path);
+        Histogram histogram = new Histogram(countOfRange);
+
+        while (!buffer.empty()) {
+            long n = buffer.pop();
+            if (partOfLong(n, 0) == firstIndex
+                    && partOfLong(n, 1) == secondIndex
+                    && partOfLong(n, 2) == thirdIndex) {
+                histogram.add(partOfLong(n, 3));
+            }
+        }
+        return histogram;
+    }
+
+    private int partOfLong(long n, int index) {
+        switch (index) {
+            case 0:
+                return (int) (n >> 48) & 0xFFFF;
+            case 1:
+                return (int) ((n >> 32) & 0xFFFF);
+            case 2:
+                return (int) (n >> 16 & 0xFFFF);
+            case 3:
+                return (int) n & 0xFFFF;
+            default:
+                return (int) n & 0xFFFF;  /* TODO: 再优化 */
+        }
     }
 }

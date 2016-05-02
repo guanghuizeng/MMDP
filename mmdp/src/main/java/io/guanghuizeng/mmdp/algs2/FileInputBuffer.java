@@ -10,7 +10,7 @@ import java.nio.file.Path;
 /**
  * Created by guanghuizeng on 16/4/21.
  */
-class FileInputBuffer implements Comparable<FileInputBuffer> {
+public class FileInputBuffer implements Comparable<FileInputBuffer> {
 
     private BufferedInputStream stream;
     private boolean isEmpty = true;

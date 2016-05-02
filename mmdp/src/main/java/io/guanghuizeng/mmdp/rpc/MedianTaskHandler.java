@@ -1,29 +1,28 @@
 package io.guanghuizeng.mmdp.rpc;
 
-import io.guanghuizeng.mmdp.SortSubTaskSpec;
+import io.guanghuizeng.mmdp.MedianSubTaskSpec;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * 处理 Sort task
+ * 处理 Median Sub Task
  */
-public class SortTaskHandler extends ChannelInboundHandlerAdapter {
+public class MedianTaskHandler extends ChannelInboundHandlerAdapter {
 
-    BlockingQueue<SortSubTaskSpec> answers = new LinkedBlockingQueue<>();
-    ChannelHandlerContext context;
+    private BlockingQueue<MedianSubTaskSpec> answers = new LinkedBlockingQueue<>();
+    private ChannelHandlerContext context;
 
     public boolean acceptInboundMessage(Object msg) {
-        return msg instanceof SortSubTaskSpec;
+        return msg instanceof MedianSubTaskSpec;
     }
 
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         if (acceptInboundMessage(msg)) {
-            answers.add((SortSubTaskSpec) msg);
+            answers.add((MedianSubTaskSpec) msg);
         } else {
             ctx.fireChannelRead(msg);
         }
@@ -40,7 +39,7 @@ public class SortTaskHandler extends ChannelInboundHandlerAdapter {
         ctx.close();
     }
 
-    public SortSubTaskSpec exec(SortSubTaskSpec spec) throws InterruptedException {
+    public MedianSubTaskSpec exec(MedianSubTaskSpec spec) throws InterruptedException {
         assert context != null;
         ChannelFuture future = context.writeAndFlush(spec);
         future.sync();

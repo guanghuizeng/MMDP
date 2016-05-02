@@ -4,11 +4,10 @@ import io.guanghuizeng.fs.FileSystem;
 import io.guanghuizeng.fs.ServiceID;
 import io.guanghuizeng.fs.Uri;
 import io.guanghuizeng.mmdp.rpc.Client;
-import io.guanghuizeng.mmdp.utils.ObjectInputBuffer;
 import io.guanghuizeng.mmdp.algs2.Histogram;
 
 import java.io.IOException;
-import java.nio.file.Path;
+import java.io.InterruptedIOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -54,7 +53,6 @@ public class EngineBackend {
      */
     public List<Uri> execute(List<SortSubTaskSpec> subTaskSpecs) throws IOException {
 
-        // TODO 根据 host + engine port 选择目标 client.
         // sub task specs -> callable sort tasks
         // submit to the executor
 
@@ -86,106 +84,30 @@ public class EngineBackend {
         return result;
     }
 
+    public List<Histogram> execMedian(List<MedianSubTaskSpec> subTaskSpecs) throws IOException {
 
-    /////////////////////////////////////
+        /** 生成task, 放入不同线程 */
+        List<Histogram> result = new ArrayList<>();
+        List<Future<MedianSubTaskSpec>> futures = new ArrayList<>();
 
-    // 具体的逻辑要放到 server 端
-
-    public Histogram execute(MedianTaskSpec task) throws IOException {
-
-        /**
-         * 根据 task, 选择合适的 phase 处理函数
-         */
-        assert task.opcode() == Opcode.MEDIAN; // TODO throw an exception
-        Path path = task.path();
-        switch (task.phase()) {
-            case FIRST:
-                return phase1(path);
-            case SECOND:
-                return phase2(path, task.getFirst());
-            case THIRD:
-                return phase3(path, task.getFirst(), task.getSecond());
-            case FOURTH:
-                return phase4(path, task.getFirst(), task.getSecond(), task.getThird());
-            default:
-                return null; // TODO throw an exception
+        for (MedianSubTaskSpec subTask : subTaskSpecs) {
+            Client client = cluster.getEngineClient(subTask.getInput().getServiceID());
+            futures.add(executor.submit(new MedianSubTask(client, subTask)));
         }
-    }
 
-    public Histogram phase1(Path path) throws IOException {
-
-        int countOfRange = (int) Math.pow(2, 16); // 分区个数
-        ObjectInputBuffer buffer = new ObjectInputBuffer(path);
-        Histogram histogram = new Histogram(countOfRange);
-
-        while (!buffer.empty()) {
-            long n = buffer.pop();
-            histogram.add(partOfLong(n, 0));
-        }
-        return histogram;
-    }
-
-    public Histogram phase2(Path path, long firstIndex) throws IOException {
-
-        int countOfRange = (int) Math.pow(2, 16); // 分区个数
-        ObjectInputBuffer buffer = new ObjectInputBuffer(path);
-        Histogram histogram = new Histogram(countOfRange);
-
-        while (!buffer.empty()) {
-            long n = buffer.pop();
-            if (partOfLong(n, 0) == firstIndex) {
-                histogram.add(partOfLong(n, 1));
+        /** 获取结果 */
+        try {
+            for (Future<MedianSubTaskSpec> f : futures) {
+                result.add(f.get().getHistogram());
             }
-        }
-        return histogram;
-    }
-
-    public Histogram phase3(Path path, long firstIndex, long secondIndex) throws IOException {
-
-        int countOfRange = (int) Math.pow(2, 16); // 分区个数
-        ObjectInputBuffer buffer = new ObjectInputBuffer(path);
-        Histogram histogram = new Histogram(countOfRange);
-
-        while (!buffer.empty()) {
-            long n = buffer.pop();
-            if (partOfLong(n, 0) == firstIndex
-                    && partOfLong(n, 1) == secondIndex) {
-                histogram.add(partOfLong(n, 2));
-            }
-        }
-        return histogram;
-    }
-
-    public Histogram phase4(Path path, long firstIndex, long secondIndex, long thirdIndex) throws IOException {
-
-        int countOfRange = (int) Math.pow(2, 16);// 分区个数
-        ObjectInputBuffer buffer = new ObjectInputBuffer(path);
-        Histogram histogram = new Histogram(countOfRange);
-
-        while (!buffer.empty()) {
-            long n = buffer.pop();
-            if (partOfLong(n, 0) == firstIndex
-                    && partOfLong(n, 1) == secondIndex
-                    && partOfLong(n, 2) == thirdIndex) {
-                histogram.add(partOfLong(n, 3));
-            }
-        }
-        return histogram;
-    }
-
-    private int partOfLong(long n, int index) {
-        switch (index) {
-            case 0:
-                return (int) (n >> 48) & 0xFFFF;
-            case 1:
-                return (int) ((n >> 32) & 0xFFFF);
-            case 2:
-                return (int) (n >> 16 & 0xFFFF);
-            case 3:
-                return (int) n & 0xFFFF;
-            default:
-                return (int) n & 0xFFFF;  /* TODO: 再优化 */
+            return result;
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new InterruptedIOException("EB: execMedian");
+        } catch (ExecutionException e) {
+            // TODO 改进处理方式
+            e.printStackTrace();
+            throw new IOException(e.getCause());
         }
     }
 }
-

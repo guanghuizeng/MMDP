@@ -14,7 +14,10 @@ import java.util.List;
 public class SortSpecEncoder extends MessageToMessageEncoder<SortSubTaskSpec> {
 
     public void encode(ChannelHandlerContext context, SortSubTaskSpec in, List<Object> out) {
-        out.add(build(in));
+        TaskProtos.Task.Builder builder = TaskProtos.Task.newBuilder();
+        builder.setOpcode(TaskProtos.Opcode.SORT);
+        builder.setSortSubTask(build(in));
+        out.add(builder.build());
     }
 
     /**

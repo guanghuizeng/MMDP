@@ -36,6 +36,13 @@ public class Histogram {
 
     }
 
+    public Histogram(List<Long> data, int size, int bias, boolean signed) {
+        this.data = data;
+        this.size = size;
+        this.bias = bias;
+        this.signed = signed;
+    }
+
     public Histogram(int size, boolean signed) {
         this(size);
         this.signed = signed;
@@ -64,7 +71,7 @@ public class Histogram {
         }
     }
 
-    public int size() {
+    public int getSize() {
         return size;
     }
 
@@ -80,12 +87,32 @@ public class Histogram {
         }
     }
 
+    public int getBias() {
+        return bias;
+    }
+
+    public boolean isSigned() {
+        return signed;
+    }
+
     public List<Long> toList() {
         List<Long> result = new ArrayList<>();
         result.addAll(data);
         return result;
     }
 
+
+    @Override
+    public boolean equals(Object that) {
+        if (this == that) return true;
+        if (that == null) return false;
+        if (getClass() != that.getClass()) return false;
+        if (!(that instanceof Histogram)) return false;
+        return data.equals(((Histogram) that).data) &&
+                size == ((Histogram) that).size &&
+                bias == ((Histogram) that).bias &&
+                signed == ((Histogram) that).signed;
+    }
 
     /**
      * 寻找 median 所在的区间
@@ -95,7 +122,7 @@ public class Histogram {
      */
     public Pair midArgMid(long mid) throws IndexOutOfBoundsException {
         long accum = 0;
-        for (int i = 0; i < size(); i++) {
+        for (int i = 0; i < getSize(); i++) {
             if (accum + getValue(i) >= mid) {
                 return new Pair(accum, getIndex(i));
             }
@@ -105,22 +132,49 @@ public class Histogram {
     }
 
     /**
-     * 合并多个 histograms, 生成并返回新的对象
+     * 合并多个 histograms
      *
      * @param histograms
      * @return
      */
-    public void merge(Histogram... histograms) {
-        // todo 合并多个列表
+    public void merge(List<Histogram> histograms) {
 
-        List<List<Long>> all = new LinkedList<>();
+        List<List<Long>> data = new ArrayList<>();
+        data.add(this.toList());
         for (Histogram h : histograms) {
-            all.add(h.toList());
+            data.add(h.toList());
+
+            if (h.getSize() > size) {
+                size = h.getSize();
+            }
+
+            bias = h.getBias();
+            signed = h.isSigned();
         }
 
-        while (!all.isEmpty()) {
+        List<Long> result = new ArrayList<>();
 
+        for (int i = 0; i < size; i++) {
+            long sum = 0;
+            List<Integer> remove = new ArrayList<>();
+            for (int j = 0; j < data.size(); j++) {
+                List<Long> item = data.get(j);
+                if (item.size() > i) {
+                    sum += item.get(i);
+                } else {
+                    remove.add(j);
+                }
+            }
+
+            result.add(sum);
+
+            for (int index : remove) {
+                data.remove(index);
+            }
 
         }
+
+
+        this.data = result;
     }
 }

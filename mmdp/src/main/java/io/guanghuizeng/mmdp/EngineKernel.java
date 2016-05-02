@@ -39,9 +39,49 @@ public class EngineKernel {
      * @return
      * @throws IOException
      */
-    public Histogram submit(MedianTaskSpec spec) throws IOException {
+    public long submit(MedianTaskSpec spec) throws IOException {
+        // spec -> length, getInput
+        VirtualPath path = spec.getInput();
+        long length = spec.getLength();
+        long mid = length / 2; // TODO 从path获取文件长度, 再得到中位数所在位置
 
-        return backend.execute(spec);
+        /* 第一层 */
+        Histogram firstHistogram = execute(path, MedianPhase.FIRST);
+        Histogram.Pair first = firstHistogram.midArgMid(mid);
+
+        /* 第二层 */
+        Histogram secondHistogram = execute(path, MedianPhase.SECOND, first.index());
+        Histogram.Pair second = secondHistogram.midArgMid((mid - first.count()));
+
+        /* 第三层 */
+        Histogram thirdHistogram = execute(path, MedianPhase.THIRD, first.index(), second.index());
+        Histogram.Pair third = thirdHistogram.midArgMid((mid - first.count() - second.count()));
+
+        /* 第四层 */
+        Histogram fourthHistogram = execute(path, MedianPhase.FOURTH, first.index(), second.index(), third.index());
+        Histogram.Pair fourth = fourthHistogram.midArgMid((mid - first.count() - second.count() - third.count()));
+
+        // construct
+        return ((long) first.index() << 48) + ((long) second.index() << 32)
+                + ((long) third.index() << 16) + (long) fourth.index();
+    }
+
+    public Histogram execute(VirtualPath path, MedianPhase phase, long... args) throws IOException {
+
+        // main task
+        MedianTaskSpec taskSpec = MedianTaskSpec.build(path, phase, args);
+
+        // map
+        List<MedianSubTaskSpec> subTaskSpecs = front.map(taskSpec);
+
+        // reduce
+        List<Histogram> histogramList = backend.execMedian(subTaskSpecs);
+
+        // merge
+        Histogram result = new Histogram();  // <= merge hL.
+        result.merge(histogramList);
+
+        return result;
     }
 
     /**
