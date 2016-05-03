@@ -55,4 +55,23 @@ public class EngineFront {
 
         return result;
     }
+
+    public List<MaxSubTaskSpec> map(MaxTaskSpec spec) {
+
+        List<MaxSubTaskSpec> result = new ArrayList<>();
+        List<Uri> uris = fileSystem.resolve(spec.getInput());
+
+        // 生成临时文件
+        // List<Uri> tmpUris = new ArrayList<>();
+
+        for (Uri u : uris) {
+            Uri tmp = new Uri(u.getServiceID(),
+                    new VirtualPath(u.getActualPath().toString()
+                            .concat(String.valueOf(System.currentTimeMillis()))));
+           // tmpUris.add(tmp);
+            result.add(new MaxSubTaskSpec(u, tmp, spec.getCount()));
+        }
+
+        return result;
+    }
 }

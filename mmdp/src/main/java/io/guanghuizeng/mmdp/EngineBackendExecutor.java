@@ -1,8 +1,10 @@
 package io.guanghuizeng.mmdp;
 
 import io.guanghuizeng.fs.FileSystem;
+import io.guanghuizeng.mmdp.algs.MinHeap;
 import io.guanghuizeng.mmdp.algs2.ExternalSort;
 import io.guanghuizeng.mmdp.algs2.FileInputBuffer;
+import io.guanghuizeng.mmdp.algs2.FileOutputBuffer;
 import io.guanghuizeng.mmdp.algs2.Histogram;
 
 import java.io.IOException;
@@ -147,5 +149,46 @@ public class EngineBackendExecutor {
             default:
                 return (int) n & 0xFFFF;  /* TODO: 再优化 */
         }
+    }
+
+    /**
+     * 查找前 K 项最大值, 结果   以 naturalOrder 排序
+     */
+    public MaxSubTaskSpec exec(MaxSubTaskSpec spec) throws IOException {
+
+        Path path = Paths.get(fileSystem.getHome(spec.getInput().getServiceID().code()),
+                spec.getInput().getActualPath().getLocalPath().toString());
+        FileInputBuffer buffer = new FileInputBuffer(path);
+        int count = spec.getCount();
+
+        // 应用 max heap 筛选文件中的数据
+        MinHeap heap = new MinHeap(count);
+
+        while (!buffer.empty()) {
+
+            long value = buffer.pop();
+            if (heap.getHeapSize() < count) {
+                heap.insert(value);
+            } else {
+                if (value > heap.min()) {
+                    heap.extract();
+                    heap.insert(value);
+                }
+            }
+        }
+        buffer.close();
+
+        // 写入到文件
+        Path out = Paths.get(fileSystem.getHome(spec.getOutput().getServiceID().code()),
+                spec.getOutput().getActualPath().getLocalPath().toString());
+        FileOutputBuffer outputBuffer = new FileOutputBuffer(out);
+
+        int size = heap.getHeapSize();
+        for (int i = 0; i < size; i++) {
+            outputBuffer.writeLong(heap.extract());
+        }
+        outputBuffer.close();
+
+        return spec;
     }
 }

@@ -110,4 +110,21 @@ public class EngineBackend {
             throw new IOException(e.getCause());
         }
     }
+
+    public List<Uri> execMax(List<MaxSubTaskSpec> subTaskSpecs) {
+
+        List<Uri> result = new ArrayList<>();
+        EngineBackendExecutor executor = new EngineBackendExecutor();
+
+        try {
+            for (MaxSubTaskSpec subTask : subTaskSpecs) {
+                executor.exec(subTask);
+                result.add(subTask.getOutput());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
 }
