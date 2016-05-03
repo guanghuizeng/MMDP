@@ -1,8 +1,6 @@
 package io.guanghuizeng.mmdp.rpc;
 
-import io.guanghuizeng.mmdp.MedianSubTaskSpec;
-import io.guanghuizeng.mmdp.MedianTaskSpec;
-import io.guanghuizeng.mmdp.SortSubTaskSpec;
+import io.guanghuizeng.mmdp.*;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelPipeline;
@@ -69,6 +67,10 @@ public class Client {
 
     public MedianSubTaskSpec median(MedianSubTaskSpec spec) throws InterruptedException {
         return medianTaskHandler.exec(spec);
+    }
+
+    public MaxSubTaskSpec max(MaxSubTaskSpec spec) throws InterruptedException {
+        return pipeline.get(MaxTaskHandler.class).exec(spec);
     }
 
 }

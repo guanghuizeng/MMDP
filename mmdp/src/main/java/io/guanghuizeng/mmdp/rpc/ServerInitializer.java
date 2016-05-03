@@ -39,8 +39,12 @@ public class ServerInitializer extends ChannelInitializer<SocketChannel> {
         pipeline.addLast(new MedianSpecDecoder());
         pipeline.addLast(new MedianSpecEncoder());
 
+        pipeline.addLast(new MaxSpecDecoder());
+        pipeline.addLast(new MaxSpecEncoder());
+
         pipeline.addLast(new SortTaskServerHandler(executor));
         pipeline.addLast(new MedianTaskServerHandler(executor));
+        pipeline.addLast(new MaxTaskServerHandler(executor));
 
     }
 }

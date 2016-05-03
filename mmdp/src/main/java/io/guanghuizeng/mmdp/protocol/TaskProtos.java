@@ -282,6 +282,19 @@ public final class TaskProtos {
      * <code>optional .io.guanghuizeng.mmdp.protocol.MedianSubTask medianSubTask = 3;</code>
      */
     io.guanghuizeng.mmdp.protocol.TaskProtos.MedianSubTaskOrBuilder getMedianSubTaskOrBuilder();
+
+    /**
+     * <code>optional .io.guanghuizeng.mmdp.protocol.MaxSubTask maxSubTask = 4;</code>
+     */
+    boolean hasMaxSubTask();
+    /**
+     * <code>optional .io.guanghuizeng.mmdp.protocol.MaxSubTask maxSubTask = 4;</code>
+     */
+    io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask getMaxSubTask();
+    /**
+     * <code>optional .io.guanghuizeng.mmdp.protocol.MaxSubTask maxSubTask = 4;</code>
+     */
+    io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTaskOrBuilder getMaxSubTaskOrBuilder();
   }
   /**
    * Protobuf type {@code io.guanghuizeng.mmdp.protocol.Task}
@@ -370,6 +383,19 @@ public final class TaskProtos {
                 medianSubTask_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000004;
+              break;
+            }
+            case 34: {
+              io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000008) == 0x00000008)) {
+                subBuilder = maxSubTask_.toBuilder();
+              }
+              maxSubTask_ = input.readMessage(io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(maxSubTask_);
+                maxSubTask_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000008;
               break;
             }
           }
@@ -469,10 +495,32 @@ public final class TaskProtos {
       return medianSubTask_;
     }
 
+    public static final int MAXSUBTASK_FIELD_NUMBER = 4;
+    private io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask maxSubTask_;
+    /**
+     * <code>optional .io.guanghuizeng.mmdp.protocol.MaxSubTask maxSubTask = 4;</code>
+     */
+    public boolean hasMaxSubTask() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional .io.guanghuizeng.mmdp.protocol.MaxSubTask maxSubTask = 4;</code>
+     */
+    public io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask getMaxSubTask() {
+      return maxSubTask_;
+    }
+    /**
+     * <code>optional .io.guanghuizeng.mmdp.protocol.MaxSubTask maxSubTask = 4;</code>
+     */
+    public io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTaskOrBuilder getMaxSubTaskOrBuilder() {
+      return maxSubTask_;
+    }
+
     private void initFields() {
       opcode_ = io.guanghuizeng.mmdp.protocol.TaskProtos.Opcode.ECHO;
       sortSubTask_ = io.guanghuizeng.mmdp.protocol.TaskProtos.SortSubTask.getDefaultInstance();
       medianSubTask_ = io.guanghuizeng.mmdp.protocol.TaskProtos.MedianSubTask.getDefaultInstance();
+      maxSubTask_ = io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -496,6 +544,12 @@ public final class TaskProtos {
           return false;
         }
       }
+      if (hasMaxSubTask()) {
+        if (!getMaxSubTask().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -511,6 +565,9 @@ public final class TaskProtos {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeMessage(3, medianSubTask_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeMessage(4, maxSubTask_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -532,6 +589,10 @@ public final class TaskProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, medianSubTask_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, maxSubTask_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -644,6 +705,7 @@ public final class TaskProtos {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getSortSubTaskFieldBuilder();
           getMedianSubTaskFieldBuilder();
+          getMaxSubTaskFieldBuilder();
         }
       }
       private static Builder create() {
@@ -666,6 +728,12 @@ public final class TaskProtos {
           medianSubTaskBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000004);
+        if (maxSubTaskBuilder_ == null) {
+          maxSubTask_ = io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask.getDefaultInstance();
+        } else {
+          maxSubTaskBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -714,6 +782,14 @@ public final class TaskProtos {
         } else {
           result.medianSubTask_ = medianSubTaskBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        if (maxSubTaskBuilder_ == null) {
+          result.maxSubTask_ = maxSubTask_;
+        } else {
+          result.maxSubTask_ = maxSubTaskBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -739,6 +815,9 @@ public final class TaskProtos {
         if (other.hasMedianSubTask()) {
           mergeMedianSubTask(other.getMedianSubTask());
         }
+        if (other.hasMaxSubTask()) {
+          mergeMaxSubTask(other.getMaxSubTask());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -756,6 +835,12 @@ public final class TaskProtos {
         }
         if (hasMedianSubTask()) {
           if (!getMedianSubTask().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasMaxSubTask()) {
+          if (!getMaxSubTask().isInitialized()) {
             
             return false;
           }
@@ -1047,6 +1132,122 @@ public final class TaskProtos {
           medianSubTask_ = null;
         }
         return medianSubTaskBuilder_;
+      }
+
+      private io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask maxSubTask_ = io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask, io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask.Builder, io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTaskOrBuilder> maxSubTaskBuilder_;
+      /**
+       * <code>optional .io.guanghuizeng.mmdp.protocol.MaxSubTask maxSubTask = 4;</code>
+       */
+      public boolean hasMaxSubTask() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional .io.guanghuizeng.mmdp.protocol.MaxSubTask maxSubTask = 4;</code>
+       */
+      public io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask getMaxSubTask() {
+        if (maxSubTaskBuilder_ == null) {
+          return maxSubTask_;
+        } else {
+          return maxSubTaskBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .io.guanghuizeng.mmdp.protocol.MaxSubTask maxSubTask = 4;</code>
+       */
+      public Builder setMaxSubTask(io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask value) {
+        if (maxSubTaskBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          maxSubTask_ = value;
+          onChanged();
+        } else {
+          maxSubTaskBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .io.guanghuizeng.mmdp.protocol.MaxSubTask maxSubTask = 4;</code>
+       */
+      public Builder setMaxSubTask(
+          io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask.Builder builderForValue) {
+        if (maxSubTaskBuilder_ == null) {
+          maxSubTask_ = builderForValue.build();
+          onChanged();
+        } else {
+          maxSubTaskBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .io.guanghuizeng.mmdp.protocol.MaxSubTask maxSubTask = 4;</code>
+       */
+      public Builder mergeMaxSubTask(io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask value) {
+        if (maxSubTaskBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008) &&
+              maxSubTask_ != io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask.getDefaultInstance()) {
+            maxSubTask_ =
+              io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask.newBuilder(maxSubTask_).mergeFrom(value).buildPartial();
+          } else {
+            maxSubTask_ = value;
+          }
+          onChanged();
+        } else {
+          maxSubTaskBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .io.guanghuizeng.mmdp.protocol.MaxSubTask maxSubTask = 4;</code>
+       */
+      public Builder clearMaxSubTask() {
+        if (maxSubTaskBuilder_ == null) {
+          maxSubTask_ = io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask.getDefaultInstance();
+          onChanged();
+        } else {
+          maxSubTaskBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+      /**
+       * <code>optional .io.guanghuizeng.mmdp.protocol.MaxSubTask maxSubTask = 4;</code>
+       */
+      public io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask.Builder getMaxSubTaskBuilder() {
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return getMaxSubTaskFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .io.guanghuizeng.mmdp.protocol.MaxSubTask maxSubTask = 4;</code>
+       */
+      public io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTaskOrBuilder getMaxSubTaskOrBuilder() {
+        if (maxSubTaskBuilder_ != null) {
+          return maxSubTaskBuilder_.getMessageOrBuilder();
+        } else {
+          return maxSubTask_;
+        }
+      }
+      /**
+       * <code>optional .io.guanghuizeng.mmdp.protocol.MaxSubTask maxSubTask = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask, io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask.Builder, io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTaskOrBuilder> 
+          getMaxSubTaskFieldBuilder() {
+        if (maxSubTaskBuilder_ == null) {
+          maxSubTaskBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask, io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask.Builder, io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTaskOrBuilder>(
+                  getMaxSubTask(),
+                  getParentForChildren(),
+                  isClean());
+          maxSubTask_ = null;
+        }
+        return maxSubTaskBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:io.guanghuizeng.mmdp.protocol.Task)
@@ -3141,6 +3342,916 @@ public final class TaskProtos {
     }
 
     // @@protoc_insertion_point(class_scope:io.guanghuizeng.mmdp.protocol.MedianSubTask)
+  }
+
+  public interface MaxSubTaskOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:io.guanghuizeng.mmdp.protocol.MaxSubTask)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required .io.guanghuizeng.mmdp.protocol.Opcode opcode = 1 [default = MAX];</code>
+     */
+    boolean hasOpcode();
+    /**
+     * <code>required .io.guanghuizeng.mmdp.protocol.Opcode opcode = 1 [default = MAX];</code>
+     */
+    io.guanghuizeng.mmdp.protocol.TaskProtos.Opcode getOpcode();
+
+    /**
+     * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+     */
+    boolean hasInput();
+    /**
+     * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+     */
+    io.guanghuizeng.mmdp.protocol.TaskProtos.Uri getInput();
+    /**
+     * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+     */
+    io.guanghuizeng.mmdp.protocol.TaskProtos.UriOrBuilder getInputOrBuilder();
+
+    /**
+     * <code>required .io.guanghuizeng.mmdp.protocol.Uri output = 3;</code>
+     */
+    boolean hasOutput();
+    /**
+     * <code>required .io.guanghuizeng.mmdp.protocol.Uri output = 3;</code>
+     */
+    io.guanghuizeng.mmdp.protocol.TaskProtos.Uri getOutput();
+    /**
+     * <code>required .io.guanghuizeng.mmdp.protocol.Uri output = 3;</code>
+     */
+    io.guanghuizeng.mmdp.protocol.TaskProtos.UriOrBuilder getOutputOrBuilder();
+
+    /**
+     * <code>required int32 count = 4;</code>
+     */
+    boolean hasCount();
+    /**
+     * <code>required int32 count = 4;</code>
+     */
+    int getCount();
+  }
+  /**
+   * Protobuf type {@code io.guanghuizeng.mmdp.protocol.MaxSubTask}
+   */
+  public static final class MaxSubTask extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:io.guanghuizeng.mmdp.protocol.MaxSubTask)
+      MaxSubTaskOrBuilder {
+    // Use MaxSubTask.newBuilder() to construct.
+    private MaxSubTask(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private MaxSubTask(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final MaxSubTask defaultInstance;
+    public static MaxSubTask getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public MaxSubTask getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private MaxSubTask(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+              io.guanghuizeng.mmdp.protocol.TaskProtos.Opcode value = io.guanghuizeng.mmdp.protocol.TaskProtos.Opcode.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                opcode_ = value;
+              }
+              break;
+            }
+            case 18: {
+              io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                subBuilder = input_.toBuilder();
+              }
+              input_ = input.readMessage(io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(input_);
+                input_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000002;
+              break;
+            }
+            case 26: {
+              io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000004) == 0x00000004)) {
+                subBuilder = output_.toBuilder();
+              }
+              output_ = input.readMessage(io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(output_);
+                output_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000004;
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              count_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return io.guanghuizeng.mmdp.protocol.TaskProtos.internal_static_io_guanghuizeng_mmdp_protocol_MaxSubTask_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return io.guanghuizeng.mmdp.protocol.TaskProtos.internal_static_io_guanghuizeng_mmdp_protocol_MaxSubTask_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask.class, io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<MaxSubTask> PARSER =
+        new com.google.protobuf.AbstractParser<MaxSubTask>() {
+      public MaxSubTask parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new MaxSubTask(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<MaxSubTask> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    public static final int OPCODE_FIELD_NUMBER = 1;
+    private io.guanghuizeng.mmdp.protocol.TaskProtos.Opcode opcode_;
+    /**
+     * <code>required .io.guanghuizeng.mmdp.protocol.Opcode opcode = 1 [default = MAX];</code>
+     */
+    public boolean hasOpcode() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .io.guanghuizeng.mmdp.protocol.Opcode opcode = 1 [default = MAX];</code>
+     */
+    public io.guanghuizeng.mmdp.protocol.TaskProtos.Opcode getOpcode() {
+      return opcode_;
+    }
+
+    public static final int INPUT_FIELD_NUMBER = 2;
+    private io.guanghuizeng.mmdp.protocol.TaskProtos.Uri input_;
+    /**
+     * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+     */
+    public boolean hasInput() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+     */
+    public io.guanghuizeng.mmdp.protocol.TaskProtos.Uri getInput() {
+      return input_;
+    }
+    /**
+     * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+     */
+    public io.guanghuizeng.mmdp.protocol.TaskProtos.UriOrBuilder getInputOrBuilder() {
+      return input_;
+    }
+
+    public static final int OUTPUT_FIELD_NUMBER = 3;
+    private io.guanghuizeng.mmdp.protocol.TaskProtos.Uri output_;
+    /**
+     * <code>required .io.guanghuizeng.mmdp.protocol.Uri output = 3;</code>
+     */
+    public boolean hasOutput() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required .io.guanghuizeng.mmdp.protocol.Uri output = 3;</code>
+     */
+    public io.guanghuizeng.mmdp.protocol.TaskProtos.Uri getOutput() {
+      return output_;
+    }
+    /**
+     * <code>required .io.guanghuizeng.mmdp.protocol.Uri output = 3;</code>
+     */
+    public io.guanghuizeng.mmdp.protocol.TaskProtos.UriOrBuilder getOutputOrBuilder() {
+      return output_;
+    }
+
+    public static final int COUNT_FIELD_NUMBER = 4;
+    private int count_;
+    /**
+     * <code>required int32 count = 4;</code>
+     */
+    public boolean hasCount() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required int32 count = 4;</code>
+     */
+    public int getCount() {
+      return count_;
+    }
+
+    private void initFields() {
+      opcode_ = io.guanghuizeng.mmdp.protocol.TaskProtos.Opcode.MAX;
+      input_ = io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.getDefaultInstance();
+      output_ = io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.getDefaultInstance();
+      count_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasOpcode()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasInput()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasOutput()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasCount()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!getInput().isInitialized()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!getOutput().isInitialized()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, opcode_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeMessage(2, input_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeMessage(3, output_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, count_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, opcode_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, input_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, output_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, count_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code io.guanghuizeng.mmdp.protocol.MaxSubTask}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:io.guanghuizeng.mmdp.protocol.MaxSubTask)
+        io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTaskOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return io.guanghuizeng.mmdp.protocol.TaskProtos.internal_static_io_guanghuizeng_mmdp_protocol_MaxSubTask_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return io.guanghuizeng.mmdp.protocol.TaskProtos.internal_static_io_guanghuizeng_mmdp_protocol_MaxSubTask_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask.class, io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask.Builder.class);
+      }
+
+      // Construct using io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getInputFieldBuilder();
+          getOutputFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        opcode_ = io.guanghuizeng.mmdp.protocol.TaskProtos.Opcode.MAX;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        if (inputBuilder_ == null) {
+          input_ = io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.getDefaultInstance();
+        } else {
+          inputBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
+        if (outputBuilder_ == null) {
+          output_ = io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.getDefaultInstance();
+        } else {
+          outputBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
+        count_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return io.guanghuizeng.mmdp.protocol.TaskProtos.internal_static_io_guanghuizeng_mmdp_protocol_MaxSubTask_descriptor;
+      }
+
+      public io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask getDefaultInstanceForType() {
+        return io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask.getDefaultInstance();
+      }
+
+      public io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask build() {
+        io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask buildPartial() {
+        io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask result = new io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.opcode_ = opcode_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        if (inputBuilder_ == null) {
+          result.input_ = input_;
+        } else {
+          result.input_ = inputBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        if (outputBuilder_ == null) {
+          result.output_ = output_;
+        } else {
+          result.output_ = outputBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.count_ = count_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask) {
+          return mergeFrom((io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask other) {
+        if (other == io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask.getDefaultInstance()) return this;
+        if (other.hasOpcode()) {
+          setOpcode(other.getOpcode());
+        }
+        if (other.hasInput()) {
+          mergeInput(other.getInput());
+        }
+        if (other.hasOutput()) {
+          mergeOutput(other.getOutput());
+        }
+        if (other.hasCount()) {
+          setCount(other.getCount());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasOpcode()) {
+          
+          return false;
+        }
+        if (!hasInput()) {
+          
+          return false;
+        }
+        if (!hasOutput()) {
+          
+          return false;
+        }
+        if (!hasCount()) {
+          
+          return false;
+        }
+        if (!getInput().isInitialized()) {
+          
+          return false;
+        }
+        if (!getOutput().isInitialized()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private io.guanghuizeng.mmdp.protocol.TaskProtos.Opcode opcode_ = io.guanghuizeng.mmdp.protocol.TaskProtos.Opcode.MAX;
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Opcode opcode = 1 [default = MAX];</code>
+       */
+      public boolean hasOpcode() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Opcode opcode = 1 [default = MAX];</code>
+       */
+      public io.guanghuizeng.mmdp.protocol.TaskProtos.Opcode getOpcode() {
+        return opcode_;
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Opcode opcode = 1 [default = MAX];</code>
+       */
+      public Builder setOpcode(io.guanghuizeng.mmdp.protocol.TaskProtos.Opcode value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        opcode_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Opcode opcode = 1 [default = MAX];</code>
+       */
+      public Builder clearOpcode() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        opcode_ = io.guanghuizeng.mmdp.protocol.TaskProtos.Opcode.MAX;
+        onChanged();
+        return this;
+      }
+
+      private io.guanghuizeng.mmdp.protocol.TaskProtos.Uri input_ = io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          io.guanghuizeng.mmdp.protocol.TaskProtos.Uri, io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.Builder, io.guanghuizeng.mmdp.protocol.TaskProtos.UriOrBuilder> inputBuilder_;
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+       */
+      public boolean hasInput() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+       */
+      public io.guanghuizeng.mmdp.protocol.TaskProtos.Uri getInput() {
+        if (inputBuilder_ == null) {
+          return input_;
+        } else {
+          return inputBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+       */
+      public Builder setInput(io.guanghuizeng.mmdp.protocol.TaskProtos.Uri value) {
+        if (inputBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          input_ = value;
+          onChanged();
+        } else {
+          inputBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+       */
+      public Builder setInput(
+          io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.Builder builderForValue) {
+        if (inputBuilder_ == null) {
+          input_ = builderForValue.build();
+          onChanged();
+        } else {
+          inputBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+       */
+      public Builder mergeInput(io.guanghuizeng.mmdp.protocol.TaskProtos.Uri value) {
+        if (inputBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002) &&
+              input_ != io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.getDefaultInstance()) {
+            input_ =
+              io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.newBuilder(input_).mergeFrom(value).buildPartial();
+          } else {
+            input_ = value;
+          }
+          onChanged();
+        } else {
+          inputBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+       */
+      public Builder clearInput() {
+        if (inputBuilder_ == null) {
+          input_ = io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.getDefaultInstance();
+          onChanged();
+        } else {
+          inputBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+       */
+      public io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.Builder getInputBuilder() {
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return getInputFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+       */
+      public io.guanghuizeng.mmdp.protocol.TaskProtos.UriOrBuilder getInputOrBuilder() {
+        if (inputBuilder_ != null) {
+          return inputBuilder_.getMessageOrBuilder();
+        } else {
+          return input_;
+        }
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          io.guanghuizeng.mmdp.protocol.TaskProtos.Uri, io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.Builder, io.guanghuizeng.mmdp.protocol.TaskProtos.UriOrBuilder> 
+          getInputFieldBuilder() {
+        if (inputBuilder_ == null) {
+          inputBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              io.guanghuizeng.mmdp.protocol.TaskProtos.Uri, io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.Builder, io.guanghuizeng.mmdp.protocol.TaskProtos.UriOrBuilder>(
+                  getInput(),
+                  getParentForChildren(),
+                  isClean());
+          input_ = null;
+        }
+        return inputBuilder_;
+      }
+
+      private io.guanghuizeng.mmdp.protocol.TaskProtos.Uri output_ = io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          io.guanghuizeng.mmdp.protocol.TaskProtos.Uri, io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.Builder, io.guanghuizeng.mmdp.protocol.TaskProtos.UriOrBuilder> outputBuilder_;
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Uri output = 3;</code>
+       */
+      public boolean hasOutput() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Uri output = 3;</code>
+       */
+      public io.guanghuizeng.mmdp.protocol.TaskProtos.Uri getOutput() {
+        if (outputBuilder_ == null) {
+          return output_;
+        } else {
+          return outputBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Uri output = 3;</code>
+       */
+      public Builder setOutput(io.guanghuizeng.mmdp.protocol.TaskProtos.Uri value) {
+        if (outputBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          output_ = value;
+          onChanged();
+        } else {
+          outputBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Uri output = 3;</code>
+       */
+      public Builder setOutput(
+          io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.Builder builderForValue) {
+        if (outputBuilder_ == null) {
+          output_ = builderForValue.build();
+          onChanged();
+        } else {
+          outputBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Uri output = 3;</code>
+       */
+      public Builder mergeOutput(io.guanghuizeng.mmdp.protocol.TaskProtos.Uri value) {
+        if (outputBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004) &&
+              output_ != io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.getDefaultInstance()) {
+            output_ =
+              io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.newBuilder(output_).mergeFrom(value).buildPartial();
+          } else {
+            output_ = value;
+          }
+          onChanged();
+        } else {
+          outputBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Uri output = 3;</code>
+       */
+      public Builder clearOutput() {
+        if (outputBuilder_ == null) {
+          output_ = io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.getDefaultInstance();
+          onChanged();
+        } else {
+          outputBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Uri output = 3;</code>
+       */
+      public io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.Builder getOutputBuilder() {
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return getOutputFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Uri output = 3;</code>
+       */
+      public io.guanghuizeng.mmdp.protocol.TaskProtos.UriOrBuilder getOutputOrBuilder() {
+        if (outputBuilder_ != null) {
+          return outputBuilder_.getMessageOrBuilder();
+        } else {
+          return output_;
+        }
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Uri output = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          io.guanghuizeng.mmdp.protocol.TaskProtos.Uri, io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.Builder, io.guanghuizeng.mmdp.protocol.TaskProtos.UriOrBuilder> 
+          getOutputFieldBuilder() {
+        if (outputBuilder_ == null) {
+          outputBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              io.guanghuizeng.mmdp.protocol.TaskProtos.Uri, io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.Builder, io.guanghuizeng.mmdp.protocol.TaskProtos.UriOrBuilder>(
+                  getOutput(),
+                  getParentForChildren(),
+                  isClean());
+          output_ = null;
+        }
+        return outputBuilder_;
+      }
+
+      private int count_ ;
+      /**
+       * <code>required int32 count = 4;</code>
+       */
+      public boolean hasCount() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int32 count = 4;</code>
+       */
+      public int getCount() {
+        return count_;
+      }
+      /**
+       * <code>required int32 count = 4;</code>
+       */
+      public Builder setCount(int value) {
+        bitField0_ |= 0x00000008;
+        count_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 count = 4;</code>
+       */
+      public Builder clearCount() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        count_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:io.guanghuizeng.mmdp.protocol.MaxSubTask)
+    }
+
+    static {
+      defaultInstance = new MaxSubTask(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:io.guanghuizeng.mmdp.protocol.MaxSubTask)
   }
 
   public interface UriOrBuilder extends
@@ -6603,6 +7714,11 @@ public final class TaskProtos {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_io_guanghuizeng_mmdp_protocol_MedianSubTask_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_io_guanghuizeng_mmdp_protocol_MaxSubTask_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_io_guanghuizeng_mmdp_protocol_MaxSubTask_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_io_guanghuizeng_mmdp_protocol_Uri_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -6637,39 +7753,45 @@ public final class TaskProtos {
   static {
     java.lang.String[] descriptorData = {
       "\n\nTask.proto\022\035io.guanghuizeng.mmdp.proto" +
-      "col\"\311\001\n\004Task\022;\n\006opcode\030\001 \002(\0162%.io.guangh" +
+      "col\"\210\002\n\004Task\022;\n\006opcode\030\001 \002(\0162%.io.guangh" +
       "uizeng.mmdp.protocol.Opcode:\004ECHO\022?\n\013sor" +
       "tSubTask\030\002 \001(\0132*.io.guanghuizeng.mmdp.pr" +
       "otocol.SortSubTask\022C\n\rmedianSubTask\030\003 \001(" +
       "\0132,.io.guanghuizeng.mmdp.protocol.Median" +
-      "SubTask\"\261\001\n\013SortSubTask\022;\n\006opcode\030\001 \002(\0162" +
-      "%.io.guanghuizeng.mmdp.protocol.Opcode:\004" +
-      "ECHO\0221\n\005input\030\002 \002(\0132\".io.guanghuizeng.mm" +
-      "dp.protocol.Uri\0222\n\006output\030\003 \002(\0132\".io.gua",
-      "nghuizeng.mmdp.protocol.Uri\"\270\002\n\rMedianSu" +
-      "bTask\022;\n\006opcode\030\001 \002(\0162%.io.guanghuizeng." +
-      "mmdp.protocol.Opcode:\004ECHO\0221\n\005input\030\002 \002(" +
-      "\0132\".io.guanghuizeng.mmdp.protocol.Uri\0223\n" +
-      "\005phase\030\003 \002(\0162$.io.guanghuizeng.mmdp.prot" +
-      "ocol.Phase\022;\n\thistogram\030\004 \001(\0132(.io.guang" +
-      "huizeng.mmdp.protocol.Histogram\022\r\n\005first" +
-      "\030\005 \002(\003\022\021\n\006second\030\006 \002(\003:\0010\022\020\n\005third\030\007 \002(\003" +
-      ":\0010\022\021\n\006fourth\030\010 \002(\003:\0010\"\224\001\n\003Uri\022\016\n\006prefix" +
-      "\030\001 \002(\t\022\r\n\005infix\030\002 \002(\t\0224\n\002id\030\003 \002(\0132(.io.g",
-      "uanghuizeng.mmdp.protocol.ServiceID\0228\n\004p" +
-      "ath\030\004 \002(\0132*.io.guanghuizeng.mmdp.protoco" +
-      "l.VirtualPath\"?\n\tServiceID\022\014\n\004host\030\001 \002(\t" +
-      "\022\020\n\010syncPort\030\002 \002(\005\022\022\n\nenginePort\030\003 \002(\005\"\033" +
-      "\n\013VirtualPath\022\014\n\004path\030\001 \002(\t\"w\n\tHistogram" +
-      "\0227\n\004data\030\001 \002(\0132).io.guanghuizeng.mmdp.pr" +
-      "otocol.ListOfLong\022\014\n\004size\030\002 \002(\005\022\014\n\004bias\030" +
-      "\003 \002(\005\022\025\n\006signed\030\004 \002(\010:\005false\"\034\n\nListOfLo" +
-      "ng\022\016\n\006number\030\001 \003(\003*`\n\006Opcode\022\010\n\004ECHO\020\000\022\010" +
-      "\n\004SAVE\020\001\022\010\n\004SORT\020\002\022\t\n\005WRITE\020\003\022\007\n\003MAX\020\004\022\t",
-      "\n\005EXIST\020\005\022\r\n\tFREQUENCY\020\006\022\n\n\006MEDIAN\020\007*5\n\005" +
-      "Phase\022\t\n\005FIRST\020\000\022\n\n\006SECOND\020\001\022\t\n\005THIRD\020\002\022" +
-      "\n\n\006FOURTH\020\003B+\n\035io.guanghuizeng.mmdp.prot" +
-      "ocolB\nTaskProtos"
+      "SubTask\022=\n\nmaxSubTask\030\004 \001(\0132).io.guanghu" +
+      "izeng.mmdp.protocol.MaxSubTask\"\261\001\n\013SortS" +
+      "ubTask\022;\n\006opcode\030\001 \002(\0162%.io.guanghuizeng" +
+      ".mmdp.protocol.Opcode:\004ECHO\0221\n\005input\030\002 \002",
+      "(\0132\".io.guanghuizeng.mmdp.protocol.Uri\0222" +
+      "\n\006output\030\003 \002(\0132\".io.guanghuizeng.mmdp.pr" +
+      "otocol.Uri\"\270\002\n\rMedianSubTask\022;\n\006opcode\030\001" +
+      " \002(\0162%.io.guanghuizeng.mmdp.protocol.Opc" +
+      "ode:\004ECHO\0221\n\005input\030\002 \002(\0132\".io.guanghuize" +
+      "ng.mmdp.protocol.Uri\0223\n\005phase\030\003 \002(\0162$.io" +
+      ".guanghuizeng.mmdp.protocol.Phase\022;\n\this" +
+      "togram\030\004 \001(\0132(.io.guanghuizeng.mmdp.prot" +
+      "ocol.Histogram\022\r\n\005first\030\005 \002(\003\022\021\n\006second\030" +
+      "\006 \002(\003:\0010\022\020\n\005third\030\007 \002(\003:\0010\022\021\n\006fourth\030\010 \002",
+      "(\003:\0010\"\276\001\n\nMaxSubTask\022:\n\006opcode\030\001 \002(\0162%.i" +
+      "o.guanghuizeng.mmdp.protocol.Opcode:\003MAX" +
+      "\0221\n\005input\030\002 \002(\0132\".io.guanghuizeng.mmdp.p" +
+      "rotocol.Uri\0222\n\006output\030\003 \002(\0132\".io.guanghu" +
+      "izeng.mmdp.protocol.Uri\022\r\n\005count\030\004 \002(\005\"\224" +
+      "\001\n\003Uri\022\016\n\006prefix\030\001 \002(\t\022\r\n\005infix\030\002 \002(\t\0224\n" +
+      "\002id\030\003 \002(\0132(.io.guanghuizeng.mmdp.protoco" +
+      "l.ServiceID\0228\n\004path\030\004 \002(\0132*.io.guanghuiz" +
+      "eng.mmdp.protocol.VirtualPath\"?\n\tService" +
+      "ID\022\014\n\004host\030\001 \002(\t\022\020\n\010syncPort\030\002 \002(\005\022\022\n\nen",
+      "ginePort\030\003 \002(\005\"\033\n\013VirtualPath\022\014\n\004path\030\001 " +
+      "\002(\t\"w\n\tHistogram\0227\n\004data\030\001 \002(\0132).io.guan" +
+      "ghuizeng.mmdp.protocol.ListOfLong\022\014\n\004siz" +
+      "e\030\002 \002(\005\022\014\n\004bias\030\003 \002(\005\022\025\n\006signed\030\004 \002(\010:\005f" +
+      "alse\"\034\n\nListOfLong\022\016\n\006number\030\001 \003(\003*`\n\006Op" +
+      "code\022\010\n\004ECHO\020\000\022\010\n\004SAVE\020\001\022\010\n\004SORT\020\002\022\t\n\005WR" +
+      "ITE\020\003\022\007\n\003MAX\020\004\022\t\n\005EXIST\020\005\022\r\n\tFREQUENCY\020\006" +
+      "\022\n\n\006MEDIAN\020\007*5\n\005Phase\022\t\n\005FIRST\020\000\022\n\n\006SECO" +
+      "ND\020\001\022\t\n\005THIRD\020\002\022\n\n\006FOURTH\020\003B+\n\035io.guangh" +
+      "uizeng.mmdp.protocolB\nTaskProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -6688,7 +7810,7 @@ public final class TaskProtos {
     internal_static_io_guanghuizeng_mmdp_protocol_Task_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_io_guanghuizeng_mmdp_protocol_Task_descriptor,
-        new java.lang.String[] { "Opcode", "SortSubTask", "MedianSubTask", });
+        new java.lang.String[] { "Opcode", "SortSubTask", "MedianSubTask", "MaxSubTask", });
     internal_static_io_guanghuizeng_mmdp_protocol_SortSubTask_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_io_guanghuizeng_mmdp_protocol_SortSubTask_fieldAccessorTable = new
@@ -6701,32 +7823,38 @@ public final class TaskProtos {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_io_guanghuizeng_mmdp_protocol_MedianSubTask_descriptor,
         new java.lang.String[] { "Opcode", "Input", "Phase", "Histogram", "First", "Second", "Third", "Fourth", });
-    internal_static_io_guanghuizeng_mmdp_protocol_Uri_descriptor =
+    internal_static_io_guanghuizeng_mmdp_protocol_MaxSubTask_descriptor =
       getDescriptor().getMessageTypes().get(3);
+    internal_static_io_guanghuizeng_mmdp_protocol_MaxSubTask_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_io_guanghuizeng_mmdp_protocol_MaxSubTask_descriptor,
+        new java.lang.String[] { "Opcode", "Input", "Output", "Count", });
+    internal_static_io_guanghuizeng_mmdp_protocol_Uri_descriptor =
+      getDescriptor().getMessageTypes().get(4);
     internal_static_io_guanghuizeng_mmdp_protocol_Uri_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_io_guanghuizeng_mmdp_protocol_Uri_descriptor,
         new java.lang.String[] { "Prefix", "Infix", "Id", "Path", });
     internal_static_io_guanghuizeng_mmdp_protocol_ServiceID_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_io_guanghuizeng_mmdp_protocol_ServiceID_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_io_guanghuizeng_mmdp_protocol_ServiceID_descriptor,
         new java.lang.String[] { "Host", "SyncPort", "EnginePort", });
     internal_static_io_guanghuizeng_mmdp_protocol_VirtualPath_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_io_guanghuizeng_mmdp_protocol_VirtualPath_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_io_guanghuizeng_mmdp_protocol_VirtualPath_descriptor,
         new java.lang.String[] { "Path", });
     internal_static_io_guanghuizeng_mmdp_protocol_Histogram_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_io_guanghuizeng_mmdp_protocol_Histogram_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_io_guanghuizeng_mmdp_protocol_Histogram_descriptor,
         new java.lang.String[] { "Data", "Size", "Bias", "Signed", });
     internal_static_io_guanghuizeng_mmdp_protocol_ListOfLong_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_io_guanghuizeng_mmdp_protocol_ListOfLong_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_io_guanghuizeng_mmdp_protocol_ListOfLong_descriptor,

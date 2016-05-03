@@ -8,6 +8,7 @@ message Task {
     required Opcode opcode = 1 [default = ECHO];
     optional SortSubTask sortSubTask = 2;
     optional MedianSubTask medianSubTask = 3;
+    optional MaxSubTask maxSubTask = 4;
 }
 
 message SortSubTask {
@@ -25,6 +26,13 @@ message MedianSubTask {
     required int64 second = 6 [default = 0];
     required int64 third = 7 [default = 0];
     required int64 fourth = 8 [default = 0];
+}
+
+message MaxSubTask {
+    required Opcode opcode = 1 [default = MAX];
+    required Uri input = 2;
+    required Uri output = 3;
+    required int32 count = 4;
 }
 
 enum Opcode {

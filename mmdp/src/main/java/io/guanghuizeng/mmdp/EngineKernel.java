@@ -146,7 +146,7 @@ public class EngineKernel {
     /**
      * 查找前K项最大值
      */
-    public List<Long> submit(MaxTaskSpec spec) throws InterruptedException {
+    public List<Long> submit(MaxTaskSpec spec) throws Exception {
 
         List<MaxSubTaskSpec> subTaskSpecs = front.map(spec);
         List<Uri> tmps = backend.execMax(subTaskSpecs);

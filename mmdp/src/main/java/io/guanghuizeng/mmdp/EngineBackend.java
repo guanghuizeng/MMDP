@@ -17,7 +17,6 @@ import java.util.concurrent.Future;
 
 /**
  * 处理sub tasks, 返回 sub task 结果
- * TODO 多线程, async
  */
 public class EngineBackend {
 
@@ -111,20 +110,30 @@ public class EngineBackend {
         }
     }
 
-    public List<Uri> execMax(List<MaxSubTaskSpec> subTaskSpecs) {
+    public List<Uri> execMax(List<MaxSubTaskSpec> subTaskSpecs) throws IOException {
 
+        /** 生成tasks, 放入不同线程 */
         List<Uri> result = new ArrayList<>();
-        EngineBackendExecutor executor = new EngineBackendExecutor();
+        List<Future<MaxSubTaskSpec>> futures = new ArrayList<>();
 
-        try {
-            for (MaxSubTaskSpec subTask : subTaskSpecs) {
-                executor.exec(subTask);
-                result.add(subTask.getOutput());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (MaxSubTaskSpec subTask : subTaskSpecs) {
+            Client client = cluster.getEngineClient(subTask.getInput().getServiceID());
+            futures.add(executor.submit(new MaxSubTask(client, subTask)));
         }
 
-        return result;
+        /** 获取结果 */
+        try {
+            for (Future<MaxSubTaskSpec> f : futures) {
+                result.add(f.get().getOutput());
+            }
+            return result;
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new InterruptedIOException("EB: execMax");
+        } catch (ExecutionException e) {
+            // TODO 改进处理方式
+            e.printStackTrace();
+            throw new IOException(e.getCause());
+        }
     }
 }
