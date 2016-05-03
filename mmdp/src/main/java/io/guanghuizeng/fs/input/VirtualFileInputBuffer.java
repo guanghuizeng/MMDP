@@ -36,7 +36,7 @@ public class VirtualFileInputBuffer implements Comparable<VirtualFileInputBuffer
             buffer = input.readLong();
         } catch (IndexOutOfBoundsException e) {
             buffer = null;
-            throw e;
+            // throw e;
         }
     }
 

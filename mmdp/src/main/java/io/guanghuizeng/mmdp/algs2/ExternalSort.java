@@ -1,6 +1,8 @@
 package io.guanghuizeng.mmdp.algs2;
 
 import com.google.common.primitives.Longs;
+import io.guanghuizeng.fs.input.VirtualFile;
+import io.guanghuizeng.fs.input.VirtualFileInputBuffer;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -111,7 +113,7 @@ public class ExternalSort {
         present = System.currentTimeMillis();
         System.out.printf("%d, mergeSortedFiles 2...\n", present - last);
         /*****/
-        PriorityQueue<FileInputBuffer> bufferPQ = new PriorityQueue<>();
+        PriorityQueue<FileInputBuffer> bufferPQ = new PriorityQueue<>(comparator);
         for (FileInputBuffer buffer : inputBuffers) {
             if (!buffer.empty()) {
                 bufferPQ.add(buffer);
@@ -168,4 +170,11 @@ public class ExternalSort {
         }
         return blockSize;
     }
+
+    private static Comparator<FileInputBuffer> comparator = new Comparator<FileInputBuffer>() {
+        @Override
+        public int compare(FileInputBuffer o1, FileInputBuffer o2) {
+            return o1.peek().compareTo(o2.peek());
+        }
+    };
 }
