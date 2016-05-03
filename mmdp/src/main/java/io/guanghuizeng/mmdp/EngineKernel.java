@@ -12,6 +12,7 @@ import io.guanghuizeng.mmdp.algs2.Histogram;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 
@@ -152,7 +153,14 @@ public class EngineKernel {
         List<Uri> tmps = backend.execMax(subTaskSpecs);
 
         // reduce
-        PriorityQueue<VirtualFileInputBuffer> queue = new PriorityQueue<>();
+        PriorityQueue<VirtualFileInputBuffer> queue = new PriorityQueue<>( new Comparator<VirtualFileInputBuffer>() {
+            @Override
+            public int compare(VirtualFileInputBuffer b1, VirtualFileInputBuffer b2) {
+                /** reverse order */
+                return b2.peek().compareTo(b1.peek());
+            }
+        });
+
 
         for (Uri uri : tmps) {
             VirtualFile file = fileSystem.newFile(uri);

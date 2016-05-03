@@ -10,7 +10,9 @@ import io.guanghuizeng.mmdp.algs2.Histogram;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 /**
  * 实现服务器端的业务逻辑, 面向 sub task 设计.
@@ -165,7 +167,6 @@ public class EngineBackendExecutor {
         MinHeap heap = new MinHeap(count);
 
         while (!buffer.empty()) {
-
             long value = buffer.pop();
             if (heap.getHeapSize() < count) {
                 heap.insert(value);
@@ -178,14 +179,21 @@ public class EngineBackendExecutor {
         }
         buffer.close();
 
+        // 逆向排序
+        List<Long> result = new ArrayList<>();
+        int size = heap.getHeapSize();
+        for (int i = 0; i < size; i++) {
+            result.add(heap.extract());
+        }
+        result.sort(Comparator.reverseOrder());
+
         // 写入到文件
         Path out = Paths.get(fileSystem.getHome(spec.getOutput().getServiceID().code()),
                 spec.getOutput().getActualPath().getLocalPath().toString());
         FileOutputBuffer outputBuffer = new FileOutputBuffer(out);
 
-        int size = heap.getHeapSize();
-        for (int i = 0; i < size; i++) {
-            outputBuffer.writeLong(heap.extract());
+        for (long n : result) {
+            outputBuffer.writeLong(n);
         }
         outputBuffer.close();
 

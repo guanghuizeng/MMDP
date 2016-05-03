@@ -27,15 +27,16 @@ public class VirtualFileInputBuffer implements Comparable<VirtualFileInputBuffer
         return buffer == null;
     }
 
-    public void close() throws InterruptedException{
+    public void close() throws InterruptedException {
         input.close();
     }
 
     public void reload() throws InterruptedException {
-        if (input.available() > 0) {
+        try {
             buffer = input.readLong();
-        } else {
+        } catch (IndexOutOfBoundsException e) {
             buffer = null;
+            throw e;
         }
     }
 
