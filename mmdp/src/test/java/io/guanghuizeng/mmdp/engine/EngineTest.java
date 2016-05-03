@@ -5,6 +5,7 @@ import io.guanghuizeng.fs.ServiceID;
 import io.guanghuizeng.fs.Uri;
 import io.guanghuizeng.fs.VirtualPath;
 import io.guanghuizeng.mmdp.Engine;
+import io.guanghuizeng.mmdp.utils.GenData;
 import org.junit.Test;
 
 import java.nio.file.Paths;
@@ -17,8 +18,8 @@ public class EngineTest {
     @Test
     public void test() {
 
-        String input = "/data/data10m64";
-        String output = "/data/data10m64Sorted";
+        String input = "/data/data1k64";
+        String output = "/data/data1k64Sorted";
 
         VirtualPath in = new VirtualPath(Paths.get(input));
         VirtualPath out = new VirtualPath(Paths.get(output));
@@ -34,6 +35,8 @@ public class EngineTest {
 
         Engine engine = new Engine(fileSystem);
         engine.sort(in, out);
+
+
     }
 
     @Test
