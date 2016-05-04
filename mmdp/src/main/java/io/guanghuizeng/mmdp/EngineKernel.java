@@ -13,7 +13,9 @@ import io.guanghuizeng.mmdp.algs2.Histogram;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
 
 /**
@@ -153,7 +155,7 @@ public class EngineKernel {
         List<Uri> tmps = backend.execMax(subTaskSpecs);
 
         // reduce
-        PriorityQueue<VirtualFileInputBuffer> queue = new PriorityQueue<>( new Comparator<VirtualFileInputBuffer>() {
+        PriorityQueue<VirtualFileInputBuffer> queue = new PriorityQueue<>(new Comparator<VirtualFileInputBuffer>() {
             @Override
             public int compare(VirtualFileInputBuffer b1, VirtualFileInputBuffer b2) {
                 /** reverse order */
@@ -182,6 +184,30 @@ public class EngineKernel {
                 buffer.close();
             } else {
                 queue.add(buffer);
+            }
+        }
+
+        return result;
+    }
+
+    /******
+     * 存在性判断
+     ******/
+    public Map<Long, Boolean> submit(ExistTaskSpec spec) throws Exception {
+
+        List<ExistSubTaskSpec> subTaskSpecs = front.map(spec);
+        List<Map<Long, Boolean>> subResults = backend.execExist(subTaskSpecs);
+
+        // 合并结果(字典)
+        Map<Long, Boolean> result = new HashMap<>();
+        for (Map<Long, Boolean> m : subResults) {
+            for (Long key : m.keySet()) {
+                if (result.containsKey(key)) {
+                    boolean value = result.get(key);
+                    result.put(key, value || m.get(key));
+                } else {
+                    result.put(key, m.get(key));
+                }
             }
         }
 

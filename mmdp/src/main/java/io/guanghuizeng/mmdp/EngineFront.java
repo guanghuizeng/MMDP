@@ -68,10 +68,19 @@ public class EngineFront {
             Uri tmp = new Uri(u.getServiceID(),
                     new VirtualPath(u.getActualPath().toString()
                             .concat(String.valueOf(System.currentTimeMillis()))));
-           // tmpUris.add(tmp);
+            // tmpUris.add(tmp);
             result.add(new MaxSubTaskSpec(u, tmp, spec.getCount()));
         }
 
+        return result;
+    }
+
+    public List<ExistSubTaskSpec> map(ExistTaskSpec spec) {
+        List<ExistSubTaskSpec> result = new ArrayList<>();
+        List<Uri> uris = fileSystem.resolve(spec.getInput());
+        for (Uri u : uris) {
+            result.add(new ExistSubTaskSpec(u, spec.getData(), spec.getFpp()));
+        }
         return result;
     }
 }

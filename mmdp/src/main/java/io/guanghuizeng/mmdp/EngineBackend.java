@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -134,6 +135,31 @@ public class EngineBackend {
             // TODO 改进处理方式
             e.printStackTrace();
             throw new IOException(e.getCause());
+        }
+    }
+
+    public List<Map<Long, Boolean>> execExist(List<ExistSubTaskSpec> subTaskSpecs) throws Exception {
+
+        List<Map<Long, Boolean>> result = new ArrayList<>();
+        List<Future<ExistSubTaskSpec>> futures = new ArrayList<>();
+        /** 生成tasks, 放入不同线程 */
+        for (ExistSubTaskSpec subTask : subTaskSpecs) {
+            Client client = cluster.getEngineClient(subTask.getInput().getServiceID());
+            futures.add(executor.submit(new ExistSubTask(client,subTask)));
+        }
+        /** 获取结果 */
+        try {
+            for (Future<ExistSubTaskSpec> f : futures) {
+                result.add(f.get().getResult());
+            }
+            return result;
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new InterruptedIOException("EB: execMax");
+        } catch (ExecutionException e) {
+            // TODO 改进处理方式
+            e.printStackTrace();
+            throw e;
         }
     }
 }

@@ -83,6 +83,14 @@ public class FileSystem {
         return virtualFile;
     }
 
+    public WritableVirtualFile newWritableFile(Uri uri) {
+        VirtualPath path = uri.getActualPath();
+        WritableVirtualFile virtualFile = new WritableVirtualFile(path, bufferSize);
+        virtualFile.addFile(uri, defaultLength);
+        put(path, uri);
+        return virtualFile;
+    }
+
     public VirtualFile newFile(Uri uri) {
         return new VirtualFile(bufferSize, uri);
     }

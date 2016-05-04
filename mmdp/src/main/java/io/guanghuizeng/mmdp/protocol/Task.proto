@@ -9,6 +9,7 @@ message Task {
     optional SortSubTask sortSubTask = 2;
     optional MedianSubTask medianSubTask = 3;
     optional MaxSubTask maxSubTask = 4;
+    optional ExistSubTask existenceSubTask = 5;
 }
 
 message SortSubTask {
@@ -33,6 +34,23 @@ message MaxSubTask {
     required Uri input = 2;
     required Uri output = 3;
     required int32 count = 4;
+}
+
+message ExistSubTask {
+    required Opcode opcode = 1 [default = MAX];
+    required Uri input = 2;
+    required ListOfLong data = 3;
+    required double fpp = 4;
+    optional Map result = 5;
+
+    message Map {
+        repeated MapEntry entry = 1;
+    }
+
+    message MapEntry {
+        required int64 key = 1;
+        required bool value = 2;
+    }
 }
 
 enum Opcode {

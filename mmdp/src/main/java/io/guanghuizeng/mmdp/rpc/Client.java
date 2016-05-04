@@ -73,5 +73,8 @@ public class Client {
         return pipeline.get(MaxTaskHandler.class).exec(spec);
     }
 
+    public ExistSubTaskSpec exist(ExistSubTaskSpec spec) throws InterruptedException {
+        return pipeline.get(ExistTaskHandler.class).exec(spec);
+    }
 }
 

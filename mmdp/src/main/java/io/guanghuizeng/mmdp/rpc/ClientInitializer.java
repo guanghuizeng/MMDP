@@ -37,10 +37,14 @@ public class ClientInitializer extends ChannelInitializer<SocketChannel> {
         pipeline.addLast(new MaxSpecDecoder());
         pipeline.addLast(new MaxSpecEncoder());
 
+        pipeline.addLast(new ExistSpecDecoder());
+        pipeline.addLast(new ExistSpecEncoder());
+
         // pipeline.addLast(new LoggingHandler(LogLevel.INFO));
         pipeline.addLast("SortTaskHandler", new SortTaskHandler());
         pipeline.addLast("MedianTaskHandler", new MedianTaskHandler());
         pipeline.addLast("MaxTaskHandler", new MaxTaskHandler());
+        pipeline.addLast("ExistTaskHandler", new ExistTaskHandler());
     }
 
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {

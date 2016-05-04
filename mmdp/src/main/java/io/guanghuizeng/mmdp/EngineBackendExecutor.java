@@ -2,6 +2,7 @@ package io.guanghuizeng.mmdp;
 
 import io.guanghuizeng.fs.FileSystem;
 import io.guanghuizeng.mmdp.algs.MinHeap;
+import io.guanghuizeng.mmdp.algs2.Existence;
 import io.guanghuizeng.mmdp.algs2.ExternalSort;
 import io.guanghuizeng.mmdp.algs2.FileInputBuffer;
 import io.guanghuizeng.mmdp.algs2.FileOutputBuffer;
@@ -13,6 +14,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 实现服务器端的业务逻辑, 面向 sub task 设计.
@@ -197,6 +199,18 @@ public class EngineBackendExecutor {
         }
         outputBuffer.close();
 
+        return spec;
+    }
+
+    /**
+     * might contains
+     */
+    public ExistSubTaskSpec exec(ExistSubTaskSpec spec) throws IOException {
+
+        Path path = Paths.get(fileSystem.getHome(spec.getInput().getServiceID().code()),
+                spec.getInput().getActualPath().getLocalPath().toString());
+        Map<Long, Boolean> result = Existence.mightContain(path, spec.getData(), spec.getFpp());
+        spec.setResult(result);
         return spec;
     }
 }
