@@ -10,6 +10,7 @@ message Task {
     optional MedianSubTask medianSubTask = 3;
     optional MaxSubTask maxSubTask = 4;
     optional ExistSubTask existenceSubTask = 5;
+    optional TopSubTask topSubTask = 6;
 }
 
 message SortSubTask {
@@ -53,6 +54,23 @@ message ExistSubTask {
     }
 }
 
+message TopSubTask {
+    required Opcode opcode = 1 [default = ECHO];
+    required Uri input = 2;
+    required int64 lowBound = 3;
+    required int64 upBound = 4;
+    required int32 k = 5;
+    optional Map result = 6;
+
+    message Map {
+        repeated MapEntry entry = 1;
+    }
+    message MapEntry {
+        required int64 key = 1;
+        required int64 value = 2;
+    }
+}
+
 enum Opcode {
     ECHO = 0;
     SAVE = 1;
@@ -62,6 +80,7 @@ enum Opcode {
     EXIST = 5;
     FREQUENCY = 6;
     MEDIAN = 7;
+    TOP = 8;
 }
 
 message Uri {

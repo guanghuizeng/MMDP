@@ -4,9 +4,7 @@ import io.guanghuizeng.fs.FileSystem;
 import io.guanghuizeng.fs.VirtualPath;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by guanghuizeng on 16/4/21.
@@ -74,6 +72,22 @@ public class Engine {
      */
     public Map<Long, Boolean> exist(VirtualPath input, Set<Long> data, double fpp) throws Exception {
         ExistTaskSpec spec = ExistTaskSpec.build(input, data, fpp);
+        return kernel.submit(spec);
+    }
+
+    /****************
+     * top
+     ****************/
+    /**
+     * 统计文件中出现次数最多的前k位数
+     *
+     * @param input 输入文件.
+     * @param k     要统计的个数.
+     * @return 字典的key是从文件中筛选出的数, value是对应值在文件中的出现次数. 结果按照value值排序.
+     * @throws Exception
+     */
+    public Map<Long, Long> top(VirtualPath input, int k) throws Exception {
+        TopTaskSpec spec = TopTaskSpec.build(input, Long.MIN_VALUE, Long.MAX_VALUE, k);
         return kernel.submit(spec);
     }
 }

@@ -11,12 +11,7 @@ import io.guanghuizeng.fs.output.WritableVirtualFile;
 import io.guanghuizeng.mmdp.algs2.Histogram;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
  *
@@ -214,4 +209,47 @@ public class EngineKernel {
         return result;
     }
 
+    /******
+     * Top-K
+     ******/
+
+    public Map<Long, Long> submit(TopTaskSpec spec) throws Exception {
+
+        /** 按值域和机器数量, 重新划分文件 */
+        List<TopSubTaskSpec> subTaskSpecs = front.map(spec);
+        /** 执行分解后的task */
+        List<Map<Long, Long>> subResults = backend.execTop(subTaskSpecs);
+
+        /**
+         * 合并结果(字典). 用PQ取前K项.
+         */
+        PriorityQueue<Map.Entry<Long, Long>> queue = new PriorityQueue<>(new Comparator<Map.Entry<Long, Long>>() {
+            @Override
+            public int compare(Map.Entry<Long, Long> o1, Map.Entry<Long, Long> o2) {
+                return o1.getValue().compareTo(o2.getValue());
+            }
+        });
+        int size = 0;
+        int k = spec.getK();
+        for (Map<Long, Long> count : subResults) {
+            for (Map.Entry<Long, Long> entry : count.entrySet()) {
+                if (size <= k) {
+                    queue.add(entry);
+                    size++;
+                } else {
+                    if (entry.getValue().compareTo(queue.peek().getValue()) > 0) {
+                        queue.poll();
+                        queue.add(entry);
+                    }
+                }
+            }
+        }
+        TreeMap<Long, Long> result = new TreeMap<>();
+        int size1 = queue.size();
+        for (int i = 0; i < size1; i++) {
+            Map.Entry<Long, Long> entry = queue.poll();
+            result.put(entry.getKey(), entry.getValue());
+        }
+        return result;
+    }
 }

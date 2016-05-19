@@ -91,6 +91,10 @@ public class FileSystem {
         return virtualFile;
     }
 
+    public VirtualFile getFile(VirtualPath path) {
+        return new VirtualFile(metadata.resolve(path));
+    }
+
     public VirtualFile newFile(Uri uri) {
         return new VirtualFile(bufferSize, uri);
     }

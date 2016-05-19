@@ -27,6 +27,9 @@ public class TaskDecoder extends MessageToMessageDecoder<TaskProtos.Task> {
             case EXIST:
                 out.add(in.getExistenceSubTask());
                 break;
+            case TOP:
+                out.add(in.getTopSubTask());
+                break;
             default:
                 break; // TODO 做些什么...
         }

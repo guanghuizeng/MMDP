@@ -45,6 +45,10 @@ public final class TaskProtos {
      * <code>MEDIAN = 7;</code>
      */
     MEDIAN(7, 7),
+    /**
+     * <code>TOP = 8;</code>
+     */
+    TOP(8, 8),
     ;
 
     /**
@@ -79,6 +83,10 @@ public final class TaskProtos {
      * <code>MEDIAN = 7;</code>
      */
     public static final int MEDIAN_VALUE = 7;
+    /**
+     * <code>TOP = 8;</code>
+     */
+    public static final int TOP_VALUE = 8;
 
 
     public final int getNumber() { return value; }
@@ -93,6 +101,7 @@ public final class TaskProtos {
         case 5: return EXIST;
         case 6: return FREQUENCY;
         case 7: return MEDIAN;
+        case 8: return TOP;
         default: return null;
       }
     }
@@ -308,6 +317,19 @@ public final class TaskProtos {
      * <code>optional .io.guanghuizeng.mmdp.protocol.ExistSubTask existenceSubTask = 5;</code>
      */
     io.guanghuizeng.mmdp.protocol.TaskProtos.ExistSubTaskOrBuilder getExistenceSubTaskOrBuilder();
+
+    /**
+     * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask topSubTask = 6;</code>
+     */
+    boolean hasTopSubTask();
+    /**
+     * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask topSubTask = 6;</code>
+     */
+    io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask getTopSubTask();
+    /**
+     * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask topSubTask = 6;</code>
+     */
+    io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTaskOrBuilder getTopSubTaskOrBuilder();
   }
   /**
    * Protobuf type {@code io.guanghuizeng.mmdp.protocol.Task}
@@ -422,6 +444,19 @@ public final class TaskProtos {
                 existenceSubTask_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000010;
+              break;
+            }
+            case 50: {
+              io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000020) == 0x00000020)) {
+                subBuilder = topSubTask_.toBuilder();
+              }
+              topSubTask_ = input.readMessage(io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(topSubTask_);
+                topSubTask_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000020;
               break;
             }
           }
@@ -563,12 +598,34 @@ public final class TaskProtos {
       return existenceSubTask_;
     }
 
+    public static final int TOPSUBTASK_FIELD_NUMBER = 6;
+    private io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask topSubTask_;
+    /**
+     * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask topSubTask = 6;</code>
+     */
+    public boolean hasTopSubTask() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask topSubTask = 6;</code>
+     */
+    public io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask getTopSubTask() {
+      return topSubTask_;
+    }
+    /**
+     * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask topSubTask = 6;</code>
+     */
+    public io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTaskOrBuilder getTopSubTaskOrBuilder() {
+      return topSubTask_;
+    }
+
     private void initFields() {
       opcode_ = io.guanghuizeng.mmdp.protocol.TaskProtos.Opcode.ECHO;
       sortSubTask_ = io.guanghuizeng.mmdp.protocol.TaskProtos.SortSubTask.getDefaultInstance();
       medianSubTask_ = io.guanghuizeng.mmdp.protocol.TaskProtos.MedianSubTask.getDefaultInstance();
       maxSubTask_ = io.guanghuizeng.mmdp.protocol.TaskProtos.MaxSubTask.getDefaultInstance();
       existenceSubTask_ = io.guanghuizeng.mmdp.protocol.TaskProtos.ExistSubTask.getDefaultInstance();
+      topSubTask_ = io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -604,6 +661,12 @@ public final class TaskProtos {
           return false;
         }
       }
+      if (hasTopSubTask()) {
+        if (!getTopSubTask().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -625,6 +688,9 @@ public final class TaskProtos {
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeMessage(5, existenceSubTask_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeMessage(6, topSubTask_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -654,6 +720,10 @@ public final class TaskProtos {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, existenceSubTask_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, topSubTask_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -768,6 +838,7 @@ public final class TaskProtos {
           getMedianSubTaskFieldBuilder();
           getMaxSubTaskFieldBuilder();
           getExistenceSubTaskFieldBuilder();
+          getTopSubTaskFieldBuilder();
         }
       }
       private static Builder create() {
@@ -802,6 +873,12 @@ public final class TaskProtos {
           existenceSubTaskBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000010);
+        if (topSubTaskBuilder_ == null) {
+          topSubTask_ = io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.getDefaultInstance();
+        } else {
+          topSubTaskBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -866,6 +943,14 @@ public final class TaskProtos {
         } else {
           result.existenceSubTask_ = existenceSubTaskBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        if (topSubTaskBuilder_ == null) {
+          result.topSubTask_ = topSubTask_;
+        } else {
+          result.topSubTask_ = topSubTaskBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -897,6 +982,9 @@ public final class TaskProtos {
         if (other.hasExistenceSubTask()) {
           mergeExistenceSubTask(other.getExistenceSubTask());
         }
+        if (other.hasTopSubTask()) {
+          mergeTopSubTask(other.getTopSubTask());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -926,6 +1014,12 @@ public final class TaskProtos {
         }
         if (hasExistenceSubTask()) {
           if (!getExistenceSubTask().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasTopSubTask()) {
+          if (!getTopSubTask().isInitialized()) {
             
             return false;
           }
@@ -1449,6 +1543,122 @@ public final class TaskProtos {
           existenceSubTask_ = null;
         }
         return existenceSubTaskBuilder_;
+      }
+
+      private io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask topSubTask_ = io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask, io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Builder, io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTaskOrBuilder> topSubTaskBuilder_;
+      /**
+       * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask topSubTask = 6;</code>
+       */
+      public boolean hasTopSubTask() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask topSubTask = 6;</code>
+       */
+      public io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask getTopSubTask() {
+        if (topSubTaskBuilder_ == null) {
+          return topSubTask_;
+        } else {
+          return topSubTaskBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask topSubTask = 6;</code>
+       */
+      public Builder setTopSubTask(io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask value) {
+        if (topSubTaskBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          topSubTask_ = value;
+          onChanged();
+        } else {
+          topSubTaskBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask topSubTask = 6;</code>
+       */
+      public Builder setTopSubTask(
+          io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Builder builderForValue) {
+        if (topSubTaskBuilder_ == null) {
+          topSubTask_ = builderForValue.build();
+          onChanged();
+        } else {
+          topSubTaskBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask topSubTask = 6;</code>
+       */
+      public Builder mergeTopSubTask(io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask value) {
+        if (topSubTaskBuilder_ == null) {
+          if (((bitField0_ & 0x00000020) == 0x00000020) &&
+              topSubTask_ != io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.getDefaultInstance()) {
+            topSubTask_ =
+              io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.newBuilder(topSubTask_).mergeFrom(value).buildPartial();
+          } else {
+            topSubTask_ = value;
+          }
+          onChanged();
+        } else {
+          topSubTaskBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask topSubTask = 6;</code>
+       */
+      public Builder clearTopSubTask() {
+        if (topSubTaskBuilder_ == null) {
+          topSubTask_ = io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.getDefaultInstance();
+          onChanged();
+        } else {
+          topSubTaskBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000020);
+        return this;
+      }
+      /**
+       * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask topSubTask = 6;</code>
+       */
+      public io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Builder getTopSubTaskBuilder() {
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return getTopSubTaskFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask topSubTask = 6;</code>
+       */
+      public io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTaskOrBuilder getTopSubTaskOrBuilder() {
+        if (topSubTaskBuilder_ != null) {
+          return topSubTaskBuilder_.getMessageOrBuilder();
+        } else {
+          return topSubTask_;
+        }
+      }
+      /**
+       * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask topSubTask = 6;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask, io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Builder, io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTaskOrBuilder> 
+          getTopSubTaskFieldBuilder() {
+        if (topSubTaskBuilder_ == null) {
+          topSubTaskBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask, io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Builder, io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTaskOrBuilder>(
+                  getTopSubTask(),
+                  getParentForChildren(),
+                  isClean());
+          topSubTask_ = null;
+        }
+        return topSubTaskBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:io.guanghuizeng.mmdp.protocol.Task)
@@ -6737,6 +6947,2263 @@ public final class TaskProtos {
     // @@protoc_insertion_point(class_scope:io.guanghuizeng.mmdp.protocol.ExistSubTask)
   }
 
+  public interface TopSubTaskOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:io.guanghuizeng.mmdp.protocol.TopSubTask)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required .io.guanghuizeng.mmdp.protocol.Opcode opcode = 1 [default = ECHO];</code>
+     */
+    boolean hasOpcode();
+    /**
+     * <code>required .io.guanghuizeng.mmdp.protocol.Opcode opcode = 1 [default = ECHO];</code>
+     */
+    io.guanghuizeng.mmdp.protocol.TaskProtos.Opcode getOpcode();
+
+    /**
+     * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+     */
+    boolean hasInput();
+    /**
+     * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+     */
+    io.guanghuizeng.mmdp.protocol.TaskProtos.Uri getInput();
+    /**
+     * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+     */
+    io.guanghuizeng.mmdp.protocol.TaskProtos.UriOrBuilder getInputOrBuilder();
+
+    /**
+     * <code>required int64 lowBound = 3;</code>
+     */
+    boolean hasLowBound();
+    /**
+     * <code>required int64 lowBound = 3;</code>
+     */
+    long getLowBound();
+
+    /**
+     * <code>required int64 upBound = 4;</code>
+     */
+    boolean hasUpBound();
+    /**
+     * <code>required int64 upBound = 4;</code>
+     */
+    long getUpBound();
+
+    /**
+     * <code>required int32 k = 5;</code>
+     */
+    boolean hasK();
+    /**
+     * <code>required int32 k = 5;</code>
+     */
+    int getK();
+
+    /**
+     * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask.Map result = 6;</code>
+     */
+    boolean hasResult();
+    /**
+     * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask.Map result = 6;</code>
+     */
+    io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map getResult();
+    /**
+     * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask.Map result = 6;</code>
+     */
+    io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapOrBuilder getResultOrBuilder();
+  }
+  /**
+   * Protobuf type {@code io.guanghuizeng.mmdp.protocol.TopSubTask}
+   */
+  public static final class TopSubTask extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:io.guanghuizeng.mmdp.protocol.TopSubTask)
+      TopSubTaskOrBuilder {
+    // Use TopSubTask.newBuilder() to construct.
+    private TopSubTask(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private TopSubTask(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final TopSubTask defaultInstance;
+    public static TopSubTask getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public TopSubTask getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TopSubTask(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+              io.guanghuizeng.mmdp.protocol.TaskProtos.Opcode value = io.guanghuizeng.mmdp.protocol.TaskProtos.Opcode.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                opcode_ = value;
+              }
+              break;
+            }
+            case 18: {
+              io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                subBuilder = input_.toBuilder();
+              }
+              input_ = input.readMessage(io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(input_);
+                input_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000002;
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              lowBound_ = input.readInt64();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              upBound_ = input.readInt64();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              k_ = input.readInt32();
+              break;
+            }
+            case 50: {
+              io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000020) == 0x00000020)) {
+                subBuilder = result_.toBuilder();
+              }
+              result_ = input.readMessage(io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(result_);
+                result_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000020;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return io.guanghuizeng.mmdp.protocol.TaskProtos.internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return io.guanghuizeng.mmdp.protocol.TaskProtos.internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.class, io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<TopSubTask> PARSER =
+        new com.google.protobuf.AbstractParser<TopSubTask>() {
+      public TopSubTask parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new TopSubTask(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TopSubTask> getParserForType() {
+      return PARSER;
+    }
+
+    public interface MapOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:io.guanghuizeng.mmdp.protocol.TopSubTask.Map)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>repeated .io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry entry = 1;</code>
+       */
+      java.util.List<io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry> 
+          getEntryList();
+      /**
+       * <code>repeated .io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry entry = 1;</code>
+       */
+      io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry getEntry(int index);
+      /**
+       * <code>repeated .io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry entry = 1;</code>
+       */
+      int getEntryCount();
+      /**
+       * <code>repeated .io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry entry = 1;</code>
+       */
+      java.util.List<? extends io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntryOrBuilder> 
+          getEntryOrBuilderList();
+      /**
+       * <code>repeated .io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry entry = 1;</code>
+       */
+      io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntryOrBuilder getEntryOrBuilder(
+          int index);
+    }
+    /**
+     * Protobuf type {@code io.guanghuizeng.mmdp.protocol.TopSubTask.Map}
+     */
+    public static final class Map extends
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:io.guanghuizeng.mmdp.protocol.TopSubTask.Map)
+        MapOrBuilder {
+      // Use Map.newBuilder() to construct.
+      private Map(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+        super(builder);
+        this.unknownFields = builder.getUnknownFields();
+      }
+      private Map(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+      private static final Map defaultInstance;
+      public static Map getDefaultInstance() {
+        return defaultInstance;
+      }
+
+      public Map getDefaultInstanceForType() {
+        return defaultInstance;
+      }
+
+      private final com.google.protobuf.UnknownFieldSet unknownFields;
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+          getUnknownFields() {
+        return this.unknownFields;
+      }
+      private Map(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        initFields();
+        int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!parseUnknownField(input, unknownFields,
+                                       extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+              case 10: {
+                if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                  entry_ = new java.util.ArrayList<io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry>();
+                  mutable_bitField0_ |= 0x00000001;
+                }
+                entry_.add(input.readMessage(io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry.PARSER, extensionRegistry));
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e.getMessage()).setUnfinishedMessage(this);
+        } finally {
+          if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+            entry_ = java.util.Collections.unmodifiableList(entry_);
+          }
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return io.guanghuizeng.mmdp.protocol.TaskProtos.internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_Map_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return io.guanghuizeng.mmdp.protocol.TaskProtos.internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_Map_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map.class, io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map.Builder.class);
+      }
+
+      public static com.google.protobuf.Parser<Map> PARSER =
+          new com.google.protobuf.AbstractParser<Map>() {
+        public Map parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return new Map(input, extensionRegistry);
+        }
+      };
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<Map> getParserForType() {
+        return PARSER;
+      }
+
+      public static final int ENTRY_FIELD_NUMBER = 1;
+      private java.util.List<io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry> entry_;
+      /**
+       * <code>repeated .io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry entry = 1;</code>
+       */
+      public java.util.List<io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry> getEntryList() {
+        return entry_;
+      }
+      /**
+       * <code>repeated .io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry entry = 1;</code>
+       */
+      public java.util.List<? extends io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntryOrBuilder> 
+          getEntryOrBuilderList() {
+        return entry_;
+      }
+      /**
+       * <code>repeated .io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry entry = 1;</code>
+       */
+      public int getEntryCount() {
+        return entry_.size();
+      }
+      /**
+       * <code>repeated .io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry entry = 1;</code>
+       */
+      public io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry getEntry(int index) {
+        return entry_.get(index);
+      }
+      /**
+       * <code>repeated .io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry entry = 1;</code>
+       */
+      public io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntryOrBuilder getEntryOrBuilder(
+          int index) {
+        return entry_.get(index);
+      }
+
+      private void initFields() {
+        entry_ = java.util.Collections.emptyList();
+      }
+      private byte memoizedIsInitialized = -1;
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        for (int i = 0; i < getEntryCount(); i++) {
+          if (!getEntry(i).isInitialized()) {
+            memoizedIsInitialized = 0;
+            return false;
+          }
+        }
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        getSerializedSize();
+        for (int i = 0; i < entry_.size(); i++) {
+          output.writeMessage(1, entry_.get(i));
+        }
+        getUnknownFields().writeTo(output);
+      }
+
+      private int memoizedSerializedSize = -1;
+      public int getSerializedSize() {
+        int size = memoizedSerializedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        for (int i = 0; i < entry_.size(); i++) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(1, entry_.get(i));
+        }
+        size += getUnknownFields().getSerializedSize();
+        memoizedSerializedSize = size;
+        return size;
+      }
+
+      private static final long serialVersionUID = 0L;
+      @java.lang.Override
+      protected java.lang.Object writeReplace()
+          throws java.io.ObjectStreamException {
+        return super.writeReplace();
+      }
+
+      public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input);
+      }
+      public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input, extensionRegistry);
+      }
+      public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return PARSER.parseDelimitedFrom(input);
+      }
+      public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      }
+      public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input);
+      }
+      public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input, extensionRegistry);
+      }
+
+      public static Builder newBuilder() { return Builder.create(); }
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder(io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map prototype) {
+        return newBuilder().mergeFrom(prototype);
+      }
+      public Builder toBuilder() { return newBuilder(this); }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code io.guanghuizeng.mmdp.protocol.TopSubTask.Map}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:io.guanghuizeng.mmdp.protocol.TopSubTask.Map)
+          io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return io.guanghuizeng.mmdp.protocol.TaskProtos.internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_Map_descriptor;
+        }
+
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return io.guanghuizeng.mmdp.protocol.TaskProtos.internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_Map_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map.class, io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map.Builder.class);
+        }
+
+        // Construct using io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+            getEntryFieldBuilder();
+          }
+        }
+        private static Builder create() {
+          return new Builder();
+        }
+
+        public Builder clear() {
+          super.clear();
+          if (entryBuilder_ == null) {
+            entry_ = java.util.Collections.emptyList();
+            bitField0_ = (bitField0_ & ~0x00000001);
+          } else {
+            entryBuilder_.clear();
+          }
+          return this;
+        }
+
+        public Builder clone() {
+          return create().mergeFrom(buildPartial());
+        }
+
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return io.guanghuizeng.mmdp.protocol.TaskProtos.internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_Map_descriptor;
+        }
+
+        public io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map getDefaultInstanceForType() {
+          return io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map.getDefaultInstance();
+        }
+
+        public io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map build() {
+          io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        public io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map buildPartial() {
+          io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map result = new io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map(this);
+          int from_bitField0_ = bitField0_;
+          if (entryBuilder_ == null) {
+            if (((bitField0_ & 0x00000001) == 0x00000001)) {
+              entry_ = java.util.Collections.unmodifiableList(entry_);
+              bitField0_ = (bitField0_ & ~0x00000001);
+            }
+            result.entry_ = entry_;
+          } else {
+            result.entry_ = entryBuilder_.build();
+          }
+          onBuilt();
+          return result;
+        }
+
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map) {
+            return mergeFrom((io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map other) {
+          if (other == io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map.getDefaultInstance()) return this;
+          if (entryBuilder_ == null) {
+            if (!other.entry_.isEmpty()) {
+              if (entry_.isEmpty()) {
+                entry_ = other.entry_;
+                bitField0_ = (bitField0_ & ~0x00000001);
+              } else {
+                ensureEntryIsMutable();
+                entry_.addAll(other.entry_);
+              }
+              onChanged();
+            }
+          } else {
+            if (!other.entry_.isEmpty()) {
+              if (entryBuilder_.isEmpty()) {
+                entryBuilder_.dispose();
+                entryBuilder_ = null;
+                entry_ = other.entry_;
+                bitField0_ = (bitField0_ & ~0x00000001);
+                entryBuilder_ = 
+                  com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                     getEntryFieldBuilder() : null;
+              } else {
+                entryBuilder_.addAllMessages(other.entry_);
+              }
+            }
+          }
+          this.mergeUnknownFields(other.getUnknownFields());
+          return this;
+        }
+
+        public final boolean isInitialized() {
+          for (int i = 0; i < getEntryCount(); i++) {
+            if (!getEntry(i).isInitialized()) {
+              
+              return false;
+            }
+          }
+          return true;
+        }
+
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map) e.getUnfinishedMessage();
+            throw e;
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+        private int bitField0_;
+
+        private java.util.List<io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry> entry_ =
+          java.util.Collections.emptyList();
+        private void ensureEntryIsMutable() {
+          if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+            entry_ = new java.util.ArrayList<io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry>(entry_);
+            bitField0_ |= 0x00000001;
+           }
+        }
+
+        private com.google.protobuf.RepeatedFieldBuilder<
+            io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry, io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry.Builder, io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntryOrBuilder> entryBuilder_;
+
+        /**
+         * <code>repeated .io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry entry = 1;</code>
+         */
+        public java.util.List<io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry> getEntryList() {
+          if (entryBuilder_ == null) {
+            return java.util.Collections.unmodifiableList(entry_);
+          } else {
+            return entryBuilder_.getMessageList();
+          }
+        }
+        /**
+         * <code>repeated .io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry entry = 1;</code>
+         */
+        public int getEntryCount() {
+          if (entryBuilder_ == null) {
+            return entry_.size();
+          } else {
+            return entryBuilder_.getCount();
+          }
+        }
+        /**
+         * <code>repeated .io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry entry = 1;</code>
+         */
+        public io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry getEntry(int index) {
+          if (entryBuilder_ == null) {
+            return entry_.get(index);
+          } else {
+            return entryBuilder_.getMessage(index);
+          }
+        }
+        /**
+         * <code>repeated .io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry entry = 1;</code>
+         */
+        public Builder setEntry(
+            int index, io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry value) {
+          if (entryBuilder_ == null) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            ensureEntryIsMutable();
+            entry_.set(index, value);
+            onChanged();
+          } else {
+            entryBuilder_.setMessage(index, value);
+          }
+          return this;
+        }
+        /**
+         * <code>repeated .io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry entry = 1;</code>
+         */
+        public Builder setEntry(
+            int index, io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry.Builder builderForValue) {
+          if (entryBuilder_ == null) {
+            ensureEntryIsMutable();
+            entry_.set(index, builderForValue.build());
+            onChanged();
+          } else {
+            entryBuilder_.setMessage(index, builderForValue.build());
+          }
+          return this;
+        }
+        /**
+         * <code>repeated .io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry entry = 1;</code>
+         */
+        public Builder addEntry(io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry value) {
+          if (entryBuilder_ == null) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            ensureEntryIsMutable();
+            entry_.add(value);
+            onChanged();
+          } else {
+            entryBuilder_.addMessage(value);
+          }
+          return this;
+        }
+        /**
+         * <code>repeated .io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry entry = 1;</code>
+         */
+        public Builder addEntry(
+            int index, io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry value) {
+          if (entryBuilder_ == null) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            ensureEntryIsMutable();
+            entry_.add(index, value);
+            onChanged();
+          } else {
+            entryBuilder_.addMessage(index, value);
+          }
+          return this;
+        }
+        /**
+         * <code>repeated .io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry entry = 1;</code>
+         */
+        public Builder addEntry(
+            io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry.Builder builderForValue) {
+          if (entryBuilder_ == null) {
+            ensureEntryIsMutable();
+            entry_.add(builderForValue.build());
+            onChanged();
+          } else {
+            entryBuilder_.addMessage(builderForValue.build());
+          }
+          return this;
+        }
+        /**
+         * <code>repeated .io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry entry = 1;</code>
+         */
+        public Builder addEntry(
+            int index, io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry.Builder builderForValue) {
+          if (entryBuilder_ == null) {
+            ensureEntryIsMutable();
+            entry_.add(index, builderForValue.build());
+            onChanged();
+          } else {
+            entryBuilder_.addMessage(index, builderForValue.build());
+          }
+          return this;
+        }
+        /**
+         * <code>repeated .io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry entry = 1;</code>
+         */
+        public Builder addAllEntry(
+            java.lang.Iterable<? extends io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry> values) {
+          if (entryBuilder_ == null) {
+            ensureEntryIsMutable();
+            com.google.protobuf.AbstractMessageLite.Builder.addAll(
+                values, entry_);
+            onChanged();
+          } else {
+            entryBuilder_.addAllMessages(values);
+          }
+          return this;
+        }
+        /**
+         * <code>repeated .io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry entry = 1;</code>
+         */
+        public Builder clearEntry() {
+          if (entryBuilder_ == null) {
+            entry_ = java.util.Collections.emptyList();
+            bitField0_ = (bitField0_ & ~0x00000001);
+            onChanged();
+          } else {
+            entryBuilder_.clear();
+          }
+          return this;
+        }
+        /**
+         * <code>repeated .io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry entry = 1;</code>
+         */
+        public Builder removeEntry(int index) {
+          if (entryBuilder_ == null) {
+            ensureEntryIsMutable();
+            entry_.remove(index);
+            onChanged();
+          } else {
+            entryBuilder_.remove(index);
+          }
+          return this;
+        }
+        /**
+         * <code>repeated .io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry entry = 1;</code>
+         */
+        public io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry.Builder getEntryBuilder(
+            int index) {
+          return getEntryFieldBuilder().getBuilder(index);
+        }
+        /**
+         * <code>repeated .io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry entry = 1;</code>
+         */
+        public io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntryOrBuilder getEntryOrBuilder(
+            int index) {
+          if (entryBuilder_ == null) {
+            return entry_.get(index);  } else {
+            return entryBuilder_.getMessageOrBuilder(index);
+          }
+        }
+        /**
+         * <code>repeated .io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry entry = 1;</code>
+         */
+        public java.util.List<? extends io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntryOrBuilder> 
+             getEntryOrBuilderList() {
+          if (entryBuilder_ != null) {
+            return entryBuilder_.getMessageOrBuilderList();
+          } else {
+            return java.util.Collections.unmodifiableList(entry_);
+          }
+        }
+        /**
+         * <code>repeated .io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry entry = 1;</code>
+         */
+        public io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry.Builder addEntryBuilder() {
+          return getEntryFieldBuilder().addBuilder(
+              io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry.getDefaultInstance());
+        }
+        /**
+         * <code>repeated .io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry entry = 1;</code>
+         */
+        public io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry.Builder addEntryBuilder(
+            int index) {
+          return getEntryFieldBuilder().addBuilder(
+              index, io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry.getDefaultInstance());
+        }
+        /**
+         * <code>repeated .io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry entry = 1;</code>
+         */
+        public java.util.List<io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry.Builder> 
+             getEntryBuilderList() {
+          return getEntryFieldBuilder().getBuilderList();
+        }
+        private com.google.protobuf.RepeatedFieldBuilder<
+            io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry, io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry.Builder, io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntryOrBuilder> 
+            getEntryFieldBuilder() {
+          if (entryBuilder_ == null) {
+            entryBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+                io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry, io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry.Builder, io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntryOrBuilder>(
+                    entry_,
+                    ((bitField0_ & 0x00000001) == 0x00000001),
+                    getParentForChildren(),
+                    isClean());
+            entry_ = null;
+          }
+          return entryBuilder_;
+        }
+
+        // @@protoc_insertion_point(builder_scope:io.guanghuizeng.mmdp.protocol.TopSubTask.Map)
+      }
+
+      static {
+        defaultInstance = new Map(true);
+        defaultInstance.initFields();
+      }
+
+      // @@protoc_insertion_point(class_scope:io.guanghuizeng.mmdp.protocol.TopSubTask.Map)
+    }
+
+    public interface MapEntryOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>required int64 key = 1;</code>
+       */
+      boolean hasKey();
+      /**
+       * <code>required int64 key = 1;</code>
+       */
+      long getKey();
+
+      /**
+       * <code>required int64 value = 2;</code>
+       */
+      boolean hasValue();
+      /**
+       * <code>required int64 value = 2;</code>
+       */
+      long getValue();
+    }
+    /**
+     * Protobuf type {@code io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry}
+     */
+    public static final class MapEntry extends
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry)
+        MapEntryOrBuilder {
+      // Use MapEntry.newBuilder() to construct.
+      private MapEntry(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+        super(builder);
+        this.unknownFields = builder.getUnknownFields();
+      }
+      private MapEntry(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+      private static final MapEntry defaultInstance;
+      public static MapEntry getDefaultInstance() {
+        return defaultInstance;
+      }
+
+      public MapEntry getDefaultInstanceForType() {
+        return defaultInstance;
+      }
+
+      private final com.google.protobuf.UnknownFieldSet unknownFields;
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+          getUnknownFields() {
+        return this.unknownFields;
+      }
+      private MapEntry(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        initFields();
+        int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!parseUnknownField(input, unknownFields,
+                                       extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+              case 8: {
+                bitField0_ |= 0x00000001;
+                key_ = input.readInt64();
+                break;
+              }
+              case 16: {
+                bitField0_ |= 0x00000002;
+                value_ = input.readInt64();
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e.getMessage()).setUnfinishedMessage(this);
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return io.guanghuizeng.mmdp.protocol.TaskProtos.internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_MapEntry_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return io.guanghuizeng.mmdp.protocol.TaskProtos.internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_MapEntry_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry.class, io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry.Builder.class);
+      }
+
+      public static com.google.protobuf.Parser<MapEntry> PARSER =
+          new com.google.protobuf.AbstractParser<MapEntry>() {
+        public MapEntry parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return new MapEntry(input, extensionRegistry);
+        }
+      };
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<MapEntry> getParserForType() {
+        return PARSER;
+      }
+
+      private int bitField0_;
+      public static final int KEY_FIELD_NUMBER = 1;
+      private long key_;
+      /**
+       * <code>required int64 key = 1;</code>
+       */
+      public boolean hasKey() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int64 key = 1;</code>
+       */
+      public long getKey() {
+        return key_;
+      }
+
+      public static final int VALUE_FIELD_NUMBER = 2;
+      private long value_;
+      /**
+       * <code>required int64 value = 2;</code>
+       */
+      public boolean hasValue() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int64 value = 2;</code>
+       */
+      public long getValue() {
+        return value_;
+      }
+
+      private void initFields() {
+        key_ = 0L;
+        value_ = 0L;
+      }
+      private byte memoizedIsInitialized = -1;
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        if (!hasKey()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        if (!hasValue()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        getSerializedSize();
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          output.writeInt64(1, key_);
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          output.writeInt64(2, value_);
+        }
+        getUnknownFields().writeTo(output);
+      }
+
+      private int memoizedSerializedSize = -1;
+      public int getSerializedSize() {
+        int size = memoizedSerializedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt64Size(1, key_);
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt64Size(2, value_);
+        }
+        size += getUnknownFields().getSerializedSize();
+        memoizedSerializedSize = size;
+        return size;
+      }
+
+      private static final long serialVersionUID = 0L;
+      @java.lang.Override
+      protected java.lang.Object writeReplace()
+          throws java.io.ObjectStreamException {
+        return super.writeReplace();
+      }
+
+      public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input);
+      }
+      public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input, extensionRegistry);
+      }
+      public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return PARSER.parseDelimitedFrom(input);
+      }
+      public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      }
+      public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input);
+      }
+      public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input, extensionRegistry);
+      }
+
+      public static Builder newBuilder() { return Builder.create(); }
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder(io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry prototype) {
+        return newBuilder().mergeFrom(prototype);
+      }
+      public Builder toBuilder() { return newBuilder(this); }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry)
+          io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntryOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return io.guanghuizeng.mmdp.protocol.TaskProtos.internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_MapEntry_descriptor;
+        }
+
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return io.guanghuizeng.mmdp.protocol.TaskProtos.internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_MapEntry_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry.class, io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry.Builder.class);
+        }
+
+        // Construct using io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          }
+        }
+        private static Builder create() {
+          return new Builder();
+        }
+
+        public Builder clear() {
+          super.clear();
+          key_ = 0L;
+          bitField0_ = (bitField0_ & ~0x00000001);
+          value_ = 0L;
+          bitField0_ = (bitField0_ & ~0x00000002);
+          return this;
+        }
+
+        public Builder clone() {
+          return create().mergeFrom(buildPartial());
+        }
+
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return io.guanghuizeng.mmdp.protocol.TaskProtos.internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_MapEntry_descriptor;
+        }
+
+        public io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry getDefaultInstanceForType() {
+          return io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry.getDefaultInstance();
+        }
+
+        public io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry build() {
+          io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        public io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry buildPartial() {
+          io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry result = new io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry(this);
+          int from_bitField0_ = bitField0_;
+          int to_bitField0_ = 0;
+          if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+            to_bitField0_ |= 0x00000001;
+          }
+          result.key_ = key_;
+          if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+            to_bitField0_ |= 0x00000002;
+          }
+          result.value_ = value_;
+          result.bitField0_ = to_bitField0_;
+          onBuilt();
+          return result;
+        }
+
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry) {
+            return mergeFrom((io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry other) {
+          if (other == io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry.getDefaultInstance()) return this;
+          if (other.hasKey()) {
+            setKey(other.getKey());
+          }
+          if (other.hasValue()) {
+            setValue(other.getValue());
+          }
+          this.mergeUnknownFields(other.getUnknownFields());
+          return this;
+        }
+
+        public final boolean isInitialized() {
+          if (!hasKey()) {
+            
+            return false;
+          }
+          if (!hasValue()) {
+            
+            return false;
+          }
+          return true;
+        }
+
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapEntry) e.getUnfinishedMessage();
+            throw e;
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+        private int bitField0_;
+
+        private long key_ ;
+        /**
+         * <code>required int64 key = 1;</code>
+         */
+        public boolean hasKey() {
+          return ((bitField0_ & 0x00000001) == 0x00000001);
+        }
+        /**
+         * <code>required int64 key = 1;</code>
+         */
+        public long getKey() {
+          return key_;
+        }
+        /**
+         * <code>required int64 key = 1;</code>
+         */
+        public Builder setKey(long value) {
+          bitField0_ |= 0x00000001;
+          key_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>required int64 key = 1;</code>
+         */
+        public Builder clearKey() {
+          bitField0_ = (bitField0_ & ~0x00000001);
+          key_ = 0L;
+          onChanged();
+          return this;
+        }
+
+        private long value_ ;
+        /**
+         * <code>required int64 value = 2;</code>
+         */
+        public boolean hasValue() {
+          return ((bitField0_ & 0x00000002) == 0x00000002);
+        }
+        /**
+         * <code>required int64 value = 2;</code>
+         */
+        public long getValue() {
+          return value_;
+        }
+        /**
+         * <code>required int64 value = 2;</code>
+         */
+        public Builder setValue(long value) {
+          bitField0_ |= 0x00000002;
+          value_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>required int64 value = 2;</code>
+         */
+        public Builder clearValue() {
+          bitField0_ = (bitField0_ & ~0x00000002);
+          value_ = 0L;
+          onChanged();
+          return this;
+        }
+
+        // @@protoc_insertion_point(builder_scope:io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry)
+      }
+
+      static {
+        defaultInstance = new MapEntry(true);
+        defaultInstance.initFields();
+      }
+
+      // @@protoc_insertion_point(class_scope:io.guanghuizeng.mmdp.protocol.TopSubTask.MapEntry)
+    }
+
+    private int bitField0_;
+    public static final int OPCODE_FIELD_NUMBER = 1;
+    private io.guanghuizeng.mmdp.protocol.TaskProtos.Opcode opcode_;
+    /**
+     * <code>required .io.guanghuizeng.mmdp.protocol.Opcode opcode = 1 [default = ECHO];</code>
+     */
+    public boolean hasOpcode() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .io.guanghuizeng.mmdp.protocol.Opcode opcode = 1 [default = ECHO];</code>
+     */
+    public io.guanghuizeng.mmdp.protocol.TaskProtos.Opcode getOpcode() {
+      return opcode_;
+    }
+
+    public static final int INPUT_FIELD_NUMBER = 2;
+    private io.guanghuizeng.mmdp.protocol.TaskProtos.Uri input_;
+    /**
+     * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+     */
+    public boolean hasInput() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+     */
+    public io.guanghuizeng.mmdp.protocol.TaskProtos.Uri getInput() {
+      return input_;
+    }
+    /**
+     * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+     */
+    public io.guanghuizeng.mmdp.protocol.TaskProtos.UriOrBuilder getInputOrBuilder() {
+      return input_;
+    }
+
+    public static final int LOWBOUND_FIELD_NUMBER = 3;
+    private long lowBound_;
+    /**
+     * <code>required int64 lowBound = 3;</code>
+     */
+    public boolean hasLowBound() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int64 lowBound = 3;</code>
+     */
+    public long getLowBound() {
+      return lowBound_;
+    }
+
+    public static final int UPBOUND_FIELD_NUMBER = 4;
+    private long upBound_;
+    /**
+     * <code>required int64 upBound = 4;</code>
+     */
+    public boolean hasUpBound() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required int64 upBound = 4;</code>
+     */
+    public long getUpBound() {
+      return upBound_;
+    }
+
+    public static final int K_FIELD_NUMBER = 5;
+    private int k_;
+    /**
+     * <code>required int32 k = 5;</code>
+     */
+    public boolean hasK() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required int32 k = 5;</code>
+     */
+    public int getK() {
+      return k_;
+    }
+
+    public static final int RESULT_FIELD_NUMBER = 6;
+    private io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map result_;
+    /**
+     * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask.Map result = 6;</code>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask.Map result = 6;</code>
+     */
+    public io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map getResult() {
+      return result_;
+    }
+    /**
+     * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask.Map result = 6;</code>
+     */
+    public io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapOrBuilder getResultOrBuilder() {
+      return result_;
+    }
+
+    private void initFields() {
+      opcode_ = io.guanghuizeng.mmdp.protocol.TaskProtos.Opcode.ECHO;
+      input_ = io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.getDefaultInstance();
+      lowBound_ = 0L;
+      upBound_ = 0L;
+      k_ = 0;
+      result_ = io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map.getDefaultInstance();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasOpcode()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasInput()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasLowBound()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasUpBound()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasK()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!getInput().isInitialized()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (hasResult()) {
+        if (!getResult().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, opcode_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeMessage(2, input_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt64(3, lowBound_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt64(4, upBound_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(5, k_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeMessage(6, result_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, opcode_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, input_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(3, lowBound_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(4, upBound_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, k_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, result_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code io.guanghuizeng.mmdp.protocol.TopSubTask}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:io.guanghuizeng.mmdp.protocol.TopSubTask)
+        io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTaskOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return io.guanghuizeng.mmdp.protocol.TaskProtos.internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return io.guanghuizeng.mmdp.protocol.TaskProtos.internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.class, io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Builder.class);
+      }
+
+      // Construct using io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getInputFieldBuilder();
+          getResultFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        opcode_ = io.guanghuizeng.mmdp.protocol.TaskProtos.Opcode.ECHO;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        if (inputBuilder_ == null) {
+          input_ = io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.getDefaultInstance();
+        } else {
+          inputBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
+        lowBound_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        upBound_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        k_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        if (resultBuilder_ == null) {
+          result_ = io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map.getDefaultInstance();
+        } else {
+          resultBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000020);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return io.guanghuizeng.mmdp.protocol.TaskProtos.internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_descriptor;
+      }
+
+      public io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask getDefaultInstanceForType() {
+        return io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.getDefaultInstance();
+      }
+
+      public io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask build() {
+        io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask buildPartial() {
+        io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask result = new io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.opcode_ = opcode_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        if (inputBuilder_ == null) {
+          result.input_ = input_;
+        } else {
+          result.input_ = inputBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.lowBound_ = lowBound_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.upBound_ = upBound_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.k_ = k_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        if (resultBuilder_ == null) {
+          result.result_ = result_;
+        } else {
+          result.result_ = resultBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask) {
+          return mergeFrom((io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask other) {
+        if (other == io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.getDefaultInstance()) return this;
+        if (other.hasOpcode()) {
+          setOpcode(other.getOpcode());
+        }
+        if (other.hasInput()) {
+          mergeInput(other.getInput());
+        }
+        if (other.hasLowBound()) {
+          setLowBound(other.getLowBound());
+        }
+        if (other.hasUpBound()) {
+          setUpBound(other.getUpBound());
+        }
+        if (other.hasK()) {
+          setK(other.getK());
+        }
+        if (other.hasResult()) {
+          mergeResult(other.getResult());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasOpcode()) {
+          
+          return false;
+        }
+        if (!hasInput()) {
+          
+          return false;
+        }
+        if (!hasLowBound()) {
+          
+          return false;
+        }
+        if (!hasUpBound()) {
+          
+          return false;
+        }
+        if (!hasK()) {
+          
+          return false;
+        }
+        if (!getInput().isInitialized()) {
+          
+          return false;
+        }
+        if (hasResult()) {
+          if (!getResult().isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private io.guanghuizeng.mmdp.protocol.TaskProtos.Opcode opcode_ = io.guanghuizeng.mmdp.protocol.TaskProtos.Opcode.ECHO;
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Opcode opcode = 1 [default = ECHO];</code>
+       */
+      public boolean hasOpcode() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Opcode opcode = 1 [default = ECHO];</code>
+       */
+      public io.guanghuizeng.mmdp.protocol.TaskProtos.Opcode getOpcode() {
+        return opcode_;
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Opcode opcode = 1 [default = ECHO];</code>
+       */
+      public Builder setOpcode(io.guanghuizeng.mmdp.protocol.TaskProtos.Opcode value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        opcode_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Opcode opcode = 1 [default = ECHO];</code>
+       */
+      public Builder clearOpcode() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        opcode_ = io.guanghuizeng.mmdp.protocol.TaskProtos.Opcode.ECHO;
+        onChanged();
+        return this;
+      }
+
+      private io.guanghuizeng.mmdp.protocol.TaskProtos.Uri input_ = io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          io.guanghuizeng.mmdp.protocol.TaskProtos.Uri, io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.Builder, io.guanghuizeng.mmdp.protocol.TaskProtos.UriOrBuilder> inputBuilder_;
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+       */
+      public boolean hasInput() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+       */
+      public io.guanghuizeng.mmdp.protocol.TaskProtos.Uri getInput() {
+        if (inputBuilder_ == null) {
+          return input_;
+        } else {
+          return inputBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+       */
+      public Builder setInput(io.guanghuizeng.mmdp.protocol.TaskProtos.Uri value) {
+        if (inputBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          input_ = value;
+          onChanged();
+        } else {
+          inputBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+       */
+      public Builder setInput(
+          io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.Builder builderForValue) {
+        if (inputBuilder_ == null) {
+          input_ = builderForValue.build();
+          onChanged();
+        } else {
+          inputBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+       */
+      public Builder mergeInput(io.guanghuizeng.mmdp.protocol.TaskProtos.Uri value) {
+        if (inputBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002) &&
+              input_ != io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.getDefaultInstance()) {
+            input_ =
+              io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.newBuilder(input_).mergeFrom(value).buildPartial();
+          } else {
+            input_ = value;
+          }
+          onChanged();
+        } else {
+          inputBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+       */
+      public Builder clearInput() {
+        if (inputBuilder_ == null) {
+          input_ = io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.getDefaultInstance();
+          onChanged();
+        } else {
+          inputBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+       */
+      public io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.Builder getInputBuilder() {
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return getInputFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+       */
+      public io.guanghuizeng.mmdp.protocol.TaskProtos.UriOrBuilder getInputOrBuilder() {
+        if (inputBuilder_ != null) {
+          return inputBuilder_.getMessageOrBuilder();
+        } else {
+          return input_;
+        }
+      }
+      /**
+       * <code>required .io.guanghuizeng.mmdp.protocol.Uri input = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          io.guanghuizeng.mmdp.protocol.TaskProtos.Uri, io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.Builder, io.guanghuizeng.mmdp.protocol.TaskProtos.UriOrBuilder> 
+          getInputFieldBuilder() {
+        if (inputBuilder_ == null) {
+          inputBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              io.guanghuizeng.mmdp.protocol.TaskProtos.Uri, io.guanghuizeng.mmdp.protocol.TaskProtos.Uri.Builder, io.guanghuizeng.mmdp.protocol.TaskProtos.UriOrBuilder>(
+                  getInput(),
+                  getParentForChildren(),
+                  isClean());
+          input_ = null;
+        }
+        return inputBuilder_;
+      }
+
+      private long lowBound_ ;
+      /**
+       * <code>required int64 lowBound = 3;</code>
+       */
+      public boolean hasLowBound() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int64 lowBound = 3;</code>
+       */
+      public long getLowBound() {
+        return lowBound_;
+      }
+      /**
+       * <code>required int64 lowBound = 3;</code>
+       */
+      public Builder setLowBound(long value) {
+        bitField0_ |= 0x00000004;
+        lowBound_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int64 lowBound = 3;</code>
+       */
+      public Builder clearLowBound() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        lowBound_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long upBound_ ;
+      /**
+       * <code>required int64 upBound = 4;</code>
+       */
+      public boolean hasUpBound() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int64 upBound = 4;</code>
+       */
+      public long getUpBound() {
+        return upBound_;
+      }
+      /**
+       * <code>required int64 upBound = 4;</code>
+       */
+      public Builder setUpBound(long value) {
+        bitField0_ |= 0x00000008;
+        upBound_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int64 upBound = 4;</code>
+       */
+      public Builder clearUpBound() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        upBound_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private int k_ ;
+      /**
+       * <code>required int32 k = 5;</code>
+       */
+      public boolean hasK() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>required int32 k = 5;</code>
+       */
+      public int getK() {
+        return k_;
+      }
+      /**
+       * <code>required int32 k = 5;</code>
+       */
+      public Builder setK(int value) {
+        bitField0_ |= 0x00000010;
+        k_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 k = 5;</code>
+       */
+      public Builder clearK() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        k_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map result_ = io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map, io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map.Builder, io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapOrBuilder> resultBuilder_;
+      /**
+       * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask.Map result = 6;</code>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask.Map result = 6;</code>
+       */
+      public io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map getResult() {
+        if (resultBuilder_ == null) {
+          return result_;
+        } else {
+          return resultBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask.Map result = 6;</code>
+       */
+      public Builder setResult(io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map value) {
+        if (resultBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          result_ = value;
+          onChanged();
+        } else {
+          resultBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask.Map result = 6;</code>
+       */
+      public Builder setResult(
+          io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map.Builder builderForValue) {
+        if (resultBuilder_ == null) {
+          result_ = builderForValue.build();
+          onChanged();
+        } else {
+          resultBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask.Map result = 6;</code>
+       */
+      public Builder mergeResult(io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map value) {
+        if (resultBuilder_ == null) {
+          if (((bitField0_ & 0x00000020) == 0x00000020) &&
+              result_ != io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map.getDefaultInstance()) {
+            result_ =
+              io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map.newBuilder(result_).mergeFrom(value).buildPartial();
+          } else {
+            result_ = value;
+          }
+          onChanged();
+        } else {
+          resultBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask.Map result = 6;</code>
+       */
+      public Builder clearResult() {
+        if (resultBuilder_ == null) {
+          result_ = io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map.getDefaultInstance();
+          onChanged();
+        } else {
+          resultBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000020);
+        return this;
+      }
+      /**
+       * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask.Map result = 6;</code>
+       */
+      public io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map.Builder getResultBuilder() {
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return getResultFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask.Map result = 6;</code>
+       */
+      public io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapOrBuilder getResultOrBuilder() {
+        if (resultBuilder_ != null) {
+          return resultBuilder_.getMessageOrBuilder();
+        } else {
+          return result_;
+        }
+      }
+      /**
+       * <code>optional .io.guanghuizeng.mmdp.protocol.TopSubTask.Map result = 6;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map, io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map.Builder, io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapOrBuilder> 
+          getResultFieldBuilder() {
+        if (resultBuilder_ == null) {
+          resultBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map, io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.Map.Builder, io.guanghuizeng.mmdp.protocol.TaskProtos.TopSubTask.MapOrBuilder>(
+                  getResult(),
+                  getParentForChildren(),
+                  isClean());
+          result_ = null;
+        }
+        return resultBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:io.guanghuizeng.mmdp.protocol.TopSubTask)
+    }
+
+    static {
+      defaultInstance = new TopSubTask(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:io.guanghuizeng.mmdp.protocol.TopSubTask)
+  }
+
   public interface UriOrBuilder extends
       // @@protoc_insertion_point(interface_extends:io.guanghuizeng.mmdp.protocol.Uri)
       com.google.protobuf.MessageOrBuilder {
@@ -10217,6 +12684,21 @@ public final class TaskProtos {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_io_guanghuizeng_mmdp_protocol_ExistSubTask_MapEntry_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_Map_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_Map_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_MapEntry_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_MapEntry_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_io_guanghuizeng_mmdp_protocol_Uri_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -10251,7 +12733,7 @@ public final class TaskProtos {
   static {
     java.lang.String[] descriptorData = {
       "\n\nTask.proto\022\035io.guanghuizeng.mmdp.proto" +
-      "col\"\317\002\n\004Task\022;\n\006opcode\030\001 \002(\0162%.io.guangh" +
+      "col\"\216\003\n\004Task\022;\n\006opcode\030\001 \002(\0162%.io.guangh" +
       "uizeng.mmdp.protocol.Opcode:\004ECHO\022?\n\013sor" +
       "tSubTask\030\002 \001(\0132*.io.guanghuizeng.mmdp.pr" +
       "otocol.SortSubTask\022C\n\rmedianSubTask\030\003 \001(" +
@@ -10259,49 +12741,59 @@ public final class TaskProtos {
       "SubTask\022=\n\nmaxSubTask\030\004 \001(\0132).io.guanghu" +
       "izeng.mmdp.protocol.MaxSubTask\022E\n\020existe" +
       "nceSubTask\030\005 \001(\0132+.io.guanghuizeng.mmdp." +
-      "protocol.ExistSubTask\"\261\001\n\013SortSubTask\022;\n",
-      "\006opcode\030\001 \002(\0162%.io.guanghuizeng.mmdp.pro" +
-      "tocol.Opcode:\004ECHO\0221\n\005input\030\002 \002(\0132\".io.g" +
-      "uanghuizeng.mmdp.protocol.Uri\0222\n\006output\030" +
-      "\003 \002(\0132\".io.guanghuizeng.mmdp.protocol.Ur" +
-      "i\"\270\002\n\rMedianSubTask\022;\n\006opcode\030\001 \002(\0162%.io" +
-      ".guanghuizeng.mmdp.protocol.Opcode:\004ECHO" +
-      "\0221\n\005input\030\002 \002(\0132\".io.guanghuizeng.mmdp.p" +
-      "rotocol.Uri\0223\n\005phase\030\003 \002(\0162$.io.guanghui" +
-      "zeng.mmdp.protocol.Phase\022;\n\thistogram\030\004 " +
-      "\001(\0132(.io.guanghuizeng.mmdp.protocol.Hist",
-      "ogram\022\r\n\005first\030\005 \002(\003\022\021\n\006second\030\006 \002(\003:\0010\022" +
-      "\020\n\005third\030\007 \002(\003:\0010\022\021\n\006fourth\030\010 \002(\003:\0010\"\276\001\n" +
-      "\nMaxSubTask\022:\n\006opcode\030\001 \002(\0162%.io.guanghu" +
-      "izeng.mmdp.protocol.Opcode:\003MAX\0221\n\005input" +
-      "\030\002 \002(\0132\".io.guanghuizeng.mmdp.protocol.U" +
-      "ri\0222\n\006output\030\003 \002(\0132\".io.guanghuizeng.mmd" +
-      "p.protocol.Uri\022\r\n\005count\030\004 \002(\005\"\370\002\n\014ExistS" +
-      "ubTask\022:\n\006opcode\030\001 \002(\0162%.io.guanghuizeng" +
-      ".mmdp.protocol.Opcode:\003MAX\0221\n\005input\030\002 \002(" +
-      "\0132\".io.guanghuizeng.mmdp.protocol.Uri\0227\n",
-      "\004data\030\003 \002(\0132).io.guanghuizeng.mmdp.proto" +
-      "col.ListOfLong\022\013\n\003fpp\030\004 \002(\001\022?\n\006result\030\005 " +
-      "\001(\0132/.io.guanghuizeng.mmdp.protocol.Exis" +
-      "tSubTask.Map\032J\n\003Map\022C\n\005entry\030\001 \003(\01324.io." +
-      "guanghuizeng.mmdp.protocol.ExistSubTask." +
-      "MapEntry\032&\n\010MapEntry\022\013\n\003key\030\001 \002(\003\022\r\n\005val" +
-      "ue\030\002 \002(\010\"\224\001\n\003Uri\022\016\n\006prefix\030\001 \002(\t\022\r\n\005infi" +
-      "x\030\002 \002(\t\0224\n\002id\030\003 \002(\0132(.io.guanghuizeng.mm" +
-      "dp.protocol.ServiceID\0228\n\004path\030\004 \002(\0132*.io" +
-      ".guanghuizeng.mmdp.protocol.VirtualPath\"",
-      "?\n\tServiceID\022\014\n\004host\030\001 \002(\t\022\020\n\010syncPort\030\002" +
-      " \002(\005\022\022\n\nenginePort\030\003 \002(\005\"\033\n\013VirtualPath\022" +
-      "\014\n\004path\030\001 \002(\t\"w\n\tHistogram\0227\n\004data\030\001 \002(\013" +
-      "2).io.guanghuizeng.mmdp.protocol.ListOfL" +
-      "ong\022\014\n\004size\030\002 \002(\005\022\014\n\004bias\030\003 \002(\005\022\025\n\006signe" +
-      "d\030\004 \002(\010:\005false\"\034\n\nListOfLong\022\016\n\006number\030\001" +
-      " \003(\003*`\n\006Opcode\022\010\n\004ECHO\020\000\022\010\n\004SAVE\020\001\022\010\n\004SO" +
-      "RT\020\002\022\t\n\005WRITE\020\003\022\007\n\003MAX\020\004\022\t\n\005EXIST\020\005\022\r\n\tF" +
-      "REQUENCY\020\006\022\n\n\006MEDIAN\020\007*5\n\005Phase\022\t\n\005FIRST" +
-      "\020\000\022\n\n\006SECOND\020\001\022\t\n\005THIRD\020\002\022\n\n\006FOURTH\020\003B+\n",
-      "\035io.guanghuizeng.mmdp.protocolB\nTaskProt" +
-      "os"
+      "protocol.ExistSubTask\022=\n\ntopSubTask\030\006 \001(",
+      "\0132).io.guanghuizeng.mmdp.protocol.TopSub" +
+      "Task\"\261\001\n\013SortSubTask\022;\n\006opcode\030\001 \002(\0162%.i" +
+      "o.guanghuizeng.mmdp.protocol.Opcode:\004ECH" +
+      "O\0221\n\005input\030\002 \002(\0132\".io.guanghuizeng.mmdp." +
+      "protocol.Uri\0222\n\006output\030\003 \002(\0132\".io.guangh" +
+      "uizeng.mmdp.protocol.Uri\"\270\002\n\rMedianSubTa" +
+      "sk\022;\n\006opcode\030\001 \002(\0162%.io.guanghuizeng.mmd" +
+      "p.protocol.Opcode:\004ECHO\0221\n\005input\030\002 \002(\0132\"" +
+      ".io.guanghuizeng.mmdp.protocol.Uri\0223\n\005ph" +
+      "ase\030\003 \002(\0162$.io.guanghuizeng.mmdp.protoco",
+      "l.Phase\022;\n\thistogram\030\004 \001(\0132(.io.guanghui" +
+      "zeng.mmdp.protocol.Histogram\022\r\n\005first\030\005 " +
+      "\002(\003\022\021\n\006second\030\006 \002(\003:\0010\022\020\n\005third\030\007 \002(\003:\0010" +
+      "\022\021\n\006fourth\030\010 \002(\003:\0010\"\276\001\n\nMaxSubTask\022:\n\006op" +
+      "code\030\001 \002(\0162%.io.guanghuizeng.mmdp.protoc" +
+      "ol.Opcode:\003MAX\0221\n\005input\030\002 \002(\0132\".io.guang" +
+      "huizeng.mmdp.protocol.Uri\0222\n\006output\030\003 \002(" +
+      "\0132\".io.guanghuizeng.mmdp.protocol.Uri\022\r\n" +
+      "\005count\030\004 \002(\005\"\370\002\n\014ExistSubTask\022:\n\006opcode\030" +
+      "\001 \002(\0162%.io.guanghuizeng.mmdp.protocol.Op",
+      "code:\003MAX\0221\n\005input\030\002 \002(\0132\".io.guanghuize" +
+      "ng.mmdp.protocol.Uri\0227\n\004data\030\003 \002(\0132).io." +
+      "guanghuizeng.mmdp.protocol.ListOfLong\022\013\n" +
+      "\003fpp\030\004 \002(\001\022?\n\006result\030\005 \001(\0132/.io.guanghui" +
+      "zeng.mmdp.protocol.ExistSubTask.Map\032J\n\003M" +
+      "ap\022C\n\005entry\030\001 \003(\01324.io.guanghuizeng.mmdp" +
+      ".protocol.ExistSubTask.MapEntry\032&\n\010MapEn" +
+      "try\022\013\n\003key\030\001 \002(\003\022\r\n\005value\030\002 \002(\010\"\333\002\n\nTopS" +
+      "ubTask\022;\n\006opcode\030\001 \002(\0162%.io.guanghuizeng" +
+      ".mmdp.protocol.Opcode:\004ECHO\0221\n\005input\030\002 \002",
+      "(\0132\".io.guanghuizeng.mmdp.protocol.Uri\022\020" +
+      "\n\010lowBound\030\003 \002(\003\022\017\n\007upBound\030\004 \002(\003\022\t\n\001k\030\005" +
+      " \002(\005\022=\n\006result\030\006 \001(\0132-.io.guanghuizeng.m" +
+      "mdp.protocol.TopSubTask.Map\032H\n\003Map\022A\n\005en" +
+      "try\030\001 \003(\01322.io.guanghuizeng.mmdp.protoco" +
+      "l.TopSubTask.MapEntry\032&\n\010MapEntry\022\013\n\003key" +
+      "\030\001 \002(\003\022\r\n\005value\030\002 \002(\003\"\224\001\n\003Uri\022\016\n\006prefix\030" +
+      "\001 \002(\t\022\r\n\005infix\030\002 \002(\t\0224\n\002id\030\003 \002(\0132(.io.gu" +
+      "anghuizeng.mmdp.protocol.ServiceID\0228\n\004pa" +
+      "th\030\004 \002(\0132*.io.guanghuizeng.mmdp.protocol",
+      ".VirtualPath\"?\n\tServiceID\022\014\n\004host\030\001 \002(\t\022" +
+      "\020\n\010syncPort\030\002 \002(\005\022\022\n\nenginePort\030\003 \002(\005\"\033\n" +
+      "\013VirtualPath\022\014\n\004path\030\001 \002(\t\"w\n\tHistogram\022" +
+      "7\n\004data\030\001 \002(\0132).io.guanghuizeng.mmdp.pro" +
+      "tocol.ListOfLong\022\014\n\004size\030\002 \002(\005\022\014\n\004bias\030\003" +
+      " \002(\005\022\025\n\006signed\030\004 \002(\010:\005false\"\034\n\nListOfLon" +
+      "g\022\016\n\006number\030\001 \003(\003*i\n\006Opcode\022\010\n\004ECHO\020\000\022\010\n" +
+      "\004SAVE\020\001\022\010\n\004SORT\020\002\022\t\n\005WRITE\020\003\022\007\n\003MAX\020\004\022\t\n" +
+      "\005EXIST\020\005\022\r\n\tFREQUENCY\020\006\022\n\n\006MEDIAN\020\007\022\007\n\003T" +
+      "OP\020\010*5\n\005Phase\022\t\n\005FIRST\020\000\022\n\n\006SECOND\020\001\022\t\n\005",
+      "THIRD\020\002\022\n\n\006FOURTH\020\003B+\n\035io.guanghuizeng.m" +
+      "mdp.protocolB\nTaskProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -10320,7 +12812,7 @@ public final class TaskProtos {
     internal_static_io_guanghuizeng_mmdp_protocol_Task_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_io_guanghuizeng_mmdp_protocol_Task_descriptor,
-        new java.lang.String[] { "Opcode", "SortSubTask", "MedianSubTask", "MaxSubTask", "ExistenceSubTask", });
+        new java.lang.String[] { "Opcode", "SortSubTask", "MedianSubTask", "MaxSubTask", "ExistenceSubTask", "TopSubTask", });
     internal_static_io_guanghuizeng_mmdp_protocol_SortSubTask_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_io_guanghuizeng_mmdp_protocol_SortSubTask_fieldAccessorTable = new
@@ -10357,32 +12849,50 @@ public final class TaskProtos {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_io_guanghuizeng_mmdp_protocol_ExistSubTask_MapEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
-    internal_static_io_guanghuizeng_mmdp_protocol_Uri_descriptor =
+    internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_descriptor =
       getDescriptor().getMessageTypes().get(5);
+    internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_descriptor,
+        new java.lang.String[] { "Opcode", "Input", "LowBound", "UpBound", "K", "Result", });
+    internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_Map_descriptor =
+      internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_descriptor.getNestedTypes().get(0);
+    internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_Map_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_Map_descriptor,
+        new java.lang.String[] { "Entry", });
+    internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_MapEntry_descriptor =
+      internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_descriptor.getNestedTypes().get(1);
+    internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_MapEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_io_guanghuizeng_mmdp_protocol_TopSubTask_MapEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
+    internal_static_io_guanghuizeng_mmdp_protocol_Uri_descriptor =
+      getDescriptor().getMessageTypes().get(6);
     internal_static_io_guanghuizeng_mmdp_protocol_Uri_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_io_guanghuizeng_mmdp_protocol_Uri_descriptor,
         new java.lang.String[] { "Prefix", "Infix", "Id", "Path", });
     internal_static_io_guanghuizeng_mmdp_protocol_ServiceID_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_io_guanghuizeng_mmdp_protocol_ServiceID_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_io_guanghuizeng_mmdp_protocol_ServiceID_descriptor,
         new java.lang.String[] { "Host", "SyncPort", "EnginePort", });
     internal_static_io_guanghuizeng_mmdp_protocol_VirtualPath_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_io_guanghuizeng_mmdp_protocol_VirtualPath_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_io_guanghuizeng_mmdp_protocol_VirtualPath_descriptor,
         new java.lang.String[] { "Path", });
     internal_static_io_guanghuizeng_mmdp_protocol_Histogram_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_io_guanghuizeng_mmdp_protocol_Histogram_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_io_guanghuizeng_mmdp_protocol_Histogram_descriptor,
         new java.lang.String[] { "Data", "Size", "Bias", "Signed", });
     internal_static_io_guanghuizeng_mmdp_protocol_ListOfLong_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_io_guanghuizeng_mmdp_protocol_ListOfLong_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_io_guanghuizeng_mmdp_protocol_ListOfLong_descriptor,

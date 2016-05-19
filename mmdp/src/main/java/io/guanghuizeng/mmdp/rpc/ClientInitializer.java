@@ -9,8 +9,6 @@ import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
 
 
 public class ClientInitializer extends ChannelInitializer<SocketChannel> {
@@ -40,11 +38,15 @@ public class ClientInitializer extends ChannelInitializer<SocketChannel> {
         pipeline.addLast(new ExistSpecDecoder());
         pipeline.addLast(new ExistSpecEncoder());
 
+        pipeline.addLast(new TopSpecDecoder());
+        pipeline.addLast(new TopSpecEncoder());
+
         // pipeline.addLast(new LoggingHandler(LogLevel.INFO));
         pipeline.addLast("SortTaskHandler", new SortTaskHandler());
         pipeline.addLast("MedianTaskHandler", new MedianTaskHandler());
         pipeline.addLast("MaxTaskHandler", new MaxTaskHandler());
         pipeline.addLast("ExistTaskHandler", new ExistTaskHandler());
+        pipeline.addLast("TopTaskHandler", new TopTaskHandler());
     }
 
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {

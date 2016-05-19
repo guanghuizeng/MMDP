@@ -76,5 +76,9 @@ public class Client {
     public ExistSubTaskSpec exist(ExistSubTaskSpec spec) throws InterruptedException {
         return pipeline.get(ExistTaskHandler.class).exec(spec);
     }
+
+    public TopSubTaskSpec top(TopSubTaskSpec spec) throws InterruptedException {
+        return pipeline.get(TopTaskHandler.class).exec(spec);
+    }
 }
 

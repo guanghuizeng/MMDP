@@ -2,11 +2,7 @@ package io.guanghuizeng.mmdp;
 
 import io.guanghuizeng.fs.FileSystem;
 import io.guanghuizeng.mmdp.algs.MinHeap;
-import io.guanghuizeng.mmdp.algs2.Existence;
-import io.guanghuizeng.mmdp.algs2.ExternalSort;
-import io.guanghuizeng.mmdp.algs2.FileInputBuffer;
-import io.guanghuizeng.mmdp.algs2.FileOutputBuffer;
-import io.guanghuizeng.mmdp.algs2.Histogram;
+import io.guanghuizeng.mmdp.algs2.*;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -210,6 +206,18 @@ public class EngineBackendExecutor {
         Path path = Paths.get(fileSystem.getHome(spec.getInput().getServiceID().code()),
                 spec.getInput().getActualPath().getLocalPath().toString());
         Map<Long, Boolean> result = Existence.mightContain(path, spec.getData(), spec.getFpp());
+        spec.setResult(result);
+        return spec;
+    }
+
+    /**
+     * top
+     */
+    public TopSubTaskSpec exec(TopSubTaskSpec spec) throws IOException {
+
+        Path path = Paths.get(fileSystem.getHome(spec.getInput().getServiceID().code()),
+                spec.getInput().getActualPath().getLocalPath().toString());
+        Map<Long, Long> result = Top2.search(path, spec.getUpBound(), spec.getLowBound(), spec.getK());
         spec.setResult(result);
         return spec;
     }

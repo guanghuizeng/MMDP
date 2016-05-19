@@ -145,7 +145,7 @@ public class EngineBackend {
         /** 生成tasks, 放入不同线程 */
         for (ExistSubTaskSpec subTask : subTaskSpecs) {
             Client client = cluster.getEngineClient(subTask.getInput().getServiceID());
-            futures.add(executor.submit(new ExistSubTask(client,subTask)));
+            futures.add(executor.submit(new ExistSubTask(client, subTask)));
         }
         /** 获取结果 */
         try {
@@ -155,7 +155,40 @@ public class EngineBackend {
             return result;
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            throw new InterruptedIOException("EB: execMax");
+            throw new InterruptedIOException("EB: execExist");
+        } catch (ExecutionException e) {
+            // TODO 改进处理方式
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    public List<Map<Long, Long>> execTop2(List<TopSubTaskSpec> subTaskSpecs) throws Exception {
+        List<Map<Long, Long>> result = new ArrayList<>();
+        EngineBackendExecutor executor = new EngineBackendExecutor();
+        for (TopSubTaskSpec subTask : subTaskSpecs) {
+            result.add(executor.exec(subTask).getResult());
+        }
+        return result;
+    }
+
+    public List<Map<Long, Long>> execTop(List<TopSubTaskSpec> subTaskSpecs) throws Exception {
+        List<Map<Long, Long>> result = new ArrayList<>();
+        List<Future<TopSubTaskSpec>> futures = new ArrayList<>();
+        /** 生成tasks, 放入不同线程 */
+        for (TopSubTaskSpec subTask : subTaskSpecs) {
+            Client client = cluster.getEngineClient(subTask.getInput().getServiceID());
+            futures.add(executor.submit(new TopSubTask(client, subTask)));
+        }
+        /** 获取结果 */
+        try {
+            for (Future<TopSubTaskSpec> f : futures) {
+                result.add(f.get().getResult());
+            }
+            return result;
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new InterruptedIOException("EB: execTop");
         } catch (ExecutionException e) {
             // TODO 改进处理方式
             e.printStackTrace();

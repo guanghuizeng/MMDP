@@ -38,8 +38,8 @@ public class VirtualFile {
         this.bufferSize = bufferSize;
     }
 
-    public VirtualFile(Uri... uris) {
-        uriList.addAll(Arrays.asList(uris));
+    public VirtualFile(List<Uri> uris) {
+        uriList.addAll(uris);
     }
 
     public VirtualFile(long bufferSize, Uri... uris) {
