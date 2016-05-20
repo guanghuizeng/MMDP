@@ -5,10 +5,7 @@ import io.guanghuizeng.fs.Uri;
 import io.guanghuizeng.fs.VirtualPath;
 import io.guanghuizeng.mmdp.algs2.Histogram;
 import io.guanghuizeng.mmdp.protocol.TaskProtos;
-import io.guanghuizeng.mmdp.rpc.MedianSpecDecoder;
-import io.guanghuizeng.mmdp.rpc.MedianSpecEncoder;
-import io.guanghuizeng.mmdp.rpc.SortSpecDecoder;
-import io.guanghuizeng.mmdp.rpc.SortSpecEncoder;
+import io.guanghuizeng.mmdp.rpc.*;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.embedded.EmbeddedChannel;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
@@ -38,8 +35,9 @@ public class CodecTest {
                 new ProtobufVarint32FrameDecoder(),
                 new ProtobufVarint32LengthFieldPrepender(),
 
-                new ProtobufDecoder(TaskProtos.SortSubTask.getDefaultInstance()),
+                new ProtobufDecoder(TaskProtos.Task.getDefaultInstance()),
                 new ProtobufEncoder(),
+                new TaskDecoder(),
 
                 new SortSpecDecoder(),
                 new SortSpecEncoder()
@@ -49,8 +47,9 @@ public class CodecTest {
                 new ProtobufVarint32FrameDecoder(),
                 new ProtobufVarint32LengthFieldPrepender(),
 
-                new ProtobufDecoder(TaskProtos.SortSubTask.getDefaultInstance()),
+                new ProtobufDecoder(TaskProtos.Task.getDefaultInstance()),
                 new ProtobufEncoder(),
+                new TaskDecoder(),
 
                 new SortSpecDecoder(),
                 new SortSpecEncoder()
@@ -93,8 +92,9 @@ public class CodecTest {
                 new ProtobufVarint32FrameDecoder(),
                 new ProtobufVarint32LengthFieldPrepender(),
 
-                new ProtobufDecoder(TaskProtos.MedianSubTask.getDefaultInstance()),
+                new ProtobufDecoder(TaskProtos.Task.getDefaultInstance()),
                 new ProtobufEncoder(),
+                new TaskDecoder(),
 
                 new MedianSpecDecoder(),
                 new MedianSpecEncoder()
@@ -104,8 +104,9 @@ public class CodecTest {
                 new ProtobufVarint32FrameDecoder(),
                 new ProtobufVarint32LengthFieldPrepender(),
 
-                new ProtobufDecoder(TaskProtos.MedianSubTask.getDefaultInstance()),
+                new ProtobufDecoder(TaskProtos.Task.getDefaultInstance()),
                 new ProtobufEncoder(),
+                new TaskDecoder(),
 
                 new MedianSpecDecoder(),
                 new MedianSpecEncoder()
