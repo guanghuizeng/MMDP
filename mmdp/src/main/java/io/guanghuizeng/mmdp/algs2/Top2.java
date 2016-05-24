@@ -2,8 +2,8 @@ package io.guanghuizeng.mmdp.algs2;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -76,20 +76,19 @@ public class Top2 {
         // r -> list of range
 
         List<Range> rangeList = new LinkedList<>();
-
-        long low = r.low;
-        long up = r.up;
+        BigInteger low = BigInteger.valueOf(r.low);
+        BigInteger up = BigInteger.valueOf(r.up);
         long count = (r.length() / availableMemory) + 1;
-        long length = ((BigInteger.valueOf(up).subtract(BigInteger.valueOf(low)).longValue() / count));
+        BigInteger length = up.subtract(low).divide(BigInteger.valueOf(count));
 
-        for (long i = low; i < up; i = i + length) {
-            if ((i + length) <= up) {
-                rangeList.add(new Range(i, i + length,
-                        Paths.get(r.path.toString().concat(String.valueOf(System.currentTimeMillis()))),
+        for (BigInteger i = low; i.compareTo(up) < 0; i = i.add(length)) {
+            if (i.add(length).compareTo(up) <= 0) {
+                rangeList.add(new Range(i.longValue(), i.add(length).longValue(),
+                        Files.createTempFile(r.path.getParent(), "Top", "").toAbsolutePath(),
                         r.k));
             } else {
-                rangeList.add(new Range(i, up,
-                        Paths.get(r.path.toString().concat(String.valueOf(System.currentTimeMillis()))),
+                rangeList.add(new Range(i.longValue(), up.longValue(),
+                        Files.createTempFile(r.path.getParent(), "Top", "").toAbsolutePath(),
                         r.k));
             }
         }
@@ -215,7 +214,7 @@ public class Top2 {
      */
     private static long availableMemory() {
         System.gc();
-        return Runtime.getRuntime().freeMemory();
+        return Runtime.getRuntime().freeMemory() / 2;
     }
 
     /**

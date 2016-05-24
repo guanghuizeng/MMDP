@@ -30,7 +30,7 @@ public class FileSystem {
     private Metadata metadata = new Metadata();
 
     private List<ServiceID> serviceList = new ArrayList<>();
-    private long defaultLength = 100 * 1024 * 1024;   // 单个文件可写入的数据量
+    private long defaultLength = 100 * 1024 * 1024 * 5;   // 单个文件可写入的数据量
     private int bufferSize = 1024 * 1024 * 30;
 
     public FileSystem() {

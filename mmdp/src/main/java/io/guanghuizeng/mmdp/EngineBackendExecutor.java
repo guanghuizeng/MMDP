@@ -217,8 +217,14 @@ public class EngineBackendExecutor {
 
         Path path = Paths.get(fileSystem.getHome(spec.getInput().getServiceID().code()),
                 spec.getInput().getActualPath().getLocalPath().toString());
-        Map<Long, Long> result = Top2.search(path, spec.getUpBound(), spec.getLowBound(), spec.getK());
-        spec.setResult(result);
-        return spec;
+        try {
+
+            Map<Long, Long> result = Top2.search(path, spec.getUpBound(), spec.getLowBound(), spec.getK());
+            spec.setResult(result);
+            return spec;
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 }
